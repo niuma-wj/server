@@ -19,7 +19,9 @@
 # 编译(Ubuntu环境)
 首先确保系统已经安装了cmake 3.30版本以上，按照以下步骤编译游戏服务：
 
-1、安装编译rabbitmq-c
+1、编译安装boost库(具体可参考网上教程)
+
+2、安装编译rabbitmq-c
 ```rabbitmq-c
 git clone https://github.com/alanxz/rabbitmq-c.git
 mkdir build
@@ -29,7 +31,7 @@ make
 sudo make install
 ```
 
-2、安装mysql-concpp
+3、安装mysql-concpp
 ```
 官网下载地址：https://dev.mysql.com/downloads/connector/cpp
 选择Linux-Generic，下载Linux - Generic (glibc 2.28) (x86, 64-bit), Compressed TAR Archive
@@ -40,7 +42,7 @@ sudo make install
 创建目录/usr/include/mysql-cppconn，并将压缩包中include目录下的全部文件复制到/usr/include/mysql-cppconn目录
 ```
 
-3、编译游戏服务
+4、编译游戏服务
 ```
 mkdir build
 mkdir bin
