@@ -52,5 +52,5 @@ cp Server ../../bin/
 copy the configuration file "server.ini" to the new created path "bin", then modify the configuration information according to the format
 ```
 
-# Contact information
+# Contact
 393817707@qq.com
