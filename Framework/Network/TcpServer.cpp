@@ -141,25 +141,25 @@ namespace NiuMa {
                     _session->onRecieve(_data, length);
 
                 do_read();
-            } else if (ec != boost::asio::error::operation_aborted) {
+            } else/* if (ec != boost::asio::error::operation_aborted)*/ {
                 // 连接断开
                 onError(ec, true);
-            } else {
+            }/* else {
                 // 操作取消
                 InfoS << "Session(id: " << _uuid << ") error, msg: " << ec.message();
-            }
+            }*/
         }
 
         void onAsyncWrite(boost::system::error_code ec, std::size_t /*length*/) {
             if (!ec) {
                 do_write();
-            } else if (ec != boost::asio::error::operation_aborted) {
+            } else/* if (ec != boost::asio::error::operation_aborted)*/ {
                 // 连接错误
                 onError(ec, false);
-            } else {
+            }/* else {
                 // 操作取消
                 InfoS << "Session(id: " << _uuid << ") error, msg: " << ec.message();
-            }
+            }*/
         }
 
         void onError(boost::system::error_code ec, bool readOrWrite) {
