@@ -359,7 +359,9 @@ namespace NiuMa {
                 if (strongServer)
                     strongServer->addConnection(con);
 
-                DebugS << "New connection, remote endpoint: " << addr;
+                std::string id;
+                con->getId(id);
+                DebugS << "New connection(id: " << id << "), remote endpoint: " << addr;
             }
         }
 
