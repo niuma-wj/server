@@ -1,24 +1,24 @@
-**Read this in other languages: [English](README.MD), [中文](README_ZH.MD).**
+**其他语言版本: [English](README_EN.MD), [中文](README.MD).**
 
-# Introduction
-NiuMa game server is a card game server base on C++ language development, implement the card game backend logic, such as mahjong game function logic and flow control. Clients communicate with this server on TCP connections, using MessagePack serialization solution to transport messages. The dependent third part components of this project include: MySql, Redis and RabbitMQ, this server is cross-platform deployment supported, lightweight design reduces third part dependence when deploying. Based on the overall distributed architecture design, the server can flexibly expand it's instances according to the business volume. A major feature of the design of this server is that the functional modules are concise, the code logic is clear, the core module is highly abstract and reusable, and it is easy for developers to master and carry out function expansion and maintenance.
+# NiuMa游戏平台游戏服务器(C++)
+本项目是使用C++开发的棋牌游戏逻辑服务器，实现棋牌游戏的后台服务逻辑，例如麻将游戏功能逻辑与流程控制等。客户端与本服务建立TCP连接通信，并通过MessagePack序列化方案进行消息交互。本服务依赖的第三方组件包括：MySql 8.0+、Redis以及RabbitMQ，本服务支持跨平台部署，轻量化设计使得在部署时无需安装太多依赖，基于整体分布式架构设计，本服务器可以根据业务情况进行服务实例弹性横向扩展。本服务设计的一大特点是功能模块简洁明了，代码逻辑思路清晰，核心模块高度抽象和可复用，开发者很容易掌握并进行功能扩展和维护。
 
-# Core Design
-The core modules of this server include: Network IO, Thread model and Message distribution & processing, these three core modules fundamentally affect the overall concurrency performance of the server. The network IO module is base on boost::asio framework, which is an a popular and powerful network library. As shown in the following figure, a TCP session represents a client-server network connection, we define a complete game logic unit as a game Venue, for example a card game table is a game venue, each game venue has a globally unique ID, and a thread pool dedicated to processing the internal logic of the venue is created during initialization. Each thread in the thread pool contains a set number of message handlers. All message handlers in the system will be registered in a singleton Message Handler list. When a new game venue is created, the venue will be allocated to the message handler with the lightest load. Thus, a message handler maintains a list of venues, so that all game logic and message processing for a venue is executed in the same thread, which avoids the problem of multi-threaded data synchronization and complex error-prone asynchronous calls. When a TCP session receives a message, the network receiving thread traverses the global list of message handler. Once one of the message handlers in the list receives the message, the traversal ends. Because all venue internal messages carry the venue ID, which can be used for hash table matching, so traversal is a very fast process.\
-![core design](https://gitee.com/friedrich-hegel/data/raw/master/core.png)
+# 游戏服务器核心设计
+游戏服务器的核心模块包括：网络IO、线程模型、消息分发及处理，这三个核心模块从根本上影响着服务器整体并发性能。本项目网络IO使用的是boost::asio框架，如下图所示，一个TCP会话(Session)代表着一个客户端与服务器的TCP网络连接，这里将一个完整的游戏逻辑单元定义为一个游戏场地(Venue)，例如一张棋牌桌就是一个游戏场地，每个游戏场地有全局唯一ID，初始化时创建一个专门处理场地内部逻辑的线程池，线程池中每个线程包含设定数量的消息处理器(Message Handler)，系统中所有消息处理器都会注册到一个单例的消息处理器列表中，当新建一个游戏场地时，该场地会根据负载情况分配到当前负载最轻的消息处理器，因此一个消息处理器维护了一个场地列表，由此一个场地的所有游戏逻辑和消息处理都在同一个线程内执行，这避免了多线程的数据同步问题，以及复杂容易出错的异步调用问题。当TCP会话收到一个消息时，网络接收线程遍历消息处理器列表，一旦列表中有一个消息处理器接收该消息即结束遍历，因为所有场地内的消息都携带了场地ID字段，可以用于哈希表匹配，所以遍历是一个非常快速的一个过程。\
+![核心设计](https://gitee.com/friedrich-hegel/data/raw/master/core.png)
 
-# System back-end architecture design
-The system contains two kinds of business logic with different processing modes. One is the above mentioned game function business logic, which is processed by C++ game server. The other is the login and the game main interface (game hall) business logic, processed by the WEB server, and communicate through HTTP Restful interface, while the WEB server is also responsible for the game venue allocation according to the load of the game server instances, for example when a player creates a new card game room. The creation request is sent to the WEB server, which allocates the newly built room to the game server instance with the lightest load of all game server instances, and returns the connection information (IP and port) of the game server instance to the client. Then the client establishes a TCP connection with the game server to complete entering the card game room, then start the game business logic.
+# 系统后端架构设计
+系统包含两种不同处理方式的业务逻辑，一种为上述的游戏功能业务逻辑，由C++游戏服务器进行处理；另一种则是登录及游戏主界面(游戏大厅)的业务逻辑，由WEB服务器进行处理，通过HTTP Restful接口进行通信，同时WEB服务器还负责根据游戏服务实例的负载情况进行游戏场地分配，例如当玩家新建一个斗地主游戏房间时，会把创建请求发送到WEB服务器，WEB根据所有游戏服务实例的负载情况，将新建的房间分配到当前负载最轻的游戏服务实例，并向客户端返回该游戏服务实例的连接信息(IP、端口)，客户端再与该游戏服务实例建立TCP连接，从而完成进入该游戏房间，并开始游戏业务逻辑。
 
-The back-end of the system adopts a distributed architecture design, and the WEB server makes load decisions based on the global Redis data record. The game server instance updates it's current load situation to the global Redis database in real time. Each WEB server instance can make load decisions independently, so the system does not need centralized control center and routing server instances. The game server and WEB server can be flexibly deployed according to the actual business volume, and there is no need to worry about single node performance bottleneck. The WEB server instance and game server instance communicate with each other through RabbitMQ, and the query scheduling between two type of servers can be simple, orderly, and efficient.\
-![Framwork](https://gitee.com/friedrich-hegel/data/raw/master/Framework.png)
+系统后端采用分布式架构设计，由WEB服务基于全局Redis的数据记录进行负载决策，游戏服务实例实时更新它的负载情况到全局Redis数据库中，每个WEB服务实例都可以独自进行负载决策，因此系统中不需要统一控制的中心和路由服务器实例，并使得游戏服务和WEB服务可以根据实际业务量进行灵活节点部署，同时也不需要担心单节点性能瓶颈问题。WEB服务实例与游戏服务实例之间通过RabbitMQ进行交互通信，服务器之间的查询调度可以简单、有序且高效地进行。\
+![架构图](https://gitee.com/friedrich-hegel/data/raw/master/Framework.png)
 
-# Compilation(Ubuntu environment)
-First, ensure that cmake 3.30 or above is installed on your system, and follow these steps to compile the game server:
+# 编译(Ubuntu环境)
+首先确保系统已经安装了cmake 3.30版本以上，按照以下步骤编译游戏服务：
 
-1. Compile and install the boost library (refer to the online tutorial)
+1、编译安装boost库(具体可参考网上教程)
 
-2. Compile and install rabbitmq-c
+2、安装编译rabbitmq-c
 ```rabbitmq-c
 git clone https://github.com/alanxz/rabbitmq-c.git
 mkdir build
@@ -28,18 +28,18 @@ make
 sudo make install
 ```
 
-3. Install mysql-concpp
+3、安装mysql-concpp
 ```
-Official website download address: https://dev.mysql.com/downloads/connector/cpp
-Select Linux-Generic，and download "Linux - Generic (glibc 2.28) (x86, 64-bit), Compressed TAR Archive"
-Decompress the TAR archive: tar -xzvf mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit.tar.gz
-Make directory: "/usr/local/lib/cmake/mysql-concpp-9.2.0"
-Copy "mysql-concpp-config.cmake" and "mysql-concpp-config-version.cmake" to the new created path "/usr/local/lib/cmake/mysql-concpp-9.2.0"
-Copy all the files under the path "lib64" in the TAR archive to the path "/usr/local/lib"
-Make directory "/usr/include/mysql-cppconn", and copy all the files under the path "include" in the TAR archive to the new created path "/usr/include/mysql-cppconn"
+官网下载地址：https://dev.mysql.com/downloads/connector/cpp
+选择Linux-Generic，下载Linux - Generic (glibc 2.28) (x86, 64-bit), Compressed TAR Archive
+解压缩包：tar -xzvf mysql-connector-c++-9.2.0-linux-glibc2.28-x86-64bit.tar.gz
+创建目录：/usr/local/lib/cmake/mysql-concpp-9.2.0
+将mysql-concpp-config.cmake和mysql-concpp-config-version.cmake文件复制到/usr/local/lib/cmake/mysql-concpp-9.2.0目录
+将压缩包中lib64目录下的全部文件复制到/usr/local/lib目录
+创建目录/usr/include/mysql-cppconn，并将压缩包中include目录下的全部文件复制到/usr/include/mysql-cppconn目录
 ```
 
-4. Compile game server
+4、编译游戏服务
 ```
 mkdir build
 mkdir bin
@@ -49,8 +49,8 @@ cmake ..
 make
 cd Server
 cp Server ../../bin/
-copy the configuration file "server.ini" to the new created path "bin", then modify the configuration information according to the format
 ```
+将server.ini配置文件也复制到bin目录，并按照格式修改相关配置信息
 
-# Contact
+# 联系方式
 393817707@qq.com
