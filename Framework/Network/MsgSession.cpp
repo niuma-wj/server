@@ -26,6 +26,19 @@ namespace NiuMa {
 		virtual ~MsgSessionData() {}
 
 	public:
+		bool next() {
+			bool ret = false;
+			try {
+				ret = _unpacker.next(_object_handle);
+			}
+			catch (std::exception& ex) {
+				// 重置解包器
+				_unpacker.reset();
+				ErrorS << "Unpack data error: " << ex.what();
+			}
+			return ret;
+		}
+
 		void synchronizeHandlers() {
 			int sn = MessageManager::getSingleton().getHandlerSN();
 			if (sn != _handlerSN) {
@@ -108,7 +121,7 @@ namespace NiuMa {
 
 		bool test1 = true;
 		bool test2 = true;
-		while (_data->_unpacker.next(_data->_object_handle)) {
+		while (_data->next()) {
 			try {
 				const msgpack::object& obj = _data->_object_handle.get();
 				std::stringstream ss;

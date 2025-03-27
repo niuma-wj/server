@@ -137,9 +137,14 @@ namespace NiuMa {
 
         void onAsyncRead(boost::system::error_code ec, std::size_t length) {
             if (!ec) {
-                if (_session)
-                    _session->onRecieve(_data, length);
-
+                if (_session) {
+                    try {
+                        _session->onRecieve(_data, length);
+                    }
+                    catch (std::exception& ex) {
+                        ErrorS << "Recieve data error: " << ex.what() << ", length: " << length;
+                    }
+                }
                 do_read();
             } else/* if (ec != boost::asio::error::operation_aborted)*/ {
                 // 连接断开
