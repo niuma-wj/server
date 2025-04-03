@@ -34,6 +34,7 @@ namespace NiuMa {
 			catch (std::exception& ex) {
 				// 重置解包器
 				_unpacker.reset();
+				_unpacker.remove_nonparsed_buffer();
 				ErrorS << "Unpack data error: " << ex.what();
 			}
 			return ret;
@@ -119,8 +120,7 @@ namespace NiuMa {
 		memcpy(_data->_unpacker.buffer(), buf, length);
 		_data->_unpacker.buffer_consumed(length);
 
-		bool test1 = true;
-		bool test2 = true;
+		bool test = true;
 		while (_data->next()) {
 			try {
 				const msgpack::object& obj = _data->_object_handle.get();
@@ -135,21 +135,24 @@ namespace NiuMa {
 				}
 				else {
 					ErrorS << "Deserialize message of type: \"" << wrapper->getType() << "\" failed.";
-					if (test1 && test2) {
+					if (test) {
 						// 记录一次异常
-						test1 = false;
+						test = false;
 						SecurityManager::getSingleton().abnormalBehavior(remoteIp);
 					}
 				}
 			}
 			catch (std::exception& ex) {
-				if (test2) {
+				ErrorS << "Unpack message error: " << ex.what();
+				if (test) {
 					// 记录一次异常
-					ErrorS << "Unpack message error: " << ex.what();
-					test2 = false;
-					if (test1)
-						SecurityManager::getSingleton().abnormalBehavior(remoteIp);
+					test = false;
+					SecurityManager::getSingleton().abnormalBehavior(remoteIp);
 				}
+				// 重置解包器
+				_data->_unpacker.reset();
+				_data->_unpacker.remove_nonparsed_buffer();
+				break;
 			}
 		}
 	}
