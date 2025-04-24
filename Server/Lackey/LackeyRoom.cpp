@@ -157,6 +157,8 @@ namespace NiuMa
 			onPlayCard(netMsg);
 		else if (msgType == MsgLackeyHintCard::TYPE)
 			onHintCard(netMsg);
+		else if (msgType == MsgDisbandRequest::TYPE)
+			onDisbandRequest(netMsg);
 		else if (msgType == MsgDisbandChoose::TYPE)
 			onDisbandChoose(netMsg);
 		else
