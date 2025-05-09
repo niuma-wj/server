@@ -174,9 +174,11 @@ namespace NiuMa {
 
 		ThreadDispatch::Ptr disp;
 		while (true) {
-			if (_stopFlag && _stopFlag->isStop())
+			if (isStop())
 				break;
 			while (true) {
+				if (isStop())
+					break;
 				disp = popWattingDispatch();
 				if (!disp)
 					break;
@@ -187,6 +189,8 @@ namespace NiuMa {
 				}
 			}
 			while (true) {
+				if (isStop())
+					break;
 				disp = popExecutedDispatch();
 				if (!disp)
 					break;
@@ -210,6 +214,12 @@ namespace NiuMa {
 		return (_threadId == std::this_thread::get_id());
 	}
 
+	bool ThreadWorker::isStop() const {
+		if (_stopFlag && _stopFlag->isStop())
+			return true;
+		return false;
+	}
+
 	void ThreadWorker::before() {}
 
 	void ThreadWorker::after() {}
@@ -219,6 +229,8 @@ namespace NiuMa {
 		SyncTimer::Ptr timer;
 		bool ret = false;
 		while (true) {
+			if (isStop())
+				break;
 			timer = _holder->captureFirstTimer(nowTime);
 			if (!timer)
 				break;

@@ -71,6 +71,11 @@ namespace NiuMa {
 		bool isCuurentThread() const;
 
 		/**
+		 * 当前是否正在等待线程结束
+		 */
+		bool isStop() const;
+
+		/**
 		 * 工作线程循环开始前
 		 * 执行线程初始化工作
 		 */

@@ -168,6 +168,8 @@ namespace NiuMa {
 			AsyncTimer::Ptr timer;
 			bool ret = false;
 			while (true) {
+				if (isStop())
+					break;
 				timer = _holder->captureFirstTimer(nowTime);
 				if (!timer)
 					break;
