@@ -1,4 +1,4 @@
-// MahjongTable.h
+﻿// MahjongTable.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.11.30
@@ -16,14 +16,14 @@
 
 #include "Base/IdentityAllocator.h"
 
-// ����ѡ���صĴ�С��Ԥ��20���϶�����
+// 动作选项缓存池的大小，预留20个肯定够了
 #define ACTION_OPTION_POOL_SIZE	20
 
 namespace NiuMa
 {
 	class MahjongSettlement;
 	/**
-	 * �齫��Ϸ����
+	 * 麻将游戏房间
 	 */
 	class MahjongRoom : public GameRoom
 	{
@@ -33,196 +33,196 @@ namespace NiuMa
 
 	protected:
 		/**
-		 * ���齫������Ϊһ��״̬����������״̬��һ���������ƺ��״̬A��һ���ǵȴ�ѡ����
-		 * ѡ���״̬B����һ���ǵȴ����Ƶ�״̬C���������һ����֮�����A����ʱ���ܼӸܡ���
-		 * �ܻ���������ʱ�ͽ���B������ʱ���ܽ���B�����̽���C�����һ����֮��������ҿ��ܽ�
-		 * ��B��Ҳ��������һλ��ҽ���A������BҲ�����ٴν���B������Ӹ�֮��ȴ����������
-		 * �ܡ�״̬�仯��˷���ֱ�����ƻ������֣�����״̬ͼ�ɸ�����������״̬�ı�Ǩ�ƽ�
-		 * �ƾֵ��ݻ������״ֹ̬ͣ�仯�����ƾ�Ҳ��ֹͣ��ǰ��
+		 * 将麻将牌桌视为一个状态机，有三种状态：一种是摸起牌后的状态A，一种是等待选择动作
+		 * 选项的状态B，另一种是等待出牌的状态C。玩家摸起一张牌之后进入A，此时可能加杠、暗
+		 * 杠或自摸，这时就进入B，若此时不能进入B则立刻进入C，打出一张牌之后其他玩家可能进
+		 * 入B，也可能是下一位玩家进入A，另外B也可以再次进入B，例如加杠之后等待其他玩家抢
+		 * 杠。状态变化如此反复直到胡牌或者流局，画出状态图可更形象表达。正是状态的变迁推进
+		 * 牌局的演化，如果状态停止变化，则牌局也将停止不前。
 		 */
 		enum class StateMachine : int
 		{
 			Null,
-			Fetched,		// ȡ�ƺ�״̬A
-			Action,			// �ȴ�����ѡ��״̬B
-			Play,			// �ȴ�����״̬C
-			End				// ����״̬D
+			Fetched,		// 取牌后状态A
+			Action,			// 等待动作选项状态B
+			Play,			// 等待出牌状态C
+			End				// 结束状态D
 		};
 
 	public:
 		virtual bool onMessage(const NetMessage::Ptr& netMsg) override;
 
 	protected:
-		// ����
+		// 清理
 		virtual void clean() override;
 
 	private:
 		/**
-		 * ����ִ�ж���ѡ����Ϣ
-		 * @param netMsg ������Ϣ
+		 * 处理执行动作选项消息
+		 * @param netMsg 网络消息
 		 */
 		void onActionOption(const NetMessage::Ptr& netMsg);
 
 		/**
-		 * ����������ѡ����Ϣ
-		 * @param netMsg ������Ϣ
+		 * 处理过动作选项消息
+		 * @param netMsg 网络消息
 		 */
 		void onPassActionOption(const NetMessage::Ptr& netMsg);
 
 		/**
-		 * ����ָ����һ������Ϣ�������ڹ��ܲ��ԣ�
-		 * @param netMsg ������Ϣ
+		 * 处理指定下一张牌消息（仅用于功能测试）
+		 * @param netMsg 网络消息
 		 */
 		void onNextTile(const NetMessage::Ptr& netMsg);
 
 		/**
-		 * ���ѡ����һ������ѡ��
-		 * @param playerId ���id
-		 * @param id ����ѡ��id
-		 * @param tileId ��id
+		 * 玩家选择了一个动作选项
+		 * @param playerId 玩家id
+		 * @param id 动作选项id
+		 * @param tileId 牌id
 		 */
 		void doActionOption(const std::string& playerId, int actionId, int tileId);
 
-		// ��Ҳ�ѡ���κζ���ѡ���ѡ�񡰹���
+		// 玩家不选择任何动作选项，即选择“过”
 		void passActionOption(const std::string& playerId);
 
-		// �Զ�ִ�ж���ѡ��(����AI����)������bOnlyAuto��ʾ���ε����Ƿ������Զ��������
+		// 自动执行动作选项(用于AI出牌)，参数bOnlyAuto表示本次调用是否仅针对自动出牌玩家
 		void autoActionOption(bool bOnlyAuto);
 
-		// ���ָ����һ���������(�����ڲ����齫����㷨����ȷ��)
+		// 玩家指定下一次摸起的牌(仅用于测试麻将相关算法的正确性)
 		void doNextTile(const std::string& playerId, const std::string& str);
 
-		// ���µ�ǰִ�ж������������
+		// 更新当前执行动作的玩家索引
 		void updateCurrentActor();
 
-		// ���µ�ǰִ�ж������������
+		// 更新当前执行动作的玩家索引
 		void updateCurrentActor(int player);
 
-		// ״̬��ת
+		// 状态跳转
 		void changeState(StateMachine eNewState);
 
-		// ȡ��
+		// 取牌
 		bool fetchTile(bool bBack = false);
 
-		// ���������ҵ����ж���ѡ��
+		// 情况所有玩家的所有动作选项
 		void clearActionOptions();
 
-		// ���ָ����ҵ����ж���ѡ��
+		// 清空指定玩家的所有动作选项
 		void clearActionOptions(MahjongAvatar* pAvatar);
 
-		// ִ������Ѿ�ѡ��Ķ���ѡ��
+		// 执行玩家已经选择的动作选项
 		bool executeActionOptions();
 
-		// ִ�к�����
+		// 执行胡动作
 		bool executeHu();
 
-		// ִ�иܶ���
+		// 执行杠动作
 		bool executeGang();
 
-		// ִ��������
+		// 执行碰动作
 		bool executePeng();
 
-		// ִ�гԶ���
+		// 执行吃动作
 		bool executeChi();
 
-		// ִ�г��ƶ���
+		// 执行出牌动作
 		bool executePlay(int tileId);
 
-		// �����ơ����ơ�����֮��֪ͨ���ƻ��߸�(�Ӹܼ�����)
+		// 在摸牌、吃牌、碰牌之后通知出牌或者杠(加杠及暗杠)
 		void afterFetchChiPeng(MahjongAvatar* pAvatar, int fetchedId = -1);
 
-		// ���ƣ�����ʽ�������
+		// 胡牌，胡方式检测和算分
 		void doHu();
 
-		// ���ִ���
+		// 流局处理
 		void noMoreTile();
 
-		// û�г�����
+		// 没有吃碰杠
 		bool noChiPengGang() const;
 
 	protected:
-		// ����
+		// 发牌
 		void dealTiles();
 
-		// ��ȡ��һ�����ڵȴ��Ķ���ѡ��
+		// 获取第一个正在等待的动作选项
 		bool getFirstWaitingActionOption(MahjongActionOption& ao) const;
 
-		// ��ȡ��������
+		// 获取结算数据
 		void getSettlementData(MahjongSettlement* dt) const;
 
-		// ��ȡ�ط�����
+		// 获取回放数据
 		void getPlaybackData(MahjongPlaybackData& dt) const;
 
 	protected:
-		// �Ƿ���Ե���
+		// 是否可以点炮
 		virtual bool canDianPao() const;
 
-		// �Ƿ���ǰ����(����)
+		// 是否提前结束(流局)
 		virtual bool earlyTermination() const;
 
-		// ����֮���Ƿ���Ҫ�ٴ�����(������Щ�ط��Ĺ���涨�������֮���ٴ����ƶ������ֵ��¼�����)
+		// 出牌之后是否需要再次摸牌(例如有些地方的规则规定打出花牌之后再次摸牌而不是轮到下家摸牌)
 		virtual bool fetchAgainAfterPlay() const;
 
-		// ֪ͨ����
+		// 通知发牌
 		virtual void notifyDealTiles();
 
-		// ֪ͨ��ǰ�����߸���
+		// 通知当前动作者更新
 		virtual void notifyActorUpdated(const std::string& playerId);
 
-		// ֪ͨ״̬�仯
+		// 通知状态变化
 		virtual void notifyStateChanged(StateMachine oldState);
 
-		// ֪ͨ�������һ����(���ݾ�����Ϸ��Ŀ�����󣬿������ظú�����֪ͨ�������)
+		// 通知玩家摸起一张牌(根据具体游戏项目的需求，可以重载该函数并通知其他玩家)
 		virtual void notifyFetchTile(MahjongAvatar* pAvatar, bool bBack);
 
-		// ָ֪ͨ����Ҷ���ѡ��
+		// 通知指定玩家动作选项
 		virtual void notifyActionOptions(MahjongAvatar* pAvatar);
 
-		// ֪ͨ��������ȴ�����״̬
+		// 通知牌桌进入等待动作状态
 		virtual void notifyWaitingAction(const std::string& playerId);
 
-		// ָ֪ͨ����ҵȴ��������ѡ����ѡ��
+		// 通知指定玩家等待其他玩家选择动作选项
 		virtual void notifyActionOptionsWaiting(MahjongAvatar* pAvatar);
 
-		// ֪ͨ�����˶���ѡ�����(�ͻ����յ�֪֮ͨ�������ر�ѡ��͵ȴ�����ǰû�ڵȴ�����Һ��Ը�֪ͨ)
+		// 通知所有人动作选项结束(客户端收到通知之后，立即关闭选项和等待，当前没在等待的玩家忽略该通知)
 		virtual void notifyActionOptionsFinish();
 
-		// ֪ͨ������,��Ҵ��һ����(����������Ϣ)
+		// 通知所有人,玩家打出一张牌(包含听牌信息)
 		virtual void notifyPlayTile(const MahjongTile& mt);
 
-		// ֪ͨ������,��Ҹ���
+		// 通知所有人,玩家杠牌
 		virtual void notifyGangTile(MahjongAvatar* pAvatar);
 
-		// ֪ͨ������,�����������
+		// 通知所有人,玩家碰、吃牌
 		virtual void notifyPengChiTile(MahjongAvatar* pAvatar, bool bPeng);
 
-		// ָ֪ͨ���������
+		// 通知指定玩家听牌
 		virtual void notifyTingTile(MahjongAvatar* pAvatar);
 
-		// ֪ͨ�����ˣ���Һ���
+		// 通知所有人，玩家胡牌
 		virtual void notifyHuTile();
 
-		// ��ʾ������ҵ�����
+		// 显示所有玩家的手牌
 		virtual void notifyShowTiles();
 
 		/**
-		 * ��ʾ������������������������
-		 * @param avatar �������
-		 * @param action 0-������1-����
-		 * @param tile �������������
+		 * 提示玩家因过碰或过胡而不能碰或胡
+		 * @param avatar 玩家替身
+		 * @param action 0-过碰，1-过胡
+		 * @param tile 过碰或过胡的牌
 		 */
 		virtual void notifyPassTip(MahjongAvatar* avatar, int action, const std::string& tile);
 
-		// ��һ�ֵ�ׯ��
+		// 下一局的庄家
 		virtual void bankerNextRound(int huNums, int huPlayer);
 
-		// ������Ʒ�
+		// 计算胡牌分
 		virtual void calcHuScore() const = 0;
 
-		// ����
+		// 结算
 		virtual void doJieSuan() = 0;
 
-		// ����֮��Ĵ��������籣��÷ֵ����ݿ⡢����¼���
+		// 胡牌之后的处理，例如保存得分到数据库、保存录像等
 		virtual void afterHu() = 0;
 
 	protected:
@@ -233,93 +233,93 @@ namespace NiuMa
 
 	protected:
 		/**
-		 * ׯ������(��λ��)
+		 * 庄家索引(座位号)
 		 */
 		int _banker;
 
 		/**
-		 * ��ǰ����(���������ᶯ�������)����
+		 * 当前活动玩家(正在做连贯动作的玩家)索引
 		 */
 		int _actor;
 
 		/**
-		 * �����Ʒ�ʽΪ�����ϻ�ʱ���ñ�����ʾ���ܵ���������������Ʒ�ʽΪ����ʱ��
-		 * �ñ�����ʾҪ�Ӹܵ��������
+		 * 当胡牌方式为明杠上花时，该变量表示被杠的玩家索引，当胡牌方式为抢杠时，
+		 * 该变量表示要加杠的玩家索引
 		 */
 		int _gangHu;
 
 		/**
-		 * ���Ҫʣ��������Ʋ���(���������������)
+		 * 最后要剩余多少张牌不摸(少于这个数即流局)
 		 */
 		int _tilesLeft;
 
 		/**
-		 * �մ������
+		 * 刚打出的牌
 		 */
 		int _playedTileId;
 
 		/**
-		 * ������������
+		 * 本局所胡的牌
 		 */
 		int _huTileId;
 
 		/**
-		 * ��������ȴ�״̬��ʱ�䣬��λ����
+		 * 牌桌进入等待状态的时间，单位毫秒
 		 */
 		time_t _waitingTick;
 
 		/**
-		 * ����ѡ����
+		 * 动作选项缓存池
 		 */
 		MahjongActionOption _acOpPool[ACTION_OPTION_POOL_SIZE];
 
 		/**
-		 * ����ѡ��ID������
+		 * 动作选项ID分配器
 		 */
 		IdentityAllocator _acOpIdAlloc;
 
 		/**
-		 * ���ڵȴ��û�ѡ��Ķ���ѡ�ע�����ﳤ��Ϊ4�����鲻��ָ4����ң���������Ϊ�����������ܡ��������������ԡ�!!!
+		 * 正在等待用户选择的动作选项，注意这里长度为4的数组不是指4个玩家，而是依次为“胡”、“杠”、“碰”、“吃”!!!
 		 */
 		std::vector<int> _acOps1[4];
 
 		/**
-		 * �û��Ѿ�ѡ��Ķ���ѡ��
+		 * 用户已经选择的动作选项
 		 */
 		std::vector<int> _acOps2[4];
 
 	protected:
-		// ��ǰ״̬
+		// 当前状态
 		StateMachine _state;
 
-		// �Ƿ���Գ���
+		// 是否可以吃牌
 		bool _chi;
 
-		// �Ƿ���Ե���
+		// 是否可以点炮
 		bool _dianPao;
 
-		// �Ƿ����һ�ڶ��죬���������ɽ���Զ��Ȩ��ѡ���������A���ڡ�BΪA�¼ң�CΪA���¼ң�ֻ�е�B����
-		// ���������C�ſ��Ժ�(��Щ�ط��Ĺ����ǲ�����һ�ڶ����)
+		// 是否可以一炮多响，若不可以由近到远有权利选择胡，例如A放炮、B为A下家，C为A下下家，只有当B放弃
+		// 胡的情况下C才可以胡(有些地方的规则是不允许一炮多响的)
 		bool _mutiDianPao;
 
-		// ��һ�ڶ��������£��ǲ���ֻҪ��һ��ѡ����������ܺ��Ķ�������(������֮ǰ���ˡ�����Ҳ���ܺ�)��
-		// ����ֵΪfalse������Ҫ������ܺ���ֻҪ��һ��ѡ���˺������滹û��ѡ�������ѡ�����������֮ǰ
-		// ѡ���ˡ���������ҽ����ɺ�
+		// 在一炮多响的情况下，是不是只要有一家选择胡，其他能胡的都立即胡(即便他之前点了“过”也仍能胡)。
+		// 若该值为false，则需要点胡才能胡，只要有一家选择了胡，后面还没做选择的立即选择胡，但在这之前
+		// 选择了“过”的玩家将不可胡
 		bool _allDianPao;
 
-		// �Ƿ����ڵȴ������������
+		// 是否正在等待其他玩家抢杠
 		bool _waitingQiangGang;
 
-		// �����Ƿ��Ѿ����ˣ������ƾֻ�û����������������
+		// 本局是否已经胡了，否则牌局还没结束，或者是流局
 		bool _hu;
 
-		// ���ܵ�����������Ƿ�ɼ�
+		// 暗杠的牌其他玩家是否可见
 		bool _anGangVisible;
 
-		// �������Ƿ��㱻���(���������Ҫ��ܷ֣���Ϊ��Щ�ط��Ĺ����Ǹ����ڲ�����ܵķ�)
+		// 杠上炮是否算被否决(若不否决则要算杠分，因为有些地方的规则是杠上炮不能算杠的分)
 		bool _gangShangPaoVetoed;
 
-		// �Ƿ�����ӳټӸ�
+		// 是否可以延迟加杠
 		bool _delayJiaGang;
 	};
 }

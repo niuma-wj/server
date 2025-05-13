@@ -1,4 +1,4 @@
-// GameDumb.h
+ï»¿// GameDumb.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.10.16
@@ -12,9 +12,9 @@
 
 namespace NiuMa {
 	/**
-	 * ¿ÕÓÎÏ·£¬ÓÃÓÚ²âÊÔ¿ò¼Ü´úÂë
-	 * ¸ÃÓÎÏ·Ã»ÓĞÈÎºÎÄÚÈİ£¬Ö»ÓĞ½øÈë¡¢Àë¿ª¼°½áÊø¼¸¸öÂß¼­
-	 * ¸ÃÓÎÏ·ÀàĞÍ¹Ì¶¨Îª1£¬ÆäËûÓÎÏ·µÄÀàĞÍÇëÎğÓë¸ÃÓÎÏ·³åÍ»
+	 * ç©ºæ¸¸æˆï¼Œç”¨äºæµ‹è¯•æ¡†æ¶ä»£ç 
+	 * è¯¥æ¸¸æˆæ²¡æœ‰ä»»ä½•å†…å®¹ï¼Œåªæœ‰è¿›å…¥ã€ç¦»å¼€åŠç»“æŸå‡ ä¸ªé€»è¾‘
+	 * è¯¥æ¸¸æˆç±»å‹å›ºå®šä¸º1ï¼Œå…¶ä»–æ¸¸æˆçš„ç±»å‹è¯·å‹¿ä¸è¯¥æ¸¸æˆå†²çª
 	 */
 	class GameDumb : public Venue {
 	public:
@@ -32,18 +32,18 @@ namespace NiuMa {
 		virtual int leaveImpl(const std::string& playerId, std::string& errMsg) override;
 
 	private:
-		// ÓÎÏ·Ãû³Æ
+		// æ¸¸æˆåç§°
 		const std::string _name;
 
-		// ×î´ó½øÈëÍæ¼ÒÊıÁ¿
+		// æœ€å¤§è¿›å…¥ç©å®¶æ•°é‡
 		const int _maxPlayers;
 
-		// Íæ¼Òid¼¯ºÏ
+		// ç©å®¶idé›†åˆ
 		std::unordered_set<std::string> _playerIds;
 	};
 
 	/**
-	 * ¿ÕÓÎÏ·¼ÓÔØÆ÷
+	 * ç©ºæ¸¸æˆåŠ è½½å™¨
 	 */
 	class GameDumbLoader : public VenueLoader {
 	public:

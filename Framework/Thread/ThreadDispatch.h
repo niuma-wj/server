@@ -1,4 +1,4 @@
-// ThreadDispatch.h
+ï»¿// ThreadDispatch.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.29
@@ -10,15 +10,15 @@
 
 namespace NiuMa {
 	/**
-	 * ¿çÏß³ÌÅÉÇ²ÈÎÎñ
-	 * Ïß³ÌA(ÅÉÇ²Õß)ÇëÇóÏß³ÌB(Ö´ĞĞÕß)Ö´ĞĞÒ»¸öÈÎÎñ
+	 * è·¨çº¿ç¨‹æ´¾é£ä»»åŠ¡
+	 * çº¿ç¨‹A(æ´¾é£è€…)è¯·æ±‚çº¿ç¨‹B(æ‰§è¡Œè€…)æ‰§è¡Œä¸€ä¸ªä»»åŠ¡
 	 */
 	class ThreadWorker;
 	class ThreadDispatch : public std::enable_shared_from_this<ThreadDispatch> {
 	public:
 		/**
-		 * ÅÉÇ²ÈÎÎñ¹¹Ôìº¯Êı
-		 * @param dispatcher ÅÉÇ²Õß
+		 * æ´¾é£ä»»åŠ¡æ„é€ å‡½æ•°
+		 * @param dispatcher æ´¾é£è€…
 		 */
 		ThreadDispatch(const std::shared_ptr<ThreadWorker>& dispatcher = nullptr);
 		virtual ~ThreadDispatch() = default;
@@ -27,12 +27,12 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * Ö´ĞĞÕßÏß³ÌÖ´ĞĞÈÎÎñ
+		 * æ‰§è¡Œè€…çº¿ç¨‹æ‰§è¡Œä»»åŠ¡
 		 */
 		void execute();
 
 		/**
-		 * ÈÎÎñ±»Ö´ĞĞÖ®ºó£¬ÅÉÇ²Õß×öºóĞø´¦Àí
+		 * ä»»åŠ¡è¢«æ‰§è¡Œä¹‹åï¼Œæ´¾é£è€…åšåç»­å¤„ç†
 		 */
 		virtual void onExecuted();
 
@@ -40,7 +40,7 @@ namespace NiuMa {
 		virtual void executeImpl() = 0;
 
 	protected:
-		// ÅÉÇ²Õß
+		// æ´¾é£è€…
 		std::weak_ptr<ThreadWorker> _dispatcher;
 	};
 }

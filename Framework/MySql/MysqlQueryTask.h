@@ -1,4 +1,4 @@
-// MysqlQueryTask.h
+ï»¿// MysqlQueryTask.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.31
@@ -10,14 +10,14 @@
 #include <string>
 
 namespace sql {
-	// mysqlÏà¹ØÀàÉùÃ÷
+	// mysqlç›¸å…³ç±»å£°æ˜
 	class ResultSet;
 }
 
 namespace NiuMa {
 	/**
-	 * mysql²éÑ¯ÈÎÎñ½Ó¿Ú
-	 * ËùÓĞ¾ßÌåmysql²éÑ¯ÈÎÎñ¶¼ÊµÏÖ¸Ã½Ó¿Ú
+	 * mysqlæŸ¥è¯¢ä»»åŠ¡æ¥å£
+	 * æ‰€æœ‰å…·ä½“mysqlæŸ¥è¯¢ä»»åŠ¡éƒ½å®ç°è¯¥æ¥å£
 	 */
 	class MysqlQueryTask : public std::enable_shared_from_this<MysqlQueryTask> {
 	public:
@@ -32,41 +32,41 @@ namespace NiuMa {
 
 		typedef std::shared_ptr<MysqlQueryTask> Ptr;
 
-		// ²éÑ¯ÈÎÎñÀàĞÍ
+		// æŸ¥è¯¢ä»»åŠ¡ç±»å‹
 		enum class QueryType {
-			Select = 0,		// ²éÑ¯¼ÇÂ¼
-			Insert = 1,		// ²åÈë¼ÇÂ¼
-			InsertAI = 2,	// ²åÈë¼ÇÂ¼²¢»ñÈ¡×ÔÔöID(Auto Increment)
-			Update = 3,		// ¸üĞÂ¼ÇÂ¼
-			Delete = 4		// É¾³ı¼ÇÂ¼
+			Select = 0,		// æŸ¥è¯¢è®°å½•
+			Insert = 1,		// æ’å…¥è®°å½•
+			InsertAI = 2,	// æ’å…¥è®°å½•å¹¶è·å–è‡ªå¢ID(Auto Increment)
+			Update = 3,		// æ›´æ–°è®°å½•
+			Delete = 4		// åˆ é™¤è®°å½•
 		};
 
 	public:
 		/**
-		 * ¹¹Ôì²éÑ¯Óï¾ä(ÍêÕû¿ÉÖ´ĞĞµÄSQLÓï¾ä)
-		 * @param sql ·µ»ØÊµÏÖÀà¹¹ÔìµÄ²éÑ¯Óï¾ä
-		 * @return ÈÎÎñÀàĞÍ
+		 * æ„é€ æŸ¥è¯¢è¯­å¥(å®Œæ•´å¯æ‰§è¡Œçš„SQLè¯­å¥)
+		 * @param sql è¿”å›å®ç°ç±»æ„é€ çš„æŸ¥è¯¢è¯­å¥
+		 * @return ä»»åŠ¡ç±»å‹
 		 */
 		virtual QueryType buildQuery(std::string& sql) = 0;
 
 		/**
-		 * »ñÈ¡²éÑ¯½á¹û
-		 * ½öÈÎÎñÀàĞÍÎªQueryType::SelectÊ±²Å»áµ÷ÓÃ¸Ã·½·¨
-		 * @param res mysql½á¹û¼¯
-		 * @return ·µ»Ø²éÑ¯µ½µÄĞĞÊı
+		 * è·å–æŸ¥è¯¢ç»“æœ
+		 * ä»…ä»»åŠ¡ç±»å‹ä¸ºQueryType::Selectæ—¶æ‰ä¼šè°ƒç”¨è¯¥æ–¹æ³•
+		 * @param res mysqlç»“æœé›†
+		 * @return è¿”å›æŸ¥è¯¢åˆ°çš„è¡Œæ•°
 		 */
 		virtual int fetchResult(sql::ResultSet* res) { return 0; }
 
 		/**
-		 * Í¨Öª²éÑ¯ÈÎÎñÒÑ¾­Ö´ĞĞ
-		 * ²»¹Ü²éÑ¯ÈÎÎñÊÇ·ñÖ´ĞĞ³É¹¦£¬½áÊøºó¶¼»áµ÷ÓÃ¸Ã·½·¨
-		 * ×¢Òâ£¡£¡Òì²½²éÑ¯µÄÊ±ºòÈç¹ûÉèÖÃÁËÅÉÇ²Õß£¬ÔòÔÚÅÉÇ²ÕßÏß³ÌÖĞµ÷ÓÃ¸Ã·½·¨
-		 * Èç¹ûÃ»ÓĞÉèÖÃ£¬ÔòÔÚÖ´ĞĞÕßÏß³ÌÖĞµ÷ÓÃ¸Ã·½·¨
+		 * é€šçŸ¥æŸ¥è¯¢ä»»åŠ¡å·²ç»æ‰§è¡Œ
+		 * ä¸ç®¡æŸ¥è¯¢ä»»åŠ¡æ˜¯å¦æ‰§è¡ŒæˆåŠŸï¼Œç»“æŸåéƒ½ä¼šè°ƒç”¨è¯¥æ–¹æ³•
+		 * æ³¨æ„ï¼ï¼å¼‚æ­¥æŸ¥è¯¢çš„æ—¶å€™å¦‚æœè®¾ç½®äº†æ´¾é£è€…ï¼Œåˆ™åœ¨æ´¾é£è€…çº¿ç¨‹ä¸­è°ƒç”¨è¯¥æ–¹æ³•
+		 * å¦‚æœæ²¡æœ‰è®¾ç½®ï¼Œåˆ™åœ¨æ‰§è¡Œè€…çº¿ç¨‹ä¸­è°ƒç”¨è¯¥æ–¹æ³•
 		 */
 		virtual void onQueried() {};
 
 		/**
-		 * ÉèÖÃÖ´ĞĞ³É¹¦±êÖ¾ 
+		 * è®¾ç½®æ‰§è¡ŒæˆåŠŸæ ‡å¿— 
 		 */
 		void setSucceed() {
 			_succeed = true;
@@ -93,7 +93,7 @@ namespace NiuMa {
 		}
 
 		/**
-		 * ÉèÖÃĞÂ²åÈë¼ÇÂ¼µÄ×ÔÔöid
+		 * è®¾ç½®æ–°æ’å…¥è®°å½•çš„è‡ªå¢id
 		 */
 		void setAutoInc(const int64_t& ai) {
 			_autoInc = ai;
@@ -104,22 +104,22 @@ namespace NiuMa {
 		}
 
 	private:
-		// ÈÎÎñ³É¹¦Ö´ĞĞ±êÖ¾
+		// ä»»åŠ¡æˆåŠŸæ‰§è¡Œæ ‡å¿—
 		bool _succeed;
 
-		// Ö´ĞĞselect·µ»ØµÄĞĞÊı
+		// æ‰§è¡Œselectè¿”å›çš„è¡Œæ•°
 		int _rows;
 
-		// Ö´ĞĞinsert¡¢update¡¢deleteÊÜÓ°ÏìµÄĞĞÊı
+		// æ‰§è¡Œinsertã€updateã€deleteå—å½±å“çš„è¡Œæ•°
 		int _affectedRecords;
 
-		// ĞÂ²åÈë¼ÇÂ¼µÄ×ÔÔöID
+		// æ–°æ’å…¥è®°å½•çš„è‡ªå¢ID
 		int64_t _autoInc;
 	};
 
 	/**
-	 * mysqlÍ¨ÓÃ²éÑ¯ÈÎÎñ
-	 * Èç¹ûÓĞ²éÑ¯½á¹û£¬Ôò¼Ì³Ğ¸ÃÀà½øĞĞ¶ÁÈ¡
+	 * mysqlé€šç”¨æŸ¥è¯¢ä»»åŠ¡
+	 * å¦‚æœæœ‰æŸ¥è¯¢ç»“æœï¼Œåˆ™ç»§æ‰¿è¯¥ç±»è¿›è¡Œè¯»å–
 	 */
 	class MysqlCommonTask : public MysqlQueryTask
 	{
@@ -138,16 +138,16 @@ namespace NiuMa {
 		}
 
 	private:
-		// sqlÃüÁî
+		// sqlå‘½ä»¤
 		const std::string _sql;
 
-		// ²éÑ¯ÀàĞÍ
+		// æŸ¥è¯¢ç±»å‹
 		const QueryType _type;
 	};
 
 	/**
-	 * ²éÑ¯¼ÇÂ¼ÊıÁ¿ÈÎÎñ
-	 * ¼´£ºselect count(*) ...
+	 * æŸ¥è¯¢è®°å½•æ•°é‡ä»»åŠ¡
+	 * å³ï¼šselect count(*) ...
 	 */
 	class MysqlCountTask : public MysqlCommonTask
 	{

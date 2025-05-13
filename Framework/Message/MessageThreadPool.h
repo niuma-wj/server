@@ -1,4 +1,4 @@
-// MessageThreadPool.h
+ï»¿// MessageThreadPool.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.29
@@ -11,7 +11,7 @@
 
 namespace NiuMa {
 	/**
-	 * ÍøÂçÏûÏ¢´¦ÀíÏß³Ì¶ÓÁĞ
+	 * ç½‘ç»œæ¶ˆæ¯å¤„ç†çº¿ç¨‹é˜Ÿåˆ—
 	 */
 	class MessageThreadPool : public ThreadPool {
 	public:
@@ -20,9 +20,9 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * Æô¶¯
-		 * @param threadNum Ïß³ÌÊıÁ¿
-		 * @param handlers ÏûÏ¢´¦ÀíÆ÷ÁĞ±í
+		 * å¯åŠ¨
+		 * @param threadNum çº¿ç¨‹æ•°é‡
+		 * @param handlers æ¶ˆæ¯å¤„ç†å™¨åˆ—è¡¨
 		 */
 		void start(int threadNum, const std::vector<MessageHandler::Ptr>& handlers);
 	};

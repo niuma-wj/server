@@ -1,4 +1,4 @@
-// MessageManager.h
+ï»¿// MessageManager.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.19
@@ -24,46 +24,46 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * ×¢²áÏûÏ¢Éú³ÉÆ÷
-		 * @param type ÏûÏ¢ÀàĞÍ
-		 * @param creator Éú³ÉÆ÷
+		 * æ³¨å†Œæ¶ˆæ¯ç”Ÿæˆå™¨
+		 * @param type æ¶ˆæ¯ç±»å‹
+		 * @param creator ç”Ÿæˆå™¨
 		 */
 		void registCreator(const std::string& type, const IMsgCreator::Ptr& creator);
 
 		/**
-		 * ´´½¨ÏûÏ¢ÊµÀı
-		 * @param wrapper ÏûÏ¢Êı¾İ
+		 * åˆ›å»ºæ¶ˆæ¯å®ä¾‹
+		 * @param wrapper æ¶ˆæ¯æ•°æ®
 		 */
 		MsgBase::Ptr createMessage(const MsgWrapper::Ptr& wrapper);
 
 		/**
-		 * ×¢²áÏûÏ¢´¦ÀíÆ÷
-		 * @param handler ´¦ÀíÆ÷
+		 * æ³¨å†Œæ¶ˆæ¯å¤„ç†å™¨
+		 * @param handler å¤„ç†å™¨
 		 */
 		void registHandler(const MessageHandler::Ptr& handler);
 
 		/**
-		 * ×¢ÏúÏûÏ¢´¦ÀíÆ÷
-		 * @param handler ´¦ÀíÆ÷
+		 * æ³¨é”€æ¶ˆæ¯å¤„ç†å™¨
+		 * @param handler å¤„ç†å™¨
 		 */
 		void unregistHandler(const MessageHandler::Ptr& handler);
 
-		// ²éÑ¯ÏûÏ¢´¦ÀíÆ÷±í¸üĞÂĞòºÅ
+		// æŸ¥è¯¢æ¶ˆæ¯å¤„ç†å™¨è¡¨æ›´æ–°åºå·
 		int getHandlerSN();
 
-		// »ñÈ¡È«²¿ÏûÏ¢´¦ÀíÆ÷
+		// è·å–å…¨éƒ¨æ¶ˆæ¯å¤„ç†å™¨
 		void getAllHandlers(std::vector<MessageHandler::Ptr>& vec);
 
 	private:
-		// ÏûÏ¢Éú³ÉÆ÷±í
-		// Ô­ÔòÉÏ¸Ã±í»á±»¶à¸öÏß³Ì·ÃÎÊ£¬µ«ÊÇÒòÎª¸Ã±íµÄ²åÈëÊÇÔÚ³ÌĞò³õÊ¼»¯½×¶ÎÍê³ÉµÄ£¬
-		// ºóĞøÆäËûÏß³ÌÖ»»á¶ÁÈ¡¸Ã±í¶ø²»ÊÇĞŞ¸Ä£¬ËùÒÔ²»ĞèÒª¸Ã±í×öÏß³ÌÍ¬²½²Ù×÷
+		// æ¶ˆæ¯ç”Ÿæˆå™¨è¡¨
+		// åŸåˆ™ä¸Šè¯¥è¡¨ä¼šè¢«å¤šä¸ªçº¿ç¨‹è®¿é—®ï¼Œä½†æ˜¯å› ä¸ºè¯¥è¡¨çš„æ’å…¥æ˜¯åœ¨ç¨‹åºåˆå§‹åŒ–é˜¶æ®µå®Œæˆçš„ï¼Œ
+		// åç»­å…¶ä»–çº¿ç¨‹åªä¼šè¯»å–è¯¥è¡¨è€Œä¸æ˜¯ä¿®æ”¹ï¼Œæ‰€ä»¥ä¸éœ€è¦è¯¥è¡¨åšçº¿ç¨‹åŒæ­¥æ“ä½œ
 		std::unordered_map<std::string, IMsgCreator::Ptr> _creatorMap;
 
-		// ÏûÏ¢´¦ÀíÆ÷±í
+		// æ¶ˆæ¯å¤„ç†å™¨è¡¨
 		std::vector<MessageHandler::Ptr> _handlers;
 
-		// ÏûÏ¢´¦ÀíÆ÷±í¸üĞÂĞòºÅ
+		// æ¶ˆæ¯å¤„ç†å™¨è¡¨æ›´æ–°åºå·
 		int _handlerSN = 0;
 
 		// 

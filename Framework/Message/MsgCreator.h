@@ -1,4 +1,4 @@
-// MsgCreator.h
+ï»¿// MsgCreator.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.09.24
@@ -10,7 +10,7 @@
 #include "MsgWrapper.h"
 
 namespace NiuMa {
-	// ÏûÏ¢Éú³ÉÆ÷»ùÀà
+	// æ¶ˆæ¯ç”Ÿæˆå™¨åŸºç±»
 	class IMsgCreator
 	{
 	public:

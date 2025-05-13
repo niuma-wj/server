@@ -1,4 +1,4 @@
-// MahjongMessages.cpp
+﻿// MahjongMessages.cpp
 
 #include "MahjongMessages.h"
 #include "Message/MessageManager.h"

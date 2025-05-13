@@ -1,4 +1,4 @@
-// MsgWrapper.h
+ï»¿// MsgWrapper.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.18
@@ -15,7 +15,7 @@
 #include "Base/BaseUtils.h"
 
 namespace NiuMa {
-	// ÍøÂçÏûÏ¢Êı¾İ·â×°Æ÷
+	// ç½‘ç»œæ¶ˆæ¯æ•°æ®å°è£…å™¨
 	class MsgWrapper
 	{
 	public:
@@ -72,10 +72,10 @@ namespace NiuMa {
 		}
 
 	private:
-		// ÏûÏ¢ÌåÀàĞÍ
+		// æ¶ˆæ¯ä½“ç±»å‹
 		std::string msgType;
 
-		// ÏûÏ¢ÌåMessagePack´ò°üÊı¾İ
+		// æ¶ˆæ¯ä½“MessagePackæ‰“åŒ…æ•°æ®
 		std::string msgPack;
 
 	public:

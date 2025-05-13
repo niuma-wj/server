@@ -1,4 +1,4 @@
-// MsgBase.h
+ï»¿// MsgBase.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.19
@@ -8,7 +8,7 @@
 
 #include "Network/Session.h"
 
-// ÏûÏ¢´ò°üÊµÏÖ·½·¨ºê¶¨Òå
+// æ¶ˆæ¯æ‰“åŒ…å®ç°æ–¹æ³•å®å®šä¹‰
 #define MSG_PACK_IMPL	\
 	virtual std::shared_ptr<std::string> pack() const override {\
 		MsgWrapper mw;\
@@ -19,7 +19,7 @@
 	}
 
 namespace NiuMa {
-	// ÏûÏ¢»ùÀà£¬ËùÓĞÏûÏ¢µÄ»ùÀà
+	// æ¶ˆæ¯åŸºç±»ï¼Œæ‰€æœ‰æ¶ˆæ¯çš„åŸºç±»
 	class MsgBase
 	{
 	public:
@@ -30,20 +30,20 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * »ñÈ¡ÏûÏ¢ÀàĞÍ
+		 * è·å–æ¶ˆæ¯ç±»å‹
 		 */
 		virtual const std::string& getType() const = 0;
 
 		/**
-		 * ÏûÏ¢´ò°ü
-		 * @return ´ò°üÊı¾İ£¬Ä¬ÈÏ·µ»Ønullptr
+		 * æ¶ˆæ¯æ‰“åŒ…
+		 * @return æ‰“åŒ…æ•°æ®ï¼Œé»˜è®¤è¿”å›nullptr
 		 */
 		virtual std::shared_ptr<std::string> pack() const;
 
 	public:
 		/**
-		 * ·¢ËÍÏûÏ¢
-		 * @param session Á¬½Ó»á»°
+		 * å‘é€æ¶ˆæ¯
+		 * @param session è¿æ¥ä¼šè¯
 		 */
 		void send(const Session::Ptr& session) const;
 	};

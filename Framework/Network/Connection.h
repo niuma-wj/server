@@ -1,4 +1,4 @@
-// Connection.h
+ï»¿// Connection.h
 
 #ifndef _NIU_MA_CONNECTION_H_
 #define _NIU_MA_CONNECTION_H_
@@ -8,8 +8,8 @@
 
 namespace NiuMa {
 	/**
-	 * TCPÍøÂçÁ¬½Ó½Ó¿Ú
-	 * ¸Ã½Ó¿ÚÎª¿ò¼ÜÄÚ²¿½Ó¿Ú£¬²»Òª±©Â¶µ½Íâ²¿ÉÏ²ãÒµÎñÂß¼­!!!
+	 * TCPç½‘ç»œè¿æ¥æ¥å£
+	 * è¯¥æ¥å£ä¸ºæ¡†æ¶å†…éƒ¨æ¥å£ï¼Œä¸è¦æš´éœ²åˆ°å¤–éƒ¨ä¸Šå±‚ä¸šåŠ¡é€»è¾‘!!!
 	 *
 	 * @Author wujian
 	 * @Email 393817707@qq.com
@@ -25,34 +25,34 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * ²éÑ¯Á¬½Óid
-		 * @param id ·µ»ØÁ¬½Óid
+		 * æŸ¥è¯¢è¿æ¥id
+		 * @param id è¿”å›è¿æ¥id
 		 */
 		virtual void getId(std::string& id) const = 0;
 
 		/**
-		 * »ñÈ¡Ô¶¶ËIPµØÖ·
-		 * @param remoteIp ·µ»ØÔ¶¶ËipµØÖ·
+		 * è·å–è¿œç«¯IPåœ°å€
+		 * @param remoteIp è¿”å›è¿œç«¯ipåœ°å€
 		 */
 		virtual void getRemoteIp(std::string& remoteIp) const = 0;
 
 		/**
-		 * ·¢ËÍÊı¾İ
+		 * å‘é€æ•°æ®
 		 * 
-		 * @param buf Êı¾İ»º´æ
-		 * @param length Êı¾İ³¤¶È
+		 * @param buf æ•°æ®ç¼“å­˜
+		 * @param length æ•°æ®é•¿åº¦
 		 */
 		virtual void send(const char* buf, std::size_t length) = 0;
 
 		/**
-		 * ·¢ËÍÊı¾İ
+		 * å‘é€æ•°æ®
 		 *
-		 * @param data Êı¾İ»º´æ
+		 * @param data æ•°æ®ç¼“å­˜
 		 */
 		virtual void send(const std::shared_ptr<std::string>& data) = 0;
 
 		/**
-		 * Á¬½ÓÊÇ·ñÒÑ¶Ï¿ª
+		 * è¿æ¥æ˜¯å¦å·²æ–­å¼€
 		 */
 		virtual bool isClosed() = 0;
 	};

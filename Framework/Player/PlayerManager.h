@@ -1,4 +1,4 @@
-// PlayerManager.h
+ï»¿// PlayerManager.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.09.29
@@ -12,7 +12,7 @@
 
 namespace NiuMa {
 	/**
-	 * Íæ¼Ò¹ÜÀíÖ÷
+	 * ç©å®¶ç®¡ç†ä¸»
 	 */
 	class PlayerManager : public Singleton<PlayerManager> {
 	private:
@@ -24,113 +24,113 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * ³õÊ¼»¯
+		 * åˆå§‹åŒ–
 		 */
 		void init();
 
 		/**
-		 * »ñÈ¡Íæ¼Ò£¬¼´ÒıÓÃÍæ¼Ò
-		 * @param playerId Íæ¼Òid
-		 * @return Íæ¼Ò
+		 * è·å–ç©å®¶ï¼Œå³å¼•ç”¨ç©å®¶
+		 * @param playerId ç©å®¶id
+		 * @return ç©å®¶
 		 */
 		Player::Ptr getPlayer(const std::string& playerId) const;
 
 		/**
-		 * ´ÓÊı¾İ¿â¼ÓÔØÍæ¼ÒĞÅÏ¢
-		 * @param playerId Íæ¼Òid
-		 * @return Íæ¼Ò
+		 * ä»æ•°æ®åº“åŠ è½½ç©å®¶ä¿¡æ¯
+		 * @param playerId ç©å®¶id
+		 * @return ç©å®¶
 		 */
 		Player::Ptr loadPlayer(const std::string& playerId);
 
 		/**
-		 * ÑéÖ¤ÏûÏ¢ÌåÍæ¼ÒÇ©ÃûÊı¾İ
-		 * @param playerId Íæ¼Òid
-		 * @param timestamp unixÊ±¼ä´Á£¨µ¥Î»Ãë£©
-		 * @param nonce Ëæ»ú´®
-		 * @param signature md5Ç©Ãû
-		 * @param outdate ·µ»ØÏûÏ¢ÊÇ·ñ¹ıÊ±
-		 * @return ÊÇ·ñÑéÖ¤³É¹¦
+		 * éªŒè¯æ¶ˆæ¯ä½“ç©å®¶ç­¾åæ•°æ®
+		 * @param playerId ç©å®¶id
+		 * @param timestamp unixæ—¶é—´æˆ³ï¼ˆå•ä½ç§’ï¼‰
+		 * @param nonce éšæœºä¸²
+		 * @param signature md5ç­¾å
+		 * @param outdate è¿”å›æ¶ˆæ¯æ˜¯å¦è¿‡æ—¶
+		 * @return æ˜¯å¦éªŒè¯æˆåŠŸ
 		 */
 		bool verifySignature(const std::string& playerId, const std::string& timestamp, const std::string& nonce, const std::string& signature, bool& outdate);
 
 		/**
-		 * ÉèÖÃ»á»°id¶ÔÓ¦µÄÍæ¼Òid
-		 * @param sessionId »á»°id
-		 * @param playerId Íæ¼Òid
+		 * è®¾ç½®ä¼šè¯idå¯¹åº”çš„ç©å®¶id
+		 * @param sessionId ä¼šè¯id
+		 * @param playerId ç©å®¶id
 		 */
 		void setSessionPlayerId(const std::string& sessionId, const std::string& playerId);
 
 		/**
-		 * ½«»á»°IdÓëÍæ¼Òid³·Ïú¹ØÁª
-		 * @param sessionId »á»°id
+		 * å°†ä¼šè¯Idä¸ç©å®¶idæ’¤é”€å…³è”
+		 * @param sessionId ä¼šè¯id
 		 */
 		void removeSessionId(const std::string& sessionId);
 
 		/**
-		 * Í¨¹ı»á»°id»ñÈ¡Íæ¼Òid
-		 * @param sessionId »á»°id
-		 * @param playerId Íæ¼Òid
-		 * @return true-´æÔÚÖ¸¶¨»á»°id£¬false-²»´æÔÚ
+		 * é€šè¿‡ä¼šè¯idè·å–ç©å®¶id
+		 * @param sessionId ä¼šè¯id
+		 * @param playerId ç©å®¶id
+		 * @return true-å­˜åœ¨æŒ‡å®šä¼šè¯idï¼Œfalse-ä¸å­˜åœ¨
 		 */
 		bool getPlayerId(const std::string& sessionId, std::string& playerId);
 
 		/**
-		 * Í¨¹ı»á»°id»ñÈ¡Íæ¼Ò
-		 * @param sessionId »á»°id
-		 * @return Íæ¼Ò
+		 * é€šè¿‡ä¼šè¯idè·å–ç©å®¶
+		 * @param sessionId ä¼šè¯id
+		 * @return ç©å®¶
 		 */
 		Player::Ptr getPlayerBySessionId(const std::string& sessionId);
 
 		/**
-		 * Ìí¼ÓÀëÏßÍæ¼Ò
-		 * @param playerId Íæ¼Òid
+		 * æ·»åŠ ç¦»çº¿ç©å®¶
+		 * @param playerId ç©å®¶id
 		 */
 		void addOfflinePlayer(const std::string& playerId);
 
 	private:
 		/**
-		 * ´ÓÊı¾İ¿â¼ÓÔØÍæ¼ÒÊı¾İ
-		 * @param player Íæ¼Ò
-		 * @return ÊÇ·ñ¼ÓÔØ³É¹¦
+		 * ä»æ•°æ®åº“åŠ è½½ç©å®¶æ•°æ®
+		 * @param player ç©å®¶
+		 * @return æ˜¯å¦åŠ è½½æˆåŠŸ
 		 */
 		bool loadPlayer(const Player::Ptr& player) const;
 
 		/**
-		 * Ìí¼ÓÍæ¼Ò
-		 * @param player Íæ¼Ò
+		 * æ·»åŠ ç©å®¶
+		 * @param player ç©å®¶
 		 */
 		bool addPlayer(const Player::Ptr& player);
 
 		/**
-		 * 5ÃëÖÓ¶¨Ê±Æ÷ÈÎÎñ
+		 * 5ç§’é’Ÿå®šæ—¶å™¨ä»»åŠ¡
 		 */
 		bool onTimer();
 
 		/**
-		 * ÊÍ·Å³¤Ê±¼ä²»»î¶¯µÄÍæ¼ÒÕË»§
+		 * é‡Šæ”¾é•¿æ—¶é—´ä¸æ´»åŠ¨çš„ç©å®¶è´¦æˆ·
 		 */
 		void freeDormantPlayers();
 
 	private:
-		// ¶¨Ê±ÈÎÎñ³ÖÓĞÕß£¬µ±¸Ã³ÖÓĞÕß±»Ïú»Ù£¬ÔòËµÃ÷±¾µ¥ÀıÊµÀı±»Ïú»Ù
-		// ¶¨Ê±ÈÎÎñ¿ÉÖ±½ÓÍË³ö
+		// å®šæ—¶ä»»åŠ¡æŒæœ‰è€…ï¼Œå½“è¯¥æŒæœ‰è€…è¢«é”€æ¯ï¼Œåˆ™è¯´æ˜æœ¬å•ä¾‹å®ä¾‹è¢«é”€æ¯
+		// å®šæ—¶ä»»åŠ¡å¯ç›´æ¥é€€å‡º
 		std::shared_ptr<int> _timer;
 
-		// Íæ¼Ò±í
+		// ç©å®¶è¡¨
 		std::unordered_map<std::string, Player::Ptr> _players;
 
-		// »á»°idÓëÍæ¼ÒidÓ³Éä±í
-		// key-»á»°id, value-Íæ¼Òid
+		// ä¼šè¯idä¸ç©å®¶idæ˜ å°„è¡¨
+		// key-ä¼šè¯id, value-ç©å®¶id
 		std::unordered_map<std::string, std::string> _sessionMap;
 
-		// ÀëÏßÍæ¼ÒidÁĞ±í
+		// ç¦»çº¿ç©å®¶idåˆ—è¡¨
 		std::list<std::string> _offlineIds;
 
-		// ²»¾«È·µÄµ±Ê±Ê±¼ä£¬Ã¿5Ãë¸üĞÂÒ»´Î£¬ÒÔ¼õÉÙÆµ·±ÏòÏµÍ³»ñÈ¡µ±Ç°Ê±¼äµÄĞÔÄÜÀË·Ñ
-		// ÒòÎªÃ¿´ÎÒıÓÃÍæ¼ÒµÄÊ±ºò¶¼ĞèÒª¸üĞÂÍæ¼ÒµÄ×îĞÂÒıÓÃÊ±¼ä£¬¶øÒıÓÃÍæ¼ÒÊÇ¸ö¸ßÆµ¶¯×÷
+		// ä¸ç²¾ç¡®çš„å½“æ—¶æ—¶é—´ï¼Œæ¯5ç§’æ›´æ–°ä¸€æ¬¡ï¼Œä»¥å‡å°‘é¢‘ç¹å‘ç³»ç»Ÿè·å–å½“å‰æ—¶é—´çš„æ€§èƒ½æµªè´¹
+		// å› ä¸ºæ¯æ¬¡å¼•ç”¨ç©å®¶çš„æ—¶å€™éƒ½éœ€è¦æ›´æ–°ç©å®¶çš„æœ€æ–°å¼•ç”¨æ—¶é—´ï¼Œè€Œå¼•ç”¨ç©å®¶æ˜¯ä¸ªé«˜é¢‘åŠ¨ä½œ
 		time_t _inexactTime;
 
-		// ĞÅºÅÁ¿
+		// ä¿¡å·é‡
 		mutable std::mutex _mtx;
 	};
 }

@@ -1,4 +1,4 @@
-// MysqlPool.h
+ï»¿// MysqlPool.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.30
@@ -23,14 +23,14 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * Æô¶¯
-		 * @param hostName Êı¾İ¿â·şÎñÆ÷µØÖ·(Èç£ºtcp://127.0.0.1:3306)
-		 * @param userName ÓÃ»§Ãû
-		 * @param password ÃÜÂë
-		 * @param schemaName Êı¾İ¿âÃû
-		 * @param keepConnections ±£ÁôµÄÁ¬½ÓÊıÁ¿
-		 * @param maxConnections ×î´óÁ¬½ÓÊıÁ¿(³¬³ö¸ÃÊıÁ¿ÔòÇëÇó·ÃÎÊÊı¾İ¿â±¨´í)
-		 * @param threadNum Òì²½Ïß³ÌÊıÁ¿(×îĞ¡Îª1£¬×î´óÎª8)
+		 * å¯åŠ¨
+		 * @param hostName æ•°æ®åº“æœåŠ¡å™¨åœ°å€(å¦‚ï¼štcp://127.0.0.1:3306)
+		 * @param userName ç”¨æˆ·å
+		 * @param password å¯†ç 
+		 * @param schemaName æ•°æ®åº“å
+		 * @param keepConnections ä¿ç•™çš„è¿æ¥æ•°é‡
+		 * @param maxConnections æœ€å¤§è¿æ¥æ•°é‡(è¶…å‡ºè¯¥æ•°é‡åˆ™è¯·æ±‚è®¿é—®æ•°æ®åº“æŠ¥é”™)
+		 * @param threadNum å¼‚æ­¥çº¿ç¨‹æ•°é‡(æœ€å°ä¸º1ï¼Œæœ€å¤§ä¸º8)
 		 */
 		void start(const std::string& hostName,
 			const std::string& userName,
@@ -41,40 +41,40 @@ namespace NiuMa {
 			int threadNum);
 
 		/**
-		 * Í£Ö¹
+		 * åœæ­¢
 		 */
 		virtual void stop() override;
 
 		/**
-		 * Í¬²½Ö´ĞĞmysql²éÑ¯ÈÎÎñ
-		 * @param task mysql²éÑ¯ÈÎÎñ
+		 * åŒæ­¥æ‰§è¡ŒmysqlæŸ¥è¯¢ä»»åŠ¡
+		 * @param task mysqlæŸ¥è¯¢ä»»åŠ¡
 		 */
 		void syncQuery(const MysqlQueryTask::Ptr& task);
 
 		/**
-		 * Í¬²½Ö´ĞĞ²»ĞèÒª·µ»Ø½á¹ûµÄsqlÓï¾ä£¬ÀıÈçinsert¡¢update¡¢delete
-		 * @param sql sqlÓï¾ä
-		 * @param type ²éÑ¯ÀàĞÍ
+		 * åŒæ­¥æ‰§è¡Œä¸éœ€è¦è¿”å›ç»“æœçš„sqlè¯­å¥ï¼Œä¾‹å¦‚insertã€updateã€delete
+		 * @param sql sqlè¯­å¥
+		 * @param type æŸ¥è¯¢ç±»å‹
 		 */
 		void syncQuery(const std::string& sql, MysqlQueryTask::QueryType type);
 
 		/**
-		 * Òì²½Ö´ĞĞmysql²éÑ¯ÈÎÎñ
-		 * @param task mysql²éÑ¯ÈÎÎñ
-		 * @param dispatcher ÅÉÇ²ÕßÏß³Ì(Èô²»Îª¿Õ£¬ÔòÔÚ¸ÃÏß³ÌÖĞµ÷ÓÃMysqlTask::onQueried·½·¨)
+		 * å¼‚æ­¥æ‰§è¡ŒmysqlæŸ¥è¯¢ä»»åŠ¡
+		 * @param task mysqlæŸ¥è¯¢ä»»åŠ¡
+		 * @param dispatcher æ´¾é£è€…çº¿ç¨‹(è‹¥ä¸ä¸ºç©ºï¼Œåˆ™åœ¨è¯¥çº¿ç¨‹ä¸­è°ƒç”¨MysqlTask::onQueriedæ–¹æ³•)
 		 */
 		void asyncQuery(const MysqlQueryTask::Ptr& task, const ThreadWorker::Ptr& dispatcher = nullptr);
 
 		/**
-		 * Òì²½Ö´ĞĞ²»ĞèÒª·µ»Ø½á¹ûµÄsqlÓï¾ä£¬ÀıÈçinsert¡¢update¡¢delete
-		 * @param sql sqlÓï¾ä
-		 * @param type ²éÑ¯ÀàĞÍ
-		 * @param dispatcher ÅÉÇ²ÕßÏß³Ì(Èô²»Îª¿Õ£¬ÔòÔÚ¸ÃÏß³ÌÖĞµ÷ÓÃMysqlTask::onQueried·½·¨)
+		 * å¼‚æ­¥æ‰§è¡Œä¸éœ€è¦è¿”å›ç»“æœçš„sqlè¯­å¥ï¼Œä¾‹å¦‚insertã€updateã€delete
+		 * @param sql sqlè¯­å¥
+		 * @param type æŸ¥è¯¢ç±»å‹
+		 * @param dispatcher æ´¾é£è€…çº¿ç¨‹(è‹¥ä¸ä¸ºç©ºï¼Œåˆ™åœ¨è¯¥çº¿ç¨‹ä¸­è°ƒç”¨MysqlTask::onQueriedæ–¹æ³•)
 		 */
 		void asyncQuery(const std::string& sql, MysqlQueryTask::QueryType type, const ThreadWorker::Ptr& dispatcher = nullptr);
 
 	private:
-		// ÊµÏÖÊµÀı
+		// å®ç°å®ä¾‹
 		std::shared_ptr<MysqlPoolImpl> _impl;
 	};
 }

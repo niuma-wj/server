@@ -1,4 +1,4 @@
-// GetCapitalTask.h
+ï»¿// GetCapitalTask.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.11.25
@@ -10,7 +10,7 @@
 
 namespace NiuMa {
 	/**
-	 * »ñÈ¡Íæ¼Ò×Ê²úSQLÈÎÎñ
+	 * è·å–ç©å®¶èµ„äº§SQLä»»åŠ¡
 	 */
 	class GetCapitalTask : public MysqlQueryTask {
 	public:
@@ -32,16 +32,16 @@ namespace NiuMa {
 		//
 		std::string _playerId;
 
-		// ½ğ±ÒÊıÁ¿
+		// é‡‘å¸æ•°é‡
 		int64_t _gold;
 
-		// ´æ¿îÓà¶î
+		// å­˜æ¬¾ä½™é¢
 		int64_t _deposit;
 
-		// ×êÊ¯ÊıÁ¿
+		// é’»çŸ³æ•°é‡
 		int64_t _diamond;
 
-		// °æ±¾ºÅ£¬ÓÃÓÚÀÖ¹ÛËø
+		// ç‰ˆæœ¬å·ï¼Œç”¨äºä¹è§‚é”
 		int64_t _version;
 	};
 }

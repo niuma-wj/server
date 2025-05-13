@@ -1,4 +1,4 @@
-// MahjongAvatar.cpp 
+ï»¿// MahjongAvatar.cpp 
 
 #include "Base/Log.h"
 #include "MahjongAvatar.h"
@@ -157,7 +157,7 @@ namespace NiuMa
 	}
 
 	bool MahjongAvatar::removeTile(int id) {
-		// É¾³ıÖ¸¶¨µÄÅÆ
+		// åˆ é™¤æŒ‡å®šçš„ç‰Œ
 		bool bFound = false;
 		MahjongTileArray::iterator it = _handTiles.begin();
 		while (it != _handTiles.end()) {
@@ -209,7 +209,7 @@ namespace NiuMa
 	}
 
 	bool MahjongAvatar::hasPlayedTilePeng(const MahjongTile::Tile& t) const {
-		// ÅĞ¶ÏÊÇ·ñ´ò³ö¹ıÖ¸¶¨µÄÅÆ²¢ÇÒ±»±ğµÄÍæ¼ÒÅöÁË
+		// åˆ¤æ–­æ˜¯å¦æ‰“å‡ºè¿‡æŒ‡å®šçš„ç‰Œå¹¶ä¸”è¢«åˆ«çš„ç©å®¶ç¢°äº†
 		MahjongTile mt;
 		int action = 0;
 		std::map<int, int>::const_iterator it = _playedTileAction.begin();
@@ -347,7 +347,7 @@ namespace NiuMa
 			if (mt.isSame(*it)) {
 				mt.getTile().toString(passed);
 				std::stringstream ss;
-				ss << "Íæ¼Ò(Id: " << getPlayerId() << ")´ËÇ°¹ıÅö" << passed << "£¬ÔÚÏÂ´ÎÃşÅÆÇ°²»ÄÜÔÙÅö¸ÃÅÆ¡£";
+				ss << "ç©å®¶(Id: " << getPlayerId() << ")æ­¤å‰è¿‡ç¢°" << passed << "ï¼Œåœ¨ä¸‹æ¬¡æ‘¸ç‰Œå‰ä¸èƒ½å†ç¢°è¯¥ç‰Œã€‚";
 				LOG_INFO(ss.str());
 				return false;
 			}
@@ -426,7 +426,7 @@ namespace NiuMa
 		if (!_passedHu.empty()) {
 			_passedHu[0].getTile().toString(passed);
 			std::stringstream ss;
-			ss << "Íæ¼Ò(Id: " << getPlayerId() << "´ËÇ°Ñ¡Ôñ¹ıºú" << passed << "£¬ÔÚÏÂ´ÎÃşÅÆÖ®Ç°²»ÄÜÔÙµãÅÚ¸ÃÅÆ¡£";
+			ss << "ç©å®¶(Id: " << getPlayerId() << "æ­¤å‰é€‰æ‹©è¿‡èƒ¡" << passed << "ï¼Œåœ¨ä¸‹æ¬¡æ‘¸ç‰Œä¹‹å‰ä¸èƒ½å†ç‚¹ç‚®è¯¥ç‰Œã€‚";
 			LOG_INFO(ss.str());
 			return false;
 		}
@@ -570,7 +570,7 @@ namespace NiuMa
 		MahjongTileArray& lstTiles = it->getAllTiles();
 		lstTiles.push_back(mt);
 		if (uiPos != (_chapters.size() - 1)) {
-			// °Ñ¼Ó¸ÜµÄÕÂÅ²µ½ÁĞ±í×îºóÃæ£¬×÷Îª×îĞÂµÄÕÂ
+			// æŠŠåŠ æ çš„ç« æŒªåˆ°åˆ—è¡¨æœ€åé¢ï¼Œä½œä¸ºæœ€æ–°çš„ç« 
 			MahjongChapter mc = *it;
 			_chapters.erase(it);
 			_chapters.push_back(mc);
@@ -660,7 +660,7 @@ namespace NiuMa
 				_gangs[0]--;
 			}
 			else
-				break;	// ÕıÈ·Çé¿öÏÂ²»»áÖ´ĞĞµ½ÕâÀï£¬×¢Òâµ÷ÊÔ£¡£¡£¡
+				break;	// æ­£ç¡®æƒ…å†µä¸‹ä¸ä¼šæ‰§è¡Œåˆ°è¿™é‡Œï¼Œæ³¨æ„è°ƒè¯•ï¼ï¼ï¼
 			mc.setVetoed();
 			n++;
 			if (n == nums)
@@ -803,7 +803,7 @@ namespace NiuMa
 					nCount++;
 				}
 				else if (nCount == 1) {
-					// ÈôÓöµ½µ¥¸ö×ÖÅÆ£¬Ö±½Ó·µ»Ø
+					// è‹¥é‡åˆ°å•ä¸ªå­—ç‰Œï¼Œç›´æ¥è¿”å›
 					if (t.getPattern() > MahjongTile::Pattern::Wan) {
 						const MahjongTile& mt1 = arrTiles.back();
 						return mt1.getId();
@@ -811,7 +811,7 @@ namespace NiuMa
 				}
 			}
 			if (bTest) {
-				// ÓëÉÏÒ»¸öÅÆ²»ÏàÍ¬
+				// ä¸ä¸Šä¸€ä¸ªç‰Œä¸ç›¸åŒ
 				if (!arrTiles.empty())
 					arrCount.push_back(nCount);
 				arrTiles.push_back(mt);
@@ -824,28 +824,28 @@ namespace NiuMa
 		}
 		arrCount.push_back(nCount);
 		if (arrTiles.size() != arrCount.size()) {
-			// ÔÚÕıÈ·Çé¿öÏÂ²»»áÖ´ĞĞµ½ÕâÀï£¬×¢Òâµ÷ÊÔ!!!
+			// åœ¨æ­£ç¡®æƒ…å†µä¸‹ä¸ä¼šæ‰§è¡Œåˆ°è¿™é‡Œï¼Œæ³¨æ„è°ƒè¯•!!!
 			const MahjongTile& mt = _handTiles.back();
 			return mt.getId();
 		}
 		std::reverse(arrTiles.begin(), arrTiles.end());
 		std::reverse(arrCount.begin(), arrCount.end());
-		// ÅÆµÄ¾Û¼¯³Ì¶È(gather degree)
-		// ²»¾Û¼¯
+		// ç‰Œçš„èšé›†ç¨‹åº¦(gather degree)
+		// ä¸èšé›†
 		const int GD_NULL = 0x00;
-		// ÏàÁÚĞ¡2ÕÅ£¬ÀıÈç¶ÔÓÚÅÆ7Íò£¬ÈôÊÖÅÆÖĞÓĞÅÆ5Íò£¬ÔòÅÆ7Íò¿É¼ÓÉÏ´Ë±êÊ¶
+		// ç›¸é‚»å°2å¼ ï¼Œä¾‹å¦‚å¯¹äºç‰Œ7ä¸‡ï¼Œè‹¥æ‰‹ç‰Œä¸­æœ‰ç‰Œ5ä¸‡ï¼Œåˆ™ç‰Œ7ä¸‡å¯åŠ ä¸Šæ­¤æ ‡è¯†
 		const int GD_LEFT2 = 0x01;
-		// ÏàÁÚ´ó2ÕÅ£¬ÀıÈç¶ÔÓÚÅÆ7Íò£¬ÈôÊÖÅÆÖĞÓĞÅÆ9Íò£¬ÔòÅÆ7Íò¿É¼ÓÉÏ´Ë±êÊ¶
+		// ç›¸é‚»å¤§2å¼ ï¼Œä¾‹å¦‚å¯¹äºç‰Œ7ä¸‡ï¼Œè‹¥æ‰‹ç‰Œä¸­æœ‰ç‰Œ9ä¸‡ï¼Œåˆ™ç‰Œ7ä¸‡å¯åŠ ä¸Šæ­¤æ ‡è¯†
 		const int GD_RIGHT2 = 0x02;
-		// ÏàÁÚĞ¡1ÕÅ
+		// ç›¸é‚»å°1å¼ 
 		const int GD_LEFT1 = 0x04;
-		// ÏàÁÚ´ó1ÕÅ
+		// ç›¸é‚»å¤§1å¼ 
 		const int GD_RIGHT1 = 0x08;
-		// ³É¶Ô
+		// æˆå¯¹
 		const int GD_PAIR = 0x10;
-		// ÈıÕÅ
+		// ä¸‰å¼ 
 		const int GD_TRIPLE = 0x20;
-		// ËÄÕÅ
+		// å››å¼ 
 		const int GD_QUADRUPLE = 0x40;
 		//
 		const unsigned int COUNT = static_cast<unsigned int>(arrTiles.size());
@@ -892,13 +892,13 @@ namespace NiuMa
 		const int GD_LEFT = GD_RIGHT1 | GD_RIGHT2;
 		const int GD_RIGHT = GD_LEFT1 | GD_LEFT2;
 		const int GD_MIDDLE = GD_LEFT1 | GD_RIGHT1;
-		/** È¨Öµ±í£º
+		/** æƒå€¼è¡¨ï¼š
 			GD_QUADRUPLE	- 100
 			GD_TRIPLE		- 90
 			GD_MIDDLE		- 80
 			GD_LEFT			- 70
 			GD_RIGHT		- 70
-			GD_PAIR			- 60»ò80
+			GD_PAIR			- 60æˆ–80
 			GD_LEFT1		- 50
 			GD_RIGHT1		- 50
 			GD_LEFT2		- 40
@@ -971,7 +971,7 @@ namespace NiuMa
 			lstTemp.push_back(mt);
 		MahjongRule rule;
 		if (_chapters.empty()) {
-			// ÃÅÇå²¢ÇÒÃ»ÓĞ°µ¸Ü²ÅÄÜÊÇÆßĞ¡¶Ô
+			// é—¨æ¸…å¹¶ä¸”æ²¡æœ‰æš—æ æ‰èƒ½æ˜¯ä¸ƒå°å¯¹
 			std::sort(lstTemp.begin(), lstTemp.end());
 			if (rule.checkQiXiaoDui(lstTemp)) {
 				bQiXiaoDui = true;

@@ -1,4 +1,4 @@
-// MahjongTile.h
+ï»¿// MahjongTile.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.11.30
@@ -13,39 +13,39 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«ÅÆ
+	 * éº»å°†ç‰Œ
 	 */
 	class MahjongTile
 	{
 	public:
-		// ÅÆÀàĞÍ:Í²¡¢Ìõ¡¢Íò¡¢×Ö¡¢»¨£¬ËùÓĞÅÆµÄID¶¼°´ÕÕÅÆÀàĞÍºÍÅÆÊıÖµÀ´ÅÅĞò
+		// ç‰Œç±»å‹:ç­’ã€æ¡ã€ä¸‡ã€å­—ã€èŠ±ï¼Œæ‰€æœ‰ç‰Œçš„IDéƒ½æŒ‰ç…§ç‰Œç±»å‹å’Œç‰Œæ•°å€¼æ¥æ’åº
 		enum class Pattern : int
 		{
-			Invalid = 0,// ÎŞĞ§
-			Tong,		// Í²×Ó
-			Tiao,		// Ìõ×Ó
-			Wan,		// Íò×Ó
-			Dong,		// ¶«·ç
-			Nan,		// ÄÏ·ç
-			Xi,			// Î÷·ç
-			Bei,		// ±±·ç
-			Zhong,		// ºìÖĞ
-			Fa,			// ·¢²Æ
-			Bai,		// °×°å
-			Chun,		// ´º
-			Xia,		// ÏÄ
-			Qiu,		// Çï
-			Winter,		// ¶¬
-			Mei,		// Ã·
-			Lan,		// À¼
-			Ju,			// ¾Õ
-			Zhu			// Öñ
+			Invalid = 0,// æ— æ•ˆ
+			Tong,		// ç­’å­
+			Tiao,		// æ¡å­
+			Wan,		// ä¸‡å­
+			Dong,		// ä¸œé£
+			Nan,		// å—é£
+			Xi,			// è¥¿é£
+			Bei,		// åŒ—é£
+			Zhong,		// çº¢ä¸­
+			Fa,			// å‘è´¢
+			Bai,		// ç™½æ¿
+			Chun,		// æ˜¥
+			Xia,		// å¤
+			Qiu,		// ç§‹
+			Winter,		// å†¬
+			Mei,		// æ¢…
+			Lan,		// å…°
+			Ju,			// èŠ
+			Zhu			// ç«¹
 		};
 
-		// ÅÆµãÊı
+		// ç‰Œç‚¹æ•°
 		enum class Number : int
 		{
-			Invalid = 0,	// ÎŞĞ§
+			Invalid = 0,	// æ— æ•ˆ
 			Yi,				// 1
 			Er,				// 2
 			San,			// 3
@@ -73,33 +73,33 @@ namespace NiuMa
 			bool operator<(const Tile& t) const;
 			bool operator<=(const Tile& t) const;
 
-			// ·µ»ØÅÆÀàĞÍ
+			// è¿”å›ç‰Œç±»å‹
 			Pattern getPattern() const;
 
-			// ·µ»ØÅÆÊıÖµ
+			// è¿”å›ç‰Œæ•°å€¼
 			Number getNumber() const;
 
-			// ÅĞ¶ÏÅÆÊÇ·ñÎªÓĞĞ§ÅÆ
+			// åˆ¤æ–­ç‰Œæ˜¯å¦ä¸ºæœ‰æ•ˆç‰Œ
 			bool isValid() const;
 
-			// ÉèÖÃÎªÎŞĞ§ÅÆ
+			// è®¾ç½®ä¸ºæ— æ•ˆç‰Œ
 			void setInvalid();
 
-			// ÊÇ·ñÎª´øÊıÖµµÄÅÆ¡¢×ÖÅÆºÍ»¨ÅÆ²»´øÊıÖµ
+			// æ˜¯å¦ä¸ºå¸¦æ•°å€¼çš„ç‰Œã€å­—ç‰Œå’ŒèŠ±ç‰Œä¸å¸¦æ•°å€¼
 			bool isNumbered() const;
 
-			// ÅĞ¶ÏÁ½ÕÅÅÆÊÇ·ñÏàÁÚ£¬Èç1ÍòºÍ2Íò¡¢4Í²ºÍ5Í²£¬²ÎÊıastrideÎªtrueÊ±ÅĞ¶ÏÊÇ·ñ¿çÒ»ÕÅÅÆÏàÁÚ£¬Èç1ÍòºÍ3Íò£¬4Í²ºÍ6Í²
+			// åˆ¤æ–­ä¸¤å¼ ç‰Œæ˜¯å¦ç›¸é‚»ï¼Œå¦‚1ä¸‡å’Œ2ä¸‡ã€4ç­’å’Œ5ç­’ï¼Œå‚æ•°astrideä¸ºtrueæ—¶åˆ¤æ–­æ˜¯å¦è·¨ä¸€å¼ ç‰Œç›¸é‚»ï¼Œå¦‚1ä¸‡å’Œ3ä¸‡ï¼Œ4ç­’å’Œ6ç­’
 			bool isAdjacent(const Tile& t, bool astride) const;
 
-			// ×ª»»Îª×Ö·û´®
+			// è½¬æ¢ä¸ºå­—ç¬¦ä¸²
 			void toString(std::string& text) const;
 
-			// ´Ó×Ö·û´®½âÎö¶øÀ´
+			// ä»å­—ç¬¦ä¸²è§£æè€Œæ¥
 			static Tile fromString(const std::string& text);
 
 		private:
-			int pattern;		// ÅÆÀàĞÍ
-			int number;			// ÅÆµãÊı
+			int pattern;		// ç‰Œç±»å‹
+			int number;			// ç‰Œç‚¹æ•°
 		
 		public:
 			MSGPACK_DEFINE_MAP(pattern, number);
@@ -119,7 +119,7 @@ namespace NiuMa
 
 	public:
 		MahjongTile& operator=(const MahjongTile& mt);
-		// ÓÃÓÚ°ÚÅÆÅÅÁĞµÄ±È½Ïº¯Êı£¬µ¥´¿µÄ±È½ÏÁ½ÕÅÅÆµÄID
+		// ç”¨äºæ‘†ç‰Œæ’åˆ—çš„æ¯”è¾ƒå‡½æ•°ï¼Œå•çº¯çš„æ¯”è¾ƒä¸¤å¼ ç‰Œçš„ID
 		bool operator==(const MahjongTile& mt) const;
 		bool operator!=(const MahjongTile& mt) const;
 		bool operator>(const MahjongTile& mt) const;
@@ -128,47 +128,47 @@ namespace NiuMa
 		bool operator<=(const MahjongTile& mt) const;
 
 	public:
-		// ÊÇ·ñÎªÓĞĞ§ÅÆ
+		// æ˜¯å¦ä¸ºæœ‰æ•ˆç‰Œ
 		bool isValid() const;
 
-		// ÉèÖÃÎŞĞ§ÅÆ
+		// è®¾ç½®æ— æ•ˆç‰Œ
 		void setInvalid();
 
-		// ·µ»ØÅÆ
+		// è¿”å›ç‰Œ
 		const Tile& getTile() const;
 
 		//
 		void setTile(const Tile& t);
 
-		// ·µ»ØÅÆÀàĞÍ
+		// è¿”å›ç‰Œç±»å‹
 		Pattern getPattern() const;
 
-		// ·µ»ØÅÆÊıÖµ
+		// è¿”å›ç‰Œæ•°å€¼
 		Number getNumber() const;
 
-		// ·µ»ØÅÆID
+		// è¿”å›ç‰ŒID
 		int getId() const;
 
-		// ÉèÖÃÅÆID
+		// è®¾ç½®ç‰ŒID
 		void setId(int id_);
 
-		// ÅĞ¶ÏÁ½ÕÅÅÆÊÇ²»ÊÇÍ¬ÀàĞÍÍ¬ÊıÖµ
+		// åˆ¤æ–­ä¸¤å¼ ç‰Œæ˜¯ä¸æ˜¯åŒç±»å‹åŒæ•°å€¼
 		bool isSame(const MahjongTile& mt) const;
 
-		// ÅĞ¶ÏÁ½ÕÅÅÆÊÇ²»ÊÇÍ¬ÀàĞÍÍ¬ÊıÖµ
+		// åˆ¤æ–­ä¸¤å¼ ç‰Œæ˜¯ä¸æ˜¯åŒç±»å‹åŒæ•°å€¼
 		bool isSame(const MahjongTile::Tile& t) const;
 
-		// ÅĞ¶ÏÁ½ÕÅÅÆÊÇ·ñÏàÁÚ£¬Èç1ÍòºÍ2Íò¡¢4Í²ºÍ5Í²£¬²ÎÊıastrideÎªtrueÊ±ÅĞ¶ÏÊÇ·ñ¿çÒ»ÕÅÅÆÏàÁÚ£¬Èç1ÍòºÍ3Íò£¬4Í²ºÍ6Í²
+		// åˆ¤æ–­ä¸¤å¼ ç‰Œæ˜¯å¦ç›¸é‚»ï¼Œå¦‚1ä¸‡å’Œ2ä¸‡ã€4ç­’å’Œ5ç­’ï¼Œå‚æ•°astrideä¸ºtrueæ—¶åˆ¤æ–­æ˜¯å¦è·¨ä¸€å¼ ç‰Œç›¸é‚»ï¼Œå¦‚1ä¸‡å’Œ3ä¸‡ï¼Œ4ç­’å’Œ6ç­’
 		bool isAdjacent(const MahjongTile::Tile& t, bool astride) const;
 
 	private:
 		/**
-		 * ÅÆID£¬Ã¿ÕÅÅÆ¶¼ÓĞÎ¨Ò»ID£¬¼´±ãÊÇÍ¬ÀàĞÍÍ¬µãÊı
+		 * ç‰ŒIDï¼Œæ¯å¼ ç‰Œéƒ½æœ‰å”¯ä¸€IDï¼Œå³ä¾¿æ˜¯åŒç±»å‹åŒç‚¹æ•°
 		 */
 		int id;
 
 		/**
-		 * ÅÆ
+		 * ç‰Œ
 		 */
 		Tile tile;
 

@@ -1,4 +1,4 @@
-// MahjongTile.cpp
+ï»¿// MahjongTile.cpp
 
 #include "MahjongTile.h"
 
@@ -7,8 +7,8 @@
 namespace NiuMa
 {
 	const int MahjongTile::INVALID_ID = -1;
-	const char* MahjongTile::PATTERN_NAMES[18] = { "Í²", "Ìõ", "Íò", "¶«", "ÄÏ", "Î÷", "±±", "ÖĞ", "·¢", "°×", "´º", "ÏÄ", "Çï", "¶¬", "Ã·", "À¼", "¾Õ", "Öñ" };
-	const char* MahjongTile::NUMBER_NAMES[9] = { "Ò»", "¶ş", "Èı", "ËÄ", "Îå", "Áù", "Æß", "°Ë", "¾Å" };
+	const char* MahjongTile::PATTERN_NAMES[18] = { "ç­’", "æ¡", "ä¸‡", "ä¸œ", "å—", "è¥¿", "åŒ—", "ä¸­", "å‘", "ç™½", "æ˜¥", "å¤", "ç§‹", "å†¬", "æ¢…", "å…°", "èŠ", "ç«¹" };
+	const char* MahjongTile::NUMBER_NAMES[9] = { "ä¸€", "äºŒ", "ä¸‰", "å››", "äº”", "å…­", "ä¸ƒ", "å…«", "ä¹" };
 
 	MahjongTile::Tile::Tile()
 		: pattern(static_cast<int>(Pattern::Invalid))
@@ -157,48 +157,48 @@ namespace NiuMa
 		static std::map<std::string, Tile> s_mapTiles;
 		if (s_bFirst) {
 			s_bFirst = false;
-			s_mapTiles.insert(std::make_pair(std::string("Ò»Í²"), Tile(Pattern::Tong, Number::Yi)));
-			s_mapTiles.insert(std::make_pair(std::string("¶şÍ²"), Tile(Pattern::Tong, Number::Er)));
-			s_mapTiles.insert(std::make_pair(std::string("ÈıÍ²"), Tile(Pattern::Tong, Number::San)));
-			s_mapTiles.insert(std::make_pair(std::string("ËÄÍ²"), Tile(Pattern::Tong, Number::Si)));
-			s_mapTiles.insert(std::make_pair(std::string("ÎåÍ²"), Tile(Pattern::Tong, Number::Wu)));
-			s_mapTiles.insert(std::make_pair(std::string("ÁùÍ²"), Tile(Pattern::Tong, Number::Liu)));
-			s_mapTiles.insert(std::make_pair(std::string("ÆßÍ²"), Tile(Pattern::Tong, Number::Qi)));
-			s_mapTiles.insert(std::make_pair(std::string("°ËÍ²"), Tile(Pattern::Tong, Number::Ba)));
-			s_mapTiles.insert(std::make_pair(std::string("¾ÅÍ²"), Tile(Pattern::Tong, Number::Jiu)));
-			s_mapTiles.insert(std::make_pair(std::string("Ò»Ìõ"), Tile(Pattern::Tiao, Number::Yi)));
-			s_mapTiles.insert(std::make_pair(std::string("¶şÌõ"), Tile(Pattern::Tiao, Number::Er)));
-			s_mapTiles.insert(std::make_pair(std::string("ÈıÌõ"), Tile(Pattern::Tiao, Number::San)));
-			s_mapTiles.insert(std::make_pair(std::string("ËÄÌõ"), Tile(Pattern::Tiao, Number::Si)));
-			s_mapTiles.insert(std::make_pair(std::string("ÎåÌõ"), Tile(Pattern::Tiao, Number::Wu)));
-			s_mapTiles.insert(std::make_pair(std::string("ÁùÌõ"), Tile(Pattern::Tiao, Number::Liu)));
-			s_mapTiles.insert(std::make_pair(std::string("ÆßÌõ"), Tile(Pattern::Tiao, Number::Qi)));
-			s_mapTiles.insert(std::make_pair(std::string("°ËÌõ"), Tile(Pattern::Tiao, Number::Ba)));
-			s_mapTiles.insert(std::make_pair(std::string("¾ÅÌõ"), Tile(Pattern::Tiao, Number::Jiu)));
-			s_mapTiles.insert(std::make_pair(std::string("Ò»Íò"), Tile(Pattern::Wan, Number::Yi)));
-			s_mapTiles.insert(std::make_pair(std::string("¶şÍò"), Tile(Pattern::Wan, Number::Er)));
-			s_mapTiles.insert(std::make_pair(std::string("ÈıÍò"), Tile(Pattern::Wan, Number::San)));
-			s_mapTiles.insert(std::make_pair(std::string("ËÄÍò"), Tile(Pattern::Wan, Number::Si)));
-			s_mapTiles.insert(std::make_pair(std::string("ÎåÍò"), Tile(Pattern::Wan, Number::Wu)));
-			s_mapTiles.insert(std::make_pair(std::string("ÁùÍò"), Tile(Pattern::Wan, Number::Liu)));
-			s_mapTiles.insert(std::make_pair(std::string("ÆßÍò"), Tile(Pattern::Wan, Number::Qi)));
-			s_mapTiles.insert(std::make_pair(std::string("°ËÍò"), Tile(Pattern::Wan, Number::Ba)));
-			s_mapTiles.insert(std::make_pair(std::string("¾ÅÍò"), Tile(Pattern::Wan, Number::Jiu)));
-			s_mapTiles.insert(std::make_pair(std::string("¶«"), Tile(Pattern::Dong, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("ÄÏ"), Tile(Pattern::Nan, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("Î÷"), Tile(Pattern::Xi, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("±±"), Tile(Pattern::Bei, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("ÖĞ"), Tile(Pattern::Zhong, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("·¢"), Tile(Pattern::Fa, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("°×"), Tile(Pattern::Bai, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("´º"), Tile(Pattern::Chun, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("ÏÄ"), Tile(Pattern::Xia, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("Çï"), Tile(Pattern::Qiu, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("¶¬"), Tile(Pattern::Winter, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("Ã·"), Tile(Pattern::Mei, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("À¼"), Tile(Pattern::Lan, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("¾Õ"), Tile(Pattern::Ju, Number::Invalid)));
-			s_mapTiles.insert(std::make_pair(std::string("Öñ"), Tile(Pattern::Zhu, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸€ç­’"), Tile(Pattern::Tong, Number::Yi)));
+			s_mapTiles.insert(std::make_pair(std::string("äºŒç­’"), Tile(Pattern::Tong, Number::Er)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸‰ç­’"), Tile(Pattern::Tong, Number::San)));
+			s_mapTiles.insert(std::make_pair(std::string("å››ç­’"), Tile(Pattern::Tong, Number::Si)));
+			s_mapTiles.insert(std::make_pair(std::string("äº”ç­’"), Tile(Pattern::Tong, Number::Wu)));
+			s_mapTiles.insert(std::make_pair(std::string("å…­ç­’"), Tile(Pattern::Tong, Number::Liu)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸ƒç­’"), Tile(Pattern::Tong, Number::Qi)));
+			s_mapTiles.insert(std::make_pair(std::string("å…«ç­’"), Tile(Pattern::Tong, Number::Ba)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¹ç­’"), Tile(Pattern::Tong, Number::Jiu)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸€æ¡"), Tile(Pattern::Tiao, Number::Yi)));
+			s_mapTiles.insert(std::make_pair(std::string("äºŒæ¡"), Tile(Pattern::Tiao, Number::Er)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸‰æ¡"), Tile(Pattern::Tiao, Number::San)));
+			s_mapTiles.insert(std::make_pair(std::string("å››æ¡"), Tile(Pattern::Tiao, Number::Si)));
+			s_mapTiles.insert(std::make_pair(std::string("äº”æ¡"), Tile(Pattern::Tiao, Number::Wu)));
+			s_mapTiles.insert(std::make_pair(std::string("å…­æ¡"), Tile(Pattern::Tiao, Number::Liu)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸ƒæ¡"), Tile(Pattern::Tiao, Number::Qi)));
+			s_mapTiles.insert(std::make_pair(std::string("å…«æ¡"), Tile(Pattern::Tiao, Number::Ba)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¹æ¡"), Tile(Pattern::Tiao, Number::Jiu)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸€ä¸‡"), Tile(Pattern::Wan, Number::Yi)));
+			s_mapTiles.insert(std::make_pair(std::string("äºŒä¸‡"), Tile(Pattern::Wan, Number::Er)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸‰ä¸‡"), Tile(Pattern::Wan, Number::San)));
+			s_mapTiles.insert(std::make_pair(std::string("å››ä¸‡"), Tile(Pattern::Wan, Number::Si)));
+			s_mapTiles.insert(std::make_pair(std::string("äº”ä¸‡"), Tile(Pattern::Wan, Number::Wu)));
+			s_mapTiles.insert(std::make_pair(std::string("å…­ä¸‡"), Tile(Pattern::Wan, Number::Liu)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸ƒä¸‡"), Tile(Pattern::Wan, Number::Qi)));
+			s_mapTiles.insert(std::make_pair(std::string("å…«ä¸‡"), Tile(Pattern::Wan, Number::Ba)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¹ä¸‡"), Tile(Pattern::Wan, Number::Jiu)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸œ"), Tile(Pattern::Dong, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("å—"), Tile(Pattern::Nan, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("è¥¿"), Tile(Pattern::Xi, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("åŒ—"), Tile(Pattern::Bei, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("ä¸­"), Tile(Pattern::Zhong, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("å‘"), Tile(Pattern::Fa, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("ç™½"), Tile(Pattern::Bai, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("æ˜¥"), Tile(Pattern::Chun, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("å¤"), Tile(Pattern::Xia, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("ç§‹"), Tile(Pattern::Qiu, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("å†¬"), Tile(Pattern::Winter, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("æ¢…"), Tile(Pattern::Mei, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("å…°"), Tile(Pattern::Lan, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("èŠ"), Tile(Pattern::Ju, Number::Invalid)));
+			s_mapTiles.insert(std::make_pair(std::string("ç«¹"), Tile(Pattern::Zhu, Number::Invalid)));
 		}
 		std::map<std::string, Tile>::const_iterator it = s_mapTiles.find(text);
 		if (it != s_mapTiles.end())

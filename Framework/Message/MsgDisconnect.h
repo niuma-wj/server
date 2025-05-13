@@ -1,4 +1,4 @@
-// MsgDisconnect.h
+ï»¿// MsgDisconnect.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.09.24
@@ -11,7 +11,7 @@
 
 namespace NiuMa {
 	/**
-	 * ÍøÂçÁ¬½Ó¶Ï¿ªÏûÏ¢
+	 * ç½‘ç»œè¿æ¥æ–­å¼€æ¶ˆæ¯
 	 */
 	class MsgDisconnect : public MsgBase
 	{
@@ -34,7 +34,7 @@ namespace NiuMa {
 		}
 
 	private:
-		// »á»°id
+		// ä¼šè¯id
 		std::string _sessionId;
 	};
 }

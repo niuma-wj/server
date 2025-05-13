@@ -1,4 +1,4 @@
-// MahjongAvatar.h
+ï»¿// MahjongAvatar.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.12.02
@@ -16,7 +16,7 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«Íæ¼ÒÌæÉí
+	 * éº»å°†ç©å®¶æ›¿èº«
 	 */
 	class MahjongAvatar : public GameAvatar
 	{
@@ -33,8 +33,8 @@ namespace NiuMa
 		const MahjongTileArray& getDealedTiles() const;
 		MahjongGenre::TingPaiArray& getTingTiles();
 		const MahjongGenre::TingPaiArray& getTingTiles() const;
-		bool getTile(MahjongTile& mt) const;	// ÔÚÊÖÅÆÖĞ£¬ÓÉID²éÕÒÅÆ
-		bool findTile(MahjongTile& mt) const;	// ÔÚÊÖÅÆÖĞ£¬ÓÉÅÆ²éÕÒID(µÚÒ»¸ö)
+		bool getTile(MahjongTile& mt) const;	// åœ¨æ‰‹ç‰Œä¸­ï¼Œç”±IDæŸ¥æ‰¾ç‰Œ
+		bool findTile(MahjongTile& mt) const;	// åœ¨æ‰‹ç‰Œä¸­ï¼Œç”±ç‰ŒæŸ¥æ‰¾ID(ç¬¬ä¸€ä¸ª)
 		int getTileNums(const MahjongTile::Tile& t) const;
 		void insertTile(const MahjongTile& mt);
 		bool removeTile(int id);
@@ -58,71 +58,71 @@ namespace NiuMa
 		void clearActionOptions();
 
 	public:
-		// ÇåÀí
+		// æ¸…ç†
 		virtual void clear();
 
-		// ÃşÅÆ
+		// æ‘¸ç‰Œ
 		virtual void fetchTile(const MahjongTile& mt);
 
-		// ³öÅÆ
+		// å‡ºç‰Œ
 		virtual bool playTile(int id);
 
-		// µ±Ç°ËùÓĞÄÜ³ÔµÄÅÆ
+		// å½“å‰æ‰€æœ‰èƒ½åƒçš„ç‰Œ
 		virtual bool canChi(const MahjongTile& mt, std::vector<std::pair<int, int> >& lstPairs) const;
 
-		// µ±Ç°ÊÇ·ñÄÜÅöÖ¸¶¨µÄÅÆ
-		// ²ÎÊıpassed·µ»ØÖ®Ç°¹ıÅöµÄÅÆ
+		// å½“å‰æ˜¯å¦èƒ½ç¢°æŒ‡å®šçš„ç‰Œ
+		// å‚æ•°passedè¿”å›ä¹‹å‰è¿‡ç¢°çš„ç‰Œ
 		virtual bool canPeng(const MahjongTile& mt, std::string& passed) const;
 
-		// µ±Ç°ÊÇ·ñÄÜÖ±¸ÜÖ¸¶¨µÄÅÆ
+		// å½“å‰æ˜¯å¦èƒ½ç›´æ æŒ‡å®šçš„ç‰Œ
 		virtual bool canZhiGang(const MahjongTile& mt) const;
 
-		// µ±Ç°ËùÓĞÄÜ¼Ó¸ÜµÄÅÆ
+		// å½“å‰æ‰€æœ‰èƒ½åŠ æ çš„ç‰Œ
 		virtual bool canJiaGang(std::vector<int>& lstTileIds) const;
 
-		// µ±Ç°ËùÓĞÄÜ°µ¸ÜµÄÅÆ
+		// å½“å‰æ‰€æœ‰èƒ½æš—æ çš„ç‰Œ
 		virtual bool canAnGang(std::vector<int>& lstTileIds) const;
 
-		// µ±Ç°ÊÇ·ñÄÜºúÖ¸¶¨µÄÅÆ
+		// å½“å‰æ˜¯å¦èƒ½èƒ¡æŒ‡å®šçš„ç‰Œ
 		virtual bool canHu(const MahjongTile& mt) const;
 
-		// µ±Ç°ÊÇ·ñ¿ÉÒÔ·ÅÅÚ£¬ÀıÈçÓĞµÄµØ·½¹æ¶¨°µ¸ÜÖ®ºó²»ÄÜ·ÅÅÚ
+		// å½“å‰æ˜¯å¦å¯ä»¥æ”¾ç‚®ï¼Œä¾‹å¦‚æœ‰çš„åœ°æ–¹è§„å®šæš—æ ä¹‹åä¸èƒ½æ”¾ç‚®
 		virtual bool canFangPao() const;
 
-		// µ±Ç°ÊÇ·ñÄÜµãÅÚÖ¸¶¨µÄÅÆ£¬ÀıÈçÓĞµÄµØ·½¹æ¶¨Íæ¼ÒÑ¡Ôñ¹ıºúÖ®ºó£¬Ö±µ½¸ÃÍæ¼ÒÏÂ´ÎÃşÅÆÖ®ºó
-		// ²ÅÄÜµãÅÚ£¬»¹ÓĞµÄµØ·½¹æ¶¨°µ¸ÜÖ®ºó²»ÄÜµãÅÚÖ»ÄÜ×ÔÃş
-		// ²ÎÊıpassed·µ»ØÖ®Ç°¹ıºúµÄÅÆ
+		// å½“å‰æ˜¯å¦èƒ½ç‚¹ç‚®æŒ‡å®šçš„ç‰Œï¼Œä¾‹å¦‚æœ‰çš„åœ°æ–¹è§„å®šç©å®¶é€‰æ‹©è¿‡èƒ¡ä¹‹åï¼Œç›´åˆ°è¯¥ç©å®¶ä¸‹æ¬¡æ‘¸ç‰Œä¹‹å
+		// æ‰èƒ½ç‚¹ç‚®ï¼Œè¿˜æœ‰çš„åœ°æ–¹è§„å®šæš—æ ä¹‹åä¸èƒ½ç‚¹ç‚®åªèƒ½è‡ªæ‘¸
+		// å‚æ•°passedè¿”å›ä¹‹å‰è¿‡èƒ¡çš„ç‰Œ
 		virtual bool canDianPao(const MahjongTile& mt, std::string& passed) const;
 
-		// ¹ıºú(¹ıµãÅÚ¶¯×÷²Åµ÷ÓÃ´Ëº¯Êı£¬¹ı×ÔÃş²»¿Éµ÷ÓÃ´Ëº¯Êı)
+		// è¿‡èƒ¡(è¿‡ç‚¹ç‚®åŠ¨ä½œæ‰è°ƒç”¨æ­¤å‡½æ•°ï¼Œè¿‡è‡ªæ‘¸ä¸å¯è°ƒç”¨æ­¤å‡½æ•°)
 		virtual void passDianPao(const MahjongTile& mt);
 
-		// ¹ıÅö
+		// è¿‡ç¢°
 		virtual void passPeng(const MahjongTile& mt);
 
-		// Í¨Öª×Ô¶¯²Ù×÷Íê³É
+		// é€šçŸ¥è‡ªåŠ¨æ“ä½œå®Œæˆ
 		virtual void afterAutoAction();
 
-		// ³Ô
+		// åƒ
 		virtual bool doChi(const MahjongTile& mt, int id1, int id2, int actionId, int player);
 
-		// Åö
+		// ç¢°
 		virtual bool doPeng(const MahjongTile& mt, int actionId, int player);
 
-		// Ö±¸Ü
+		// ç›´æ 
 		virtual bool doZhiGang(const MahjongTile& mt, int actionId, int player);
 
-		// ¼Ó¸Ü
+		// åŠ æ 
 		virtual bool doJiaGang(const MahjongTile& mt, int actionId);
 
-		// °µ¸Ü
+		// æš—æ 
 		virtual bool doAnGang(const MahjongTile& mt, int actionId);
 
-		// ¼Ó¸Ü±»ÇÀ£¬°Ñ¼Ó¸ÜÕÂ±ä»ØÅöÕÅ
+		// åŠ æ è¢«æŠ¢ï¼ŒæŠŠåŠ æ ç« å˜å›ç¢°å¼ 
 		virtual bool doQiangGang(int tileId, int actionId);
 
 	public:
-		// ·ñ¾ö×îºóµÄ¸ÜÕÂ(¸ÜÉÏÅÚÖ®ºóÔÚ·ÅÅÚÍæ¼ÒÉíÉÏµ÷ÓÃ)
+		// å¦å†³æœ€åçš„æ ç« (æ ä¸Šç‚®ä¹‹ååœ¨æ”¾ç‚®ç©å®¶èº«ä¸Šè°ƒç”¨)
 		void vetoLastGangs(int nums);
 		bool isHu() const;
 		bool isZiMo() const;
@@ -147,118 +147,118 @@ namespace NiuMa
 		int getScore() const;
 
 	public:
-		// ×Ô¶¯³öÅÆ£¬¿ÉÖØÔØ´Ëº¯ÊıÊµÏÖ¸ü¸´ÔÓµÄAIÒÔ´ò³öµ±Ç°×îÊÊºÏ´ò³öµÄÅÆ
+		// è‡ªåŠ¨å‡ºç‰Œï¼Œå¯é‡è½½æ­¤å‡½æ•°å®ç°æ›´å¤æ‚çš„AIä»¥æ‰“å‡ºå½“å‰æœ€é€‚åˆæ‰“å‡ºçš„ç‰Œ
 		virtual int autoPlayTile() const;
 
-		// ¼ì²âºúÅÆÑùÊ½(7Ğ¡¶Ô¡¢ÅöÅöºúµÈ)£¬²»Í¬¹æÔò¿ÉÄÜ»áÓĞ×Ô¼ºÀ©Õ¹µÄÑùÊ½£¬ÖØÔØ¸Ãº¯ÊıÊµÏÖ×Ô¼ºÀ©Õ¹µÄÅĞ¶¨
+		// æ£€æµ‹èƒ¡ç‰Œæ ·å¼(7å°å¯¹ã€ç¢°ç¢°èƒ¡ç­‰)ï¼Œä¸åŒè§„åˆ™å¯èƒ½ä¼šæœ‰è‡ªå·±æ‰©å±•çš„æ ·å¼ï¼Œé‡è½½è¯¥å‡½æ•°å®ç°è‡ªå·±æ‰©å±•çš„åˆ¤å®š
 		virtual bool detectHuStyle(bool bZiMo, const MahjongTile& mt);
 
-		// ÓÉºú·½Ê½¼°ºúÑùÊ½¼ÆËã·ÖÊı
+		// ç”±èƒ¡æ–¹å¼åŠèƒ¡æ ·å¼è®¡ç®—åˆ†æ•°
 		virtual int calcHuScore() const = 0;
 
 	protected:
 		/**
-		 * ÊÖÅÆ(·¢ÅÆÖ®ºóÁ¢¿ÌÅÅĞò£¬ÔÚÖ®ºóÓÎÏ·¹ı³ÌµÄÈÎºÎÊ±¿ÌÊÖÅÆ¶¼ÊÇÅÅĞòºÃµÄ)
+		 * æ‰‹ç‰Œ(å‘ç‰Œä¹‹åç«‹åˆ»æ’åºï¼Œåœ¨ä¹‹åæ¸¸æˆè¿‡ç¨‹çš„ä»»ä½•æ—¶åˆ»æ‰‹ç‰Œéƒ½æ˜¯æ’åºå¥½çš„)
 		 */
 		MahjongTileArray _handTiles;
 
 		/**
-		 * ·¢ÅÆÖ®ºóµÄ³õÊ¼ÊÖÅÆ£¬ÓÃÓÚ±£´æÂ¼Ïñ
+		 * å‘ç‰Œä¹‹åçš„åˆå§‹æ‰‹ç‰Œï¼Œç”¨äºä¿å­˜å½•åƒ
 		 */
 		MahjongTileArray _dealedTiles;
 
 		/**
-		 * ÒÑ´ò³öµÄÅÆ
+		 * å·²æ‰“å‡ºçš„ç‰Œ
 		 */
 		MahjongTileArray _playedTiles;
 
 		/**
-		 * ¹ıºúµÄÅÆ
+		 * è¿‡èƒ¡çš„ç‰Œ
 		 */
 		MahjongTileArray _passedHu;
 
 		/**
-		 * ¹ıÅöµÄÅÆ
+		 * è¿‡ç¢°çš„ç‰Œ
 		 */
 		MahjongTileArray _passedPeng;
 
 		/**
-		 * ËùÓĞµÄÕÂ
+		 * æ‰€æœ‰çš„ç« 
 		 */
 		MahjongChapterArray _chapters;
 
 		/**
-		 * ËùÓĞ¸ÜµÄÅÆ
+		 * æ‰€æœ‰æ çš„ç‰Œ
 		 */
 		MahjongTile::TileArray _gangTiles;
 
 		/**
-		 * ÌıÅÆ
+		 * å¬ç‰Œ
 		 */
 		MahjongGenre::TingPaiArray _tingTiles;
 
 		/**
-		 * µ±Ç°µÈ´ıÑ¡ÔñµÄ¶¯×÷Ñ¡Ïî
+		 * å½“å‰ç­‰å¾…é€‰æ‹©çš„åŠ¨ä½œé€‰é¡¹
 		 */
 		std::vector<int> _actionOptions;
 
 		/**
-		 * ¼ÇÂ¼´ò³öÈ¥µÄÅÆ±»ÆäËûÍæ¼Ò³Ô¡¢Åö¡¢Ö±¸Ü
+		 * è®°å½•æ‰“å‡ºå»çš„ç‰Œè¢«å…¶ä»–ç©å®¶åƒã€ç¢°ã€ç›´æ 
 		 */
 		std::map<int, int> _playedTileAction;
 
 		/**
-		 * ÏÂÒ»´ÎÒªÃşÆğµÄÅÆ£¬ÔÚ¿Í»§¶ËÖ¸¶¨(½öÓÃÓÚ²âÊÔÂé½«Ïà¹ØËã·¨µÄÕıÈ·ĞÔ)
+		 * ä¸‹ä¸€æ¬¡è¦æ‘¸èµ·çš„ç‰Œï¼Œåœ¨å®¢æˆ·ç«¯æŒ‡å®š(ä»…ç”¨äºæµ‹è¯•éº»å°†ç›¸å…³ç®—æ³•çš„æ­£ç¡®æ€§)
 		 */
 		std::string _nextTile;
 
 		/**
-		 * ¸ÕÃşµ½µÄÅÆID
+		 * åˆšæ‘¸åˆ°çš„ç‰ŒID
 		 */
 		int _fetchedTileId;
 
 		/**
-		 * ºúÅÆÑùÊ½
+		 * èƒ¡ç‰Œæ ·å¼
 		 */
 		int _huStyle;
 
 		/**
-		 * À©Õ¹ºúÅÆÑùÊ½
+		 * æ‰©å±•èƒ¡ç‰Œæ ·å¼
 		 */
 		int _huStyleEx;
 
 		/**
-		 * ºúÅÆ·½Ê½
+		 * èƒ¡ç‰Œæ–¹å¼
 		 */
 		int _huWay;
 
 		/**
-		 * ÀÛ¼Æ×ÔÃşÊı
+		 * ç´¯è®¡è‡ªæ‘¸æ•°
 		 */
 		int _ziMoes;
 
 		/**
-		 * ÀÛ¼Æ½ÓÅÚÊı
+		 * ç´¯è®¡æ¥ç‚®æ•°
 		 */
 		int _jiePaoes;
 
 		/**
-		 * ÀÛ¼Æ·ÅÅÚÊı
+		 * ç´¯è®¡æ”¾ç‚®æ•°
 		 */
 		int _fangPaoes;
 
 		/**
-		 * ÀÛ¼ÆµÄºú¡¢°µ¸Ü¡¢¼Ó¸Ü¡¢Ö±¸Ü´ÎÊı
+		 * ç´¯è®¡çš„èƒ¡ã€æš—æ ã€åŠ æ ã€ç›´æ æ¬¡æ•°
 		 */
 		int _huGangs[4];
 
 		/**
-		 * ±¾¾ÖµÄ°µ¸Ü¡¢¼Ó¸Ü¡¢Ö±¸Ü´ÎÊı
+		 * æœ¬å±€çš„æš—æ ã€åŠ æ ã€ç›´æ æ¬¡æ•°
 		 */
 		int _gangs[3];
 
 		/**
-		 * µÃ·Ö
+		 * å¾—åˆ†
 		 */
 		int _score;
 	};

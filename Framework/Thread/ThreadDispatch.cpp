@@ -1,4 +1,4 @@
-// ThreadDispatch.cpp
+﻿// ThreadDispatch.cpp
 
 #include "ThreadWorker.h"
 #include "Base/Log.h"

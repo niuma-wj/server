@@ -1,4 +1,4 @@
-// GameAvatar.cpp
+﻿// GameAvatar.cpp
 
 #include "GameAvatar.h"
 

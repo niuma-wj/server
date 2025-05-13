@@ -1,4 +1,4 @@
-// MahjongDealer.h
+ï»¿// MahjongDealer.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.12.03
@@ -13,7 +13,7 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«·¢ÅÆÆ÷£¬Ã¿ÕÅÅÆ×ÀÅäÒ»¸ö·¢ÅÆÆ÷
+	 * éº»å°†å‘ç‰Œå™¨ï¼Œæ¯å¼ ç‰Œæ¡Œé…ä¸€ä¸ªå‘ç‰Œå™¨
 	 */
 	class MahjongTileGenerator;
 	class MahjongDealer
@@ -24,71 +24,71 @@ namespace NiuMa
 
 	protected:
 		/**
-		 * ÊÇ·ñ´ø»¨ÅÆ
+		 * æ˜¯å¦å¸¦èŠ±ç‰Œ
 		 */
 		const bool _flower;
 
 		/**
-		 * Ò»¸±ÅÆÖĞËùÓĞÅÆµÄ×ÜÊıÁ¿(²»º¬»¨136£¬º¬»¨144)
+		 * ä¸€å‰¯ç‰Œä¸­æ‰€æœ‰ç‰Œçš„æ€»æ•°é‡(ä¸å«èŠ±136ï¼Œå«èŠ±144)
 		 */
 		const int _totalTileNums;
 
 		/**
-		 * ÅÆ³Ø£¬ËùÓĞÊ£ÓàÎ´±»ÃşÆğµÄÅÆ
+		 * ç‰Œæ± ï¼Œæ‰€æœ‰å‰©ä½™æœªè¢«æ‘¸èµ·çš„ç‰Œ
 		 */
 		int _tilePool[144];
 
 		/**
-		 * ÅÆ³ØÖĞÊ£ÓàÅÆµÄÆğÊ¼Î»ÖÃ
+		 * ç‰Œæ± ä¸­å‰©ä½™ç‰Œçš„èµ·å§‹ä½ç½®
 		 */
 		int _start;
 
 		/**
-		 * ÅÆ³ØÖĞÊ£ÓàÅÆµÄÖÕÖ¹Î»ÖÃ(Ê£ÓàµÄ×îºóÒ»ÕÅÅÆËùÔÚµÄÎ»ÖÃ+1)
+		 * ç‰Œæ± ä¸­å‰©ä½™ç‰Œçš„ç»ˆæ­¢ä½ç½®(å‰©ä½™çš„æœ€åä¸€å¼ ç‰Œæ‰€åœ¨çš„ä½ç½®+1)
 		 */
 		int _end;
 
 	private:
 		/**
-		 * ÅÆÉú³ÉÆ÷
+		 * ç‰Œç”Ÿæˆå™¨
 		 */
 		std::shared_ptr<MahjongTileGenerator> _generator;
 
 	public:
-		// ·µ»ØÊÇ·ñ´ø»¨ÅÆ
+		// è¿”å›æ˜¯å¦å¸¦èŠ±ç‰Œ
 		bool hasFlower() const;
 
-		// ÖØĞÂÏ´ÅÆ
+		// é‡æ–°æ´—ç‰Œ
 		void shuffle();
 
-		// ÖØĞÂÏ´ÅÆ£¬ÔÚ³õÊ¼»¯ËùÓĞÍæ¼ÒµÄÊÖÅÆÖ®ºóÖØÏ´ÅÆ³Ø(±¾º¯Êı½öÓÃÓÚ²âÊÔ)
+		// é‡æ–°æ´—ç‰Œï¼Œåœ¨åˆå§‹åŒ–æ‰€æœ‰ç©å®¶çš„æ‰‹ç‰Œä¹‹åé‡æ´—ç‰Œæ± (æœ¬å‡½æ•°ä»…ç”¨äºæµ‹è¯•)
 		void shuffle(const std::map<int, int>& initTiles);
 
-		// ·µ»ØÅÆµÄ×ÜÊıÁ¿
+		// è¿”å›ç‰Œçš„æ€»æ•°é‡
 		int getTotalTileNums() const;
 
-		// ·µ»ØÊ£ÓàÅÆµÄÊıÁ¿
+		// è¿”å›å‰©ä½™ç‰Œçš„æ•°é‡
 		int getTileLeft() const;
 
-		// ·µ»ØÅÆ³ØÊÇ·ñÒÑ¾­Îª¿Õ
+		// è¿”å›ç‰Œæ± æ˜¯å¦å·²ç»ä¸ºç©º
 		bool isEmpty() const;
 
-		// ÓÉID»ñµÃÅÆ
+		// ç”±IDè·å¾—ç‰Œ
 		bool getTile(MahjongTile& mt) const;
 
-		// ÔÚÅÆ³ØµÄÆğÊ¼Î»ÖÃ´¦È¡»ØÒ»ÕÅÅÆ
+		// åœ¨ç‰Œæ± çš„èµ·å§‹ä½ç½®å¤„å–å›ä¸€å¼ ç‰Œ
 		bool fetchTile(MahjongTile& mt);
 
-		// ÔÚÅÆ³ØµÄÖÕÖ¹Î»ÖÃ´¦È¡»ØÒ»ÕÅÅÆ
+		// åœ¨ç‰Œæ± çš„ç»ˆæ­¢ä½ç½®å¤„å–å›ä¸€å¼ ç‰Œ
 		bool fetchTile1(MahjongTile& mt);
 
-		// ÔÚÅÆ³ØÖĞÈ¡»ØÖ¸¶¨µÄÒ»ÕÅÅÆ
+		// åœ¨ç‰Œæ± ä¸­å–å›æŒ‡å®šçš„ä¸€å¼ ç‰Œ
 		bool fetchTile(MahjongTile& mt, const std::string& str);
 
-		// ÓÉID»ñµÃÅÆ
+		// ç”±IDè·å¾—ç‰Œ
 		static bool getTileById(MahjongTile& mt);
 
-		// ÓÉÅÆ»ñµÃID(µÚÒ»¸ö)
+		// ç”±ç‰Œè·å¾—ID(ç¬¬ä¸€ä¸ª)
 		static bool getIdByTile(MahjongTile& mt);
 	};
 }

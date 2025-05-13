@@ -1,4 +1,4 @@
-// MahjongTable.cpp 
+ï»¿// MahjongTable.cpp 
 
 #include "Base/Log.h"
 #include "Base/BaseUtils.h"
@@ -115,12 +115,12 @@ namespace NiuMa
 		bool bTest = true;
 #if 0
 		bTest = false;
-		// ³õÊ¼»¯¹Ì¶¨ÊÖÅÆ£¬²âÊÔÂé½«Ïà¹ØËã·¨µÄÕıÈ·ĞÔ
+		// åˆå§‹åŒ–å›ºå®šæ‰‹ç‰Œï¼Œæµ‹è¯•éº»å°†ç›¸å…³ç®—æ³•çš„æ­£ç¡®æ€§
 		MahjongTile::Tile tile;
-		const std::string tiles1[13] = { "Ò»Í²", "Ò»Í²", "Ò»Í²", "ÎåÌõ", "ÎåÌõ", "ÎåÌõ", "°ËÌõ", "°ËÌõ", "°ËÌõ", "ÈıÍò", "ËÄÍò", "¶«", "¶«" };
-		const std::string tiles2[13] = { "¶şÍ²", "¶şÍ²", "¶şÍ²", "ÈıÌõ", "ÈıÌõ", "ÈıÌõ", "¶şÍò", "¶şÍò", "¶şÍò", "°×", "°×", "°×", "ÄÏ" };
-		const std::string tiles3[13] = { "¾ÅÍ²", "¾ÅÍ²", "¾ÅÍ²", "Ò»Ìõ", "Ò»Ìõ", "Ò»Ìõ", "ÁùÍò", "ÁùÍò", "ÁùÍò", "ÄÏ", "ÄÏ", "ÄÏ", "Î÷" };
-		const std::string tiles4[13] = { "ÁùÍ²", "ÁùÍ²", "ÁùÍ²", "ÁùÍ²", "ËÄÌõ", "ËÄÌõ", "ËÄÌõ", "ËÄÌõ", "ÎåÍò", "ÎåÍò", "ÎåÍò", "ÎåÍò", "±±"};
+		const std::string tiles1[13] = { "ä¸€ç­’", "ä¸€ç­’", "ä¸€ç­’", "äº”æ¡", "äº”æ¡", "äº”æ¡", "å…«æ¡", "å…«æ¡", "å…«æ¡", "ä¸‰ä¸‡", "å››ä¸‡", "ä¸œ", "ä¸œ" };
+		const std::string tiles2[13] = { "äºŒç­’", "äºŒç­’", "äºŒç­’", "ä¸‰æ¡", "ä¸‰æ¡", "ä¸‰æ¡", "äºŒä¸‡", "äºŒä¸‡", "äºŒä¸‡", "ç™½", "ç™½", "ç™½", "å—" };
+		const std::string tiles3[13] = { "ä¹ç­’", "ä¹ç­’", "ä¹ç­’", "ä¸€æ¡", "ä¸€æ¡", "ä¸€æ¡", "å…­ä¸‡", "å…­ä¸‡", "å…­ä¸‡", "å—", "å—", "å—", "è¥¿" };
+		const std::string tiles4[13] = { "å…­ç­’", "å…­ç­’", "å…­ç­’", "å…­ç­’", "å››æ¡", "å››æ¡", "å››æ¡", "å››æ¡", "äº”ä¸‡", "äº”ä¸‡", "äº”ä¸‡", "äº”ä¸‡", "åŒ—"};
 		std::string tileName;
 		std::map<int, int> initTiles;
 		std::map<int, int>::iterator it;
@@ -165,7 +165,7 @@ namespace NiuMa
 		if (bTest) {
 			std::stringstream ss;
 			tile.toString(tileName);
-			ss << "³õÊ¼»¯ÊÖÅÆ³ö´í:" << tileName << "Îª·Ç·¨ÅÆ»òÆäµÄ×ÜÊı³¬¹ı4ÕÅ";
+			ss << "åˆå§‹åŒ–æ‰‹ç‰Œå‡ºé”™:" << tileName << "ä¸ºéæ³•ç‰Œæˆ–å…¶çš„æ€»æ•°è¶…è¿‡4å¼ ";
 			LOG_ERROR(ss.str());
 		}
 		else
@@ -195,7 +195,7 @@ namespace NiuMa
 				continue;
 			notifyTingTile(pAvatar);
 		}
-		// Ã¿ÈË·¢13ÕÅÅÆ£¬·¢ÍêÖ®ºó×¯¼ÒÃşµÚÒ»ÕÅÅÆ
+		// æ¯äººå‘13å¼ ç‰Œï¼Œå‘å®Œä¹‹ååº„å®¶æ‘¸ç¬¬ä¸€å¼ ç‰Œ
 		updateCurrentActor(_banker);
 		fetchTile();
 	}
@@ -222,7 +222,7 @@ namespace NiuMa
 			else
 				_dealer.fetchTile(mt);
 		}
-		// ½øÈëÈ¡ÅÆºó×´Ì¬
+		// è¿›å…¥å–ç‰ŒåçŠ¶æ€
 		changeState(StateMachine::Fetched);
 
 		if (pAvatar->canHu(mt)) {
@@ -239,9 +239,9 @@ namespace NiuMa
 		MahjongAction ma(MahjongAction::Type::Fetch, (static_cast<int>(_actors.size()) - 1), mt.getId());
 		_actions.push_back(ma);
 
-		// Í¨ÖªÃşÅÆ
+		// é€šçŸ¥æ‘¸ç‰Œ
 		notifyFetchTile(pAvatar, bBack);
-		// ÃşÅÆÖ®ºóÍ¨Öª³öÅÆ»ò¸Ü
+		// æ‘¸ç‰Œä¹‹åé€šçŸ¥å‡ºç‰Œæˆ–æ 
 		afterFetchChiPeng(pAvatar, mt.getId());
 
 		return true;
@@ -270,12 +270,12 @@ namespace NiuMa
 		MahjongAction::Type actionType = _acOpPool[actionId].getType();
 		if (actionType == MahjongAction::Type::Play) {
 			if (_state != StateMachine::Play) {
-				ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")³öÅÆ£¬µ«ÅÆ×Àµ±Ç°²»´¦ÓÚµÈ´ı³öÅÆ×´Ì¬!";
+				ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")å‡ºç‰Œï¼Œä½†ç‰Œæ¡Œå½“å‰ä¸å¤„äºç­‰å¾…å‡ºç‰ŒçŠ¶æ€!";
 				LOG_ERROR(ss.str());
 				return;
 			}
 			if (pAvatar->getSeat() != _actor) {
-				ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")³öÅÆ£¬µ«¸ÃÍæ¼Ò²¢·Çµ±Ç°»î¶¯Íæ¼Ò!";
+				ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")å‡ºç‰Œï¼Œä½†è¯¥ç©å®¶å¹¶éå½“å‰æ´»åŠ¨ç©å®¶!";
 				LOG_ERROR(ss.str());
 				return;
 			}
@@ -283,7 +283,7 @@ namespace NiuMa
 			return;
 		}
 		if (_state != StateMachine::Action) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")Ñ¡ÔñÁËÒ»¸ö¶¯×÷Ñ¡Ïî£¬µ«ÅÆ×Àµ±Ç°²»´¦ÓÚµÈ´ı¶¯×÷Ñ¡Ïî×´Ì¬!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")é€‰æ‹©äº†ä¸€ä¸ªåŠ¨ä½œé€‰é¡¹ï¼Œä½†ç‰Œæ¡Œå½“å‰ä¸å¤„äºç­‰å¾…åŠ¨ä½œé€‰é¡¹çŠ¶æ€!";
 			LOG_ERROR(ss.str());
 			return;
 		}
@@ -297,7 +297,7 @@ namespace NiuMa
 		else if (actionType == MahjongAction::Type::Chi)
 			index = 3;
 		else {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")µÄ¶¯×÷Ñ¡Ïî²»ÕıÈ·!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")çš„åŠ¨ä½œé€‰é¡¹ä¸æ­£ç¡®!";
 			LOG_ERROR(ss.str());
 			return;
 		}
@@ -324,7 +324,7 @@ namespace NiuMa
 			if (bTest)
 				notifyActionOptionsWaiting(pAvatar);
 			else
-				LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷Ñ¡ÏîÁĞ±íÖĞÒÑ¾­Ã»ÓĞÈÎºÎ¶¯×÷£¬ÓÎÏ·Âß¼­½«ÎŞ·¨¼ÌĞø½øĞĞ£¬´ËÀàÑÏÖØ´íÎóÒªÑÏ¸ñ²âÊÔ£¡");
+				LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œé€‰é¡¹åˆ—è¡¨ä¸­å·²ç»æ²¡æœ‰ä»»ä½•åŠ¨ä½œï¼Œæ¸¸æˆé€»è¾‘å°†æ— æ³•ç»§ç»­è¿›è¡Œï¼Œæ­¤ç±»ä¸¥é‡é”™è¯¯è¦ä¸¥æ ¼æµ‹è¯•ï¼");
 		}
 	}
 
@@ -361,22 +361,22 @@ namespace NiuMa
 		if (bRet)
 			return;
 		if (_waitingQiangGang) {
-			// ¼ÌĞøµÈ´ıÆäËûÍæ¼ÒÇÀ¸Ü
+			// ç»§ç»­ç­‰å¾…å…¶ä»–ç©å®¶æŠ¢æ 
 			if (!_acOps1[0].empty())
 				return;
 
-			// ÆäËûÍæ¼ÒÈ¡ÏûÇÀ¸Ü£¬µ±Ç°»î¶¯Íæ¼Ò¼ÌĞøÍê³É¼Ó¸ÜÁ¬¹á¶¯×÷
+			// å…¶ä»–ç©å®¶å–æ¶ˆæŠ¢æ ï¼Œå½“å‰æ´»åŠ¨ç©å®¶ç»§ç»­å®ŒæˆåŠ æ è¿è´¯åŠ¨ä½œ
 			const MahjongAction& ma = _actions.back();
 			if (ma.getType() == MahjongAction::Type::JiaGang) {
 #if defined(DEBUG) || defined(_DEBUG)
-				LOG_DEBUG("È¡ÏûÇÀ¸Ü²âÊÔ");
+				LOG_DEBUG("å–æ¶ˆæŠ¢æ æµ‹è¯•");
 #endif
 				_waitingQiangGang = false;
-				// ¸Üºó²¹ÅÆ
+				// æ åè¡¥ç‰Œ
 				fetchTile(true);
 			}
 			else
-				LOG_ERROR("Âß¼­´íÎó£¬µ±Ç°ÕıµÈ´ıÍæ¼ÒÇÀ¸Ü£¬È»¶ø¶¯×÷ÁĞ±íÖĞ×îºóÒ»¸ö¶¯×÷È´²»ÊÇ¼Ó¸Ü£¡");
+				LOG_ERROR("é€»è¾‘é”™è¯¯ï¼Œå½“å‰æ­£ç­‰å¾…ç©å®¶æŠ¢æ ï¼Œç„¶è€ŒåŠ¨ä½œåˆ—è¡¨ä¸­æœ€åä¸€ä¸ªåŠ¨ä½œå´ä¸æ˜¯åŠ æ ï¼");
 		} else {
 			bool bTest = false;
 			for (unsigned int i = 0; i < 4; i++) {
@@ -387,10 +387,10 @@ namespace NiuMa
 			}
 			if (!bTest) {
 				if (pAvatar->getSeat() == _actor) {
-					// Í¨Öª³öÅÆ
+					// é€šçŸ¥å‡ºç‰Œ
 					int id = _acOpIdAlloc.askForId();
 					if (id >= ACTION_OPTION_POOL_SIZE) {
-						LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+						LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 						return;
 					}
 					_acOpPool[id].setType(MahjongAction::Type::Play);
@@ -399,26 +399,26 @@ namespace NiuMa
 					pAvatar->addActionOption(id);
 					notifyActionOptions(pAvatar);
 
-					// ½øÈëµÈ´ı³öÅÆ×´Ì¬
+					// è¿›å…¥ç­‰å¾…å‡ºç‰ŒçŠ¶æ€
 					changeState(StateMachine::Play);
 				} else {
-					// Ã»ÓĞÈÎºÎ¶¯×÷Ñ¡Ïî£¬ÅĞ¶ÏÊÇ·ñÒªÔÙ´ÎÃşÅÆ£¬ÈçÓĞµÄµØ·½µÄ¹æÔòÊÇ´ò³ö»¨ÅÆÖ®ºóÒª²¹»¨£¬
-					// Èô²»ÒªÔòÇĞ»»µ½ÏÂÒ»Î»Íæ¼Ò
+					// æ²¡æœ‰ä»»ä½•åŠ¨ä½œé€‰é¡¹ï¼Œåˆ¤æ–­æ˜¯å¦è¦å†æ¬¡æ‘¸ç‰Œï¼Œå¦‚æœ‰çš„åœ°æ–¹çš„è§„åˆ™æ˜¯æ‰“å‡ºèŠ±ç‰Œä¹‹åè¦è¡¥èŠ±ï¼Œ
+					// è‹¥ä¸è¦åˆ™åˆ‡æ¢åˆ°ä¸‹ä¸€ä½ç©å®¶
 					if (!fetchAgainAfterPlay())
 						updateCurrentActor();
 					fetchTile();
 				}
 			} else {
-				// ÔÙ´Î½øÈëµÈ´ı¶¯×÷Ñ¡Ïî×´Ì¬
+				// å†æ¬¡è¿›å…¥ç­‰å¾…åŠ¨ä½œé€‰é¡¹çŠ¶æ€
 				changeState(StateMachine::Action);
 			}
 		}
 	}
 
 	void MahjongRoom::autoActionOption(bool bOnlyAuto) {
-		// ×Ô¶¯¶¯×÷µÄÔ­Ôò£ºÄÜºúÔòºú->ÄÜ¸ÜÔò¸Ü->ÄÜÅöÔòÅö->ÄÜ³ÔÔò³Ô->¶¼²»ÄÜÔò³öÅÆ
+		// è‡ªåŠ¨åŠ¨ä½œçš„åŸåˆ™ï¼šèƒ½èƒ¡åˆ™èƒ¡->èƒ½æ åˆ™æ ->èƒ½ç¢°åˆ™ç¢°->èƒ½åƒåˆ™åƒ->éƒ½ä¸èƒ½åˆ™å‡ºç‰Œ
 		if (_state == StateMachine::Action) {
-			// µ±Ç°×´Ì¬ÎªµÈ´ı¶¯×÷Ñ¡Ïî×´Ì¬
+			// å½“å‰çŠ¶æ€ä¸ºç­‰å¾…åŠ¨ä½œé€‰é¡¹çŠ¶æ€
 			bool bAction = false;
 			int acOp = 0;
 			std::stringstream ss;
@@ -433,7 +433,7 @@ namespace NiuMa
 						const MahjongActionOption& ma = _acOpPool[acOp];
 						pAvatar = dynamic_cast<MahjongAvatar*>(getAvatar(ma.getPlayer()).get());
 						if (pAvatar == nullptr) {
-							ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")µÈ´ı¶¯×÷Íæ¼Ò(Î»ÖÃ: " << ma.getPlayer() << ")Îª¿Õ!";
+							ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç­‰å¾…åŠ¨ä½œç©å®¶(ä½ç½®: " << ma.getPlayer() << ")ä¸ºç©º!";
 							LOG_ERROR(ss.str());
 							return;
 						}
@@ -450,7 +450,7 @@ namespace NiuMa
 			}
 		}
 		else if (_state == StateMachine::Play) {
-			// µ±Ç°ÎªµÈ´ı³öÅÆ×´Ì¬
+			// å½“å‰ä¸ºç­‰å¾…å‡ºç‰ŒçŠ¶æ€
 			MahjongAvatar* pAvatar = dynamic_cast<MahjongAvatar*>(getAvatar(_actor).get());
 			if (pAvatar == nullptr)
 				return;
@@ -554,11 +554,11 @@ namespace NiuMa
 		std::vector<int>::const_iterator it;
 		std::stringstream ss;
 		if (acOp.getType() == MahjongAction::Type::DianPao) {
-			// µãÅÚ
+			// ç‚¹ç‚®
 			if (_mutiDianPao) {
-				// ÔÊĞíÒ»ÅÚ¶àÏì
+				// å…è®¸ä¸€ç‚®å¤šå“
 				if (_allDianPao) {
-					// Ö»ÒªÓĞÒ»ÈËºú¾ÍÈ«²¿ºú
+					// åªè¦æœ‰ä¸€äººèƒ¡å°±å…¨éƒ¨èƒ¡
 					for (int i = 0; i < getMaxPlayerNums(); i++) {
 						if (i == _actor)
 							continue;
@@ -568,14 +568,14 @@ namespace NiuMa
 						pAvatar->addHuWay(MahjongGenre::HuWay::DianPao);
 					}
 				} else {
-					// ËùÓĞÑ¡Ôñ¡°ºú¡±ÒÔ¼°»¹Î´Ñ¡Ôñ¡°ºú¡±µÄÍæ¼ÒÄÜºú£¬Ñ¡ÔñÁË¡°¹ı¡±µÄÍæ¼Ò½«²»ÄÜºú
+					// æ‰€æœ‰é€‰æ‹©â€œèƒ¡â€ä»¥åŠè¿˜æœªé€‰æ‹©â€œèƒ¡â€çš„ç©å®¶èƒ½èƒ¡ï¼Œé€‰æ‹©äº†â€œè¿‡â€çš„ç©å®¶å°†ä¸èƒ½èƒ¡
 					it = _acOps1[0].begin();
 					while (it != _acOps1[0].end()) {
 						if (_acOpPool[*it].getType() == MahjongAction::Type::DianPao)
 							_acOps2[0].push_back(*it);
 						else {
 							ss.str("");
-							ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")ºú¶¯×÷Ñ¡Ïî²¢²»Í³Ò»ÎªµãÅÚ!";
+							ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")èƒ¡åŠ¨ä½œé€‰é¡¹å¹¶ä¸ç»Ÿä¸€ä¸ºç‚¹ç‚®!";
 							LOG_ERROR(ss.str());
 						}
 						++it;
@@ -587,13 +587,13 @@ namespace NiuMa
 						pAvatar = dynamic_cast<MahjongAvatar*>(getAvatar(player).get());
 						if (pAvatar == nullptr) {
 							ss.str("");
-							ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")¿ÉºúÍæ¼Ò(Î»ÖÃ: " << player << ")Îª¿Õ!";
+							ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")å¯èƒ¡ç©å®¶(ä½ç½®: " << player << ")ä¸ºç©º!";
 							LOG_ERROR(ss.str());
 							continue;
 						}
 						if (!(pAvatar->detectHuStyle(false, mt))) {
 							ss.str("");
-							ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")Î´ÄÜºúÅÆ!";
+							ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æœªèƒ½èƒ¡ç‰Œ!";
 							LOG_ERROR(ss.str());
 							continue;
 						}
@@ -602,7 +602,7 @@ namespace NiuMa
 					}
 				}
 			} else {
-				// ²»ÔÊĞíÒ»ÅÚ¶àÏì£¬×î½üµÄÍæ¼ÒÓĞ×î´óµãÅÚÓÅÏÈÈ¨
+				// ä¸å…è®¸ä¸€ç‚®å¤šå“ï¼Œæœ€è¿‘çš„ç©å®¶æœ‰æœ€å¤§ç‚¹ç‚®ä¼˜å…ˆæƒ
 				int diff = 0;
 				int min1 = getMaxPlayerNums();
 				int min2 = min1;
@@ -630,10 +630,10 @@ namespace NiuMa
 					}
 					++it;
 				}
-				// ×î½üµÄÄÇ¼Ò»¹Ã»¾ö¶¨ÊÇ·ñÒªºú
+				// æœ€è¿‘çš„é‚£å®¶è¿˜æ²¡å†³å®šæ˜¯å¦è¦èƒ¡
 				if (min1 < min2)
 					return false;
-				// Ö»ÓĞ×î½üµÄÄÇ¼ÒÄÜºú£¬ÆäËûÈË¶¼²»ÄÜºú
+				// åªæœ‰æœ€è¿‘çš„é‚£å®¶èƒ½èƒ¡ï¼Œå…¶ä»–äººéƒ½ä¸èƒ½èƒ¡
 				player = _acOpPool[id2].getPlayer();
 				pAvatar = dynamic_cast<MahjongAvatar*>(getAvatar(player).get());
 				if ((pAvatar == nullptr) || !(pAvatar->detectHuStyle(false, mt)))
@@ -645,7 +645,7 @@ namespace NiuMa
 		else if (acOp.getType() == MahjongAction::Type::ZiMo) {
 			if ((_acOps1[0].size() + _acOps2[0].size()) > 1) {
 				ss.str("");
-				ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")ÓĞÍæ¼Ò×ÔÃş£¬µ«ÊÇÄÜºúµÄÍæ¼ÒÊıÈ´³¬¹ıÒ»ÈË!";
+				ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")æœ‰ç©å®¶è‡ªæ‘¸ï¼Œä½†æ˜¯èƒ½èƒ¡çš„ç©å®¶æ•°å´è¶…è¿‡ä¸€äºº!";
 				LOG_ERROR(ss.str());
 				return false;
 			}
@@ -657,7 +657,7 @@ namespace NiuMa
 			pAvatar->addHuWay(MahjongGenre::HuWay::ZiMo);
 		} else {
 			ss.str("");
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")ºú¶¯×÷¼È²»ÊÇµãÅÚÒ²²»ÊÇ×ÔÃş!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")èƒ¡åŠ¨ä½œæ—¢ä¸æ˜¯ç‚¹ç‚®ä¹Ÿä¸æ˜¯è‡ªæ‘¸!";
 			LOG_ERROR(ss.str());
 			return false;
 		}
@@ -666,7 +666,7 @@ namespace NiuMa
 	}
 
 	bool MahjongRoom::executeGang() {
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñºú¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©èƒ¡åŠ¨ä½œ
 		if (!_acOps1[0].empty())
 			return false;
 		if (_acOps2[1].empty())
@@ -684,7 +684,7 @@ namespace NiuMa
 		ma.setTile(acOp.getTileId1());
 		if (acOp.getType() == MahjongAction::Type::ZhiGang) {
 			if (!pAvatar->doZhiGang(mt, static_cast<int>(_actions.size()), _actor)) {
-				ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")Ö±¸ÜÊ§°Ü!";
+				ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")ç›´æ å¤±è´¥!";
 				LOG_ERROR(ss.str());
 				return false;
 			}
@@ -713,7 +713,7 @@ namespace NiuMa
 				}
 			}
 			if (!pAvatar->doJiaGang(mt, static_cast<int>(_actions.size()))) {
-				ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")¼Ó¸ÜÊ§°Ü!";
+				ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")åŠ æ å¤±è´¥!";
 				LOG_ERROR(ss.str());
 				return false;
 			}
@@ -722,26 +722,26 @@ namespace NiuMa
 		}
 		else if (acOp.getType() == MahjongAction::Type::AnGang) {
 			if (!pAvatar->doAnGang(mt, static_cast<int>(_actions.size()))) {
-				ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")°µ¸ÜÊ§°Ü!";
+				ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æš—æ å¤±è´¥!";
 				LOG_ERROR(ss.str());
 				return false;
 			}
 			ma.setType(MahjongAction::Type::AnGang);
 			ma.setSlot(static_cast<int>(_actors.size() - 1));
 		} else {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")¸ÜÅÆ³ö´í!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æ ç‰Œå‡ºé”™!";
 			LOG_ERROR(ss.str());
 			return false;
 		}
-		// ¸üĞÂÌıÅÆĞÅÏ¢
+		// æ›´æ–°å¬ç‰Œä¿¡æ¯
 		_rule->checkTingPai(pAvatar->getTiles(), pAvatar->getGangTiles(), pAvatar->getTingTiles(), pAvatar);
-		// Çå¿ÕËùÓĞ¶¯×÷Ñ¡Ïî
+		// æ¸…ç©ºæ‰€æœ‰åŠ¨ä½œé€‰é¡¹
 		clearActionOptions();
-		// Í¨ÖªËùÓĞÈË¶¯×÷Ñ¡Ïî½áÊø
+		// é€šçŸ¥æ‰€æœ‰äººåŠ¨ä½œé€‰é¡¹ç»“æŸ
 		notifyActionOptionsFinish();
-		// Í¨ÖªËùÓĞÈËÍæ¼Ò¸ÜÅÆ
+		// é€šçŸ¥æ‰€æœ‰äººç©å®¶æ ç‰Œ
 		notifyGangTile(pAvatar);
-		// Í¨ÖªÍæ¼ÒÌıÅÆ
+		// é€šçŸ¥ç©å®¶å¬ç‰Œ
 		notifyTingTile(pAvatar);
 
 		if (acOp.getType() == MahjongAction::Type::ZhiGang)
@@ -749,9 +749,9 @@ namespace NiuMa
 		_actions.push_back(ma);
 
 		if (bQiangGang) {
-			// Í¨ÖªµÈ´ıÆäËûÍæ¼Ò¶¯×÷(µÈ´ıÆäËûÍæ¼ÒÇÀ¸Ü)
+			// é€šçŸ¥ç­‰å¾…å…¶ä»–ç©å®¶åŠ¨ä½œ(ç­‰å¾…å…¶ä»–ç©å®¶æŠ¢æ )
 			notifyActionOptionsWaiting(pAvatar);
-			// Í¨ÖªÆäËûÍæ¼ÒÇÀ¸Ü
+			// é€šçŸ¥å…¶ä»–ç©å®¶æŠ¢æ 
 			int tmp = 0;
 			for (int i = 0; i < getMaxPlayerNums(); i++) {
 				if (i == _actor)
@@ -763,7 +763,7 @@ namespace NiuMa
 				_waitingQiangGang = true;
 				tmp = _acOpIdAlloc.askForId();
 				if (tmp >= ACTION_OPTION_POOL_SIZE) {
-					LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+					LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 					return false;
 				}
 				_acOpPool[tmp].setType(MahjongAction::Type::DianPao);
@@ -774,20 +774,20 @@ namespace NiuMa
 				pAvatar->addActionOption(tmp);
 				notifyActionOptions(pAvatar);
 			}
-			// ½øÈëµÈ´ı¶¯×÷Ñ¡Ïî×´Ì¬
+			// è¿›å…¥ç­‰å¾…åŠ¨ä½œé€‰é¡¹çŠ¶æ€
 			changeState(StateMachine::Action);
 		} else {
-			// ¸ÜºóÁ¢¼´²¹ÅÆ
+			// æ åç«‹å³è¡¥ç‰Œ
 			fetchTile(true);
 		}
 		return true;
 	}
 
 	bool MahjongRoom::executePeng() {
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñºú¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©èƒ¡åŠ¨ä½œ
 		if (!_acOps1[0].empty())
 			return false;
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñ¸Ü¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©æ åŠ¨ä½œ
 		if (!_acOps1[1].empty())
 			return false;
 		if (_acOps2[2].empty())
@@ -804,13 +804,13 @@ namespace NiuMa
 		ma.setSlot(static_cast<int>(_actors.size()));
 		ma.setTile(acOp.getTileId1());
 		if (acOp.getType() != MahjongAction::Type::Peng) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")ÅöÅÆ³ö´í!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")ç¢°ç‰Œå‡ºé”™!";
 			LOG_ERROR(ss.str());
 			return false;
 		}
 		int player = _actor;
 		if (!pAvatar->doPeng(mt, static_cast<int>(_actions.size()), player)) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")ÅöÅÆÊ§°Ü!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")ç¢°ç‰Œå¤±è´¥!";
 			LOG_ERROR(ss.str());
 			return false;
 		}
@@ -820,26 +820,26 @@ namespace NiuMa
 		updateCurrentActor(acOp.getPlayer());
 		_actions.push_back(ma);
 
-		// Çå¿ÕËùÓĞ¶¯×÷Ñ¡Ïî
+		// æ¸…ç©ºæ‰€æœ‰åŠ¨ä½œé€‰é¡¹
 		clearActionOptions();
-		// Í¨ÖªËùÓĞÈË¶¯×÷Ñ¡Ïî½áÊø
+		// é€šçŸ¥æ‰€æœ‰äººåŠ¨ä½œé€‰é¡¹ç»“æŸ
 		notifyActionOptionsFinish();
-		// Í¨ÖªËùÓĞÈËÍæ¼ÒÅöÅÆ
+		// é€šçŸ¥æ‰€æœ‰äººç©å®¶ç¢°ç‰Œ
 		notifyPengChiTile(pAvatar, true);
-		// ÅöÅÆÖ®ºóÍ¨Öª³öÅÆ»òÕß¸Ü
+		// ç¢°ç‰Œä¹‹åé€šçŸ¥å‡ºç‰Œæˆ–è€…æ 
 		afterFetchChiPeng(pAvatar);
 
 		return true;
 	}
 
 	bool MahjongRoom::executeChi() {
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñºú¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©èƒ¡åŠ¨ä½œ
 		if (!_acOps1[0].empty())
 			return false;
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñ¸Ü¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©æ åŠ¨ä½œ
 		if (!_acOps1[1].empty())
 			return false;
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡ÔñÅö¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©ç¢°åŠ¨ä½œ
 		if (!_acOps1[2].empty())
 			return false;
 		if (_acOps2[3].empty())
@@ -856,13 +856,13 @@ namespace NiuMa
 		ma.setSlot(static_cast<int>(_actors.size()));
 		ma.setTile(acOp.getTileId1());
 		if (acOp.getType() != MahjongAction::Type::Chi) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")³ÔÅÆ³ö´í!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")åƒç‰Œå‡ºé”™!";
 			LOG_ERROR(ss.str());
 			return false;
 		}
 		int player = _actor;
 		if (!pAvatar->doChi(mt, acOp.getTileId1(), acOp.getTileId2(), static_cast<int>(_actions.size()), player)) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")³ÔÅÆÊ§°Ü!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")åƒç‰Œå¤±è´¥!";
 			LOG_ERROR(ss.str());
 			return false;
 		}
@@ -872,13 +872,13 @@ namespace NiuMa
 		updateCurrentActor(acOp.getPlayer());
 		_actions.push_back(ma);
 
-		// Çå¿ÕËùÓĞ¶¯×÷Ñ¡Ïî
+		// æ¸…ç©ºæ‰€æœ‰åŠ¨ä½œé€‰é¡¹
 		clearActionOptions();
-		// Í¨ÖªËùÓĞÈË¶¯×÷Ñ¡Ïî½áÊø
+		// é€šçŸ¥æ‰€æœ‰äººåŠ¨ä½œé€‰é¡¹ç»“æŸ
 		notifyActionOptionsFinish();
-		// Í¨ÖªËùÓĞÈËÍæ¼Ò³ÔÅÆ
+		// é€šçŸ¥æ‰€æœ‰äººç©å®¶åƒç‰Œ
 		notifyPengChiTile(pAvatar, false);
-		// ³ÔÅÆÖ®ºóÍ¨Öª³öÅÆ»òÕß¸Ü
+		// åƒç‰Œä¹‹åé€šçŸ¥å‡ºç‰Œæˆ–è€…æ 
 		afterFetchChiPeng(pAvatar);
 
 		return true;
@@ -897,7 +897,7 @@ namespace NiuMa
 				if (_delayJiaGang || (*it == fetchedId)) {
 					id = _acOpIdAlloc.askForId();
 					if (id >= ACTION_OPTION_POOL_SIZE) {
-						LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+						LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 						return;
 					}
 					_acOpPool[id].setType(MahjongAction::Type::JiaGang);
@@ -915,7 +915,7 @@ namespace NiuMa
 			while (it != lstTileIds.end()) {
 				id = _acOpIdAlloc.askForId();
 				if (id >= ACTION_OPTION_POOL_SIZE) {
-					LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+					LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 					return;
 				}
 				_acOpPool[id].setType(MahjongAction::Type::AnGang);
@@ -928,13 +928,13 @@ namespace NiuMa
 			}
 		}
 		if (pAvatar->hasActionOption()) {
-			// ½øÈëµÈ´ı¶¯×÷Ñ¡Ïî×´Ì¬
+			// è¿›å…¥ç­‰å¾…åŠ¨ä½œé€‰é¡¹çŠ¶æ€
 			changeState(StateMachine::Action);
 		} else {
-			// Í¨ÖªÍæ¼Ò³öÅÆ
+			// é€šçŸ¥ç©å®¶å‡ºç‰Œ
 			id = _acOpIdAlloc.askForId();
 			if (id >= ACTION_OPTION_POOL_SIZE) {
-				LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+				LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 				return;
 			}
 			_acOpPool[id].setType(MahjongAction::Type::Play);
@@ -942,30 +942,30 @@ namespace NiuMa
 			_acOpPool[id].setPlayer(_actor);
 			pAvatar->addActionOption(id);
 
-			// ½øÈëµÈ´ı³öÅÆ×´Ì¬
+			// è¿›å…¥ç­‰å¾…å‡ºç‰ŒçŠ¶æ€
 			changeState(StateMachine::Play);
 		}
 		notifyActionOptions(pAvatar);
 	}
 
 	bool MahjongRoom::executePlay(int tileId) {
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñºú¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©èƒ¡åŠ¨ä½œ
 		if (!_acOps1[0].empty())
 			return false;
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñ¸Ü¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©æ åŠ¨ä½œ
 		if (!_acOps1[1].empty())
 			return false;
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡ÔñÅö¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©ç¢°åŠ¨ä½œ
 		if (!_acOps1[2].empty())
 			return false;
-		// µÈ´ıÆäËûÍæ¼ÒÑ¡Ôñ³Ô¶¯×÷
+		// ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©åƒåŠ¨ä½œ
 		if (!_acOps1[3].empty())
 			return false;
 
 		std::stringstream ss;
 		MahjongAvatar* pAvatar = dynamic_cast<MahjongAvatar*>(getAvatar(_actor).get());
 		if (!pAvatar->playTile(tileId)) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")³öÅÆÊ§°Ü!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")å‡ºç‰Œå¤±è´¥!";
 			LOG_ERROR(ss.str());
 			return false;
 		}
@@ -980,13 +980,13 @@ namespace NiuMa
 		ma.setTile(tileId);
 		_actions.push_back(ma);
 		
-		// ¸üĞÂÌıÅÆĞÅÏ¢
+		// æ›´æ–°å¬ç‰Œä¿¡æ¯
 		_rule->checkTingPai(pAvatar->getTiles(), pAvatar->getGangTiles(), pAvatar->getTingTiles(), pAvatar);
-		// Çå¿ÕËùÓĞ¶¯×÷Ñ¡Ïî
+		// æ¸…ç©ºæ‰€æœ‰åŠ¨ä½œé€‰é¡¹
 		clearActionOptions();
-		// Í¨ÖªËùÓĞÍæ¼Òµ±Ç°»î¶¯Íæ¼Ò³öÅÆ
+		// é€šçŸ¥æ‰€æœ‰ç©å®¶å½“å‰æ´»åŠ¨ç©å®¶å‡ºç‰Œ
 		notifyPlayTile(mt);
-		// Í¨ÖªÍæ¼ÒÌıÅÆ
+		// é€šçŸ¥ç©å®¶å¬ç‰Œ
 		notifyTingTile(pAvatar);
 
 		bool bTest = false;
@@ -1003,7 +1003,7 @@ namespace NiuMa
 			if (canDianPao() && pAvatar->canHu(mt) && pAvatar->canDianPao(mt, passed)) {
 				tmp = _acOpIdAlloc.askForId();
 				if (tmp >= ACTION_OPTION_POOL_SIZE) {
-					LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+					LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 					return false;
 				}
 				_acOpPool[tmp].setType(MahjongAction::Type::DianPao);
@@ -1018,7 +1018,7 @@ namespace NiuMa
 			if (pAvatar->canZhiGang(mt)) {
 				tmp = _acOpIdAlloc.askForId();
 				if (tmp >= ACTION_OPTION_POOL_SIZE) {
-					LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+					LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 					return false;
 				}
 				_acOpPool[tmp].setType(MahjongAction::Type::ZhiGang);
@@ -1032,7 +1032,7 @@ namespace NiuMa
 			if (pAvatar->canPeng(mt, passed)) {
 				tmp = _acOpIdAlloc.askForId();
 				if (tmp >= ACTION_OPTION_POOL_SIZE) {
-					LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+					LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 					return false;
 				}
 				_acOpPool[tmp].setType(MahjongAction::Type::Peng);
@@ -1049,7 +1049,7 @@ namespace NiuMa
 				while (it != lstPairs.end()) {
 					tmp = _acOpIdAlloc.askForId();
 					if (tmp >= ACTION_OPTION_POOL_SIZE) {
-						LOG_ERROR("Âß¼­´íÎó£¬¶¯×÷id´óÓÚ¶¯×÷Ñ¡Ïî³Ø´óĞ¡");
+						LOG_ERROR("é€»è¾‘é”™è¯¯ï¼ŒåŠ¨ä½œidå¤§äºåŠ¨ä½œé€‰é¡¹æ± å¤§å°");
 						return false;
 					}
 					_acOpPool[tmp].setType(MahjongAction::Type::Chi);
@@ -1068,13 +1068,13 @@ namespace NiuMa
 			}
 		}
 		if (!bTest) {
-			// Ã»ÓĞÈÎºÎ¶¯×÷Ñ¡Ïî£¬ÅĞ¶ÏÊÇ·ñÒªÔÙ´ÎÃşÅÆ£¬ÈçÓĞµÄµØ·½µÄ¹æÔòÊÇ´ò³ö»¨ÅÆÖ®ºóÒª²¹»¨£¬
-			// Èô²»ÒªÔòÇĞ»»µ½ÏÂÒ»Î»Íæ¼Ò
+			// æ²¡æœ‰ä»»ä½•åŠ¨ä½œé€‰é¡¹ï¼Œåˆ¤æ–­æ˜¯å¦è¦å†æ¬¡æ‘¸ç‰Œï¼Œå¦‚æœ‰çš„åœ°æ–¹çš„è§„åˆ™æ˜¯æ‰“å‡ºèŠ±ç‰Œä¹‹åè¦è¡¥èŠ±ï¼Œ
+			// è‹¥ä¸è¦åˆ™åˆ‡æ¢åˆ°ä¸‹ä¸€ä½ç©å®¶
 			if (!fetchAgainAfterPlay())
 				updateCurrentActor();
 			fetchTile();
 		} else {
-			// ½øÈëµÈ´ı¶¯×÷Ñ¡Ïî×´Ì¬
+			// è¿›å…¥ç­‰å¾…åŠ¨ä½œé€‰é¡¹çŠ¶æ€
 			changeState(StateMachine::Action);
 		}
 		return true;
@@ -1102,11 +1102,11 @@ namespace NiuMa
 	}
 
 	void MahjongRoom::doHu() {
-		// Çå¿ÕËùÓĞ¶¯×÷Ñ¡Ïî
+		// æ¸…ç©ºæ‰€æœ‰åŠ¨ä½œé€‰é¡¹
 		clearActionOptions();
-		// Í¨Öª¶¯×÷Ñ¡ÏîÍê³É
+		// é€šçŸ¥åŠ¨ä½œé€‰é¡¹å®Œæˆ
 		notifyActionOptionsFinish();
-		// ½øÈë½áÊø×´Ì¬
+		// è¿›å…¥ç»“æŸçŠ¶æ€
 		changeState(StateMachine::End);
 
 		int nTemp = 0;
@@ -1132,23 +1132,23 @@ namespace NiuMa
 				pAvatar->addHuWay(MahjongGenre::HuWay::MenQing);
 			if (i == _actor) {
 				pAvatar->addZiMo();
-				// ×ÔÃş£¬ºúµÄÅÆÎªÊÖÉÏÄÃµÄ×îºóÒ»ÕÅÅÆ
+				// è‡ªæ‘¸ï¼Œèƒ¡çš„ç‰Œä¸ºæ‰‹ä¸Šæ‹¿çš„æœ€åä¸€å¼ ç‰Œ
 				_huTileId = pAvatar->getFetchedTileId();
-				// ×ÔÃş£¬ÊÖÉÏÖ»ÓĞÁ½ÕÅÅÆ£¬ÔòÎªÈ«ÇóÈË
+				// è‡ªæ‘¸ï¼Œæ‰‹ä¸Šåªæœ‰ä¸¤å¼ ç‰Œï¼Œåˆ™ä¸ºå…¨æ±‚äºº
 				if (pAvatar->getTileNums() == 2)
 					pAvatar->addHuWay(MahjongGenre::HuWay::QuanQiuRen);
 				if (i == _banker) {
-					// ×¯¼ÒÃşÆğµÚÒ»ÕÅÅÆºúÅÆ£¬Ììºú
+					// åº„å®¶æ‘¸èµ·ç¬¬ä¸€å¼ ç‰Œèƒ¡ç‰Œï¼Œå¤©èƒ¡
 					if ((pAvatar->getPlayedTileNums() == 0) && noChiPengGang())
 						pAvatar->addHuWay(MahjongGenre::HuWay::TianHu);
 				}
 				else if ((pAvatar->getPlayedTileNums() == 0)) {
-					// ÏĞ¼ÒÃşÆğµÚÒ»ÕÅÅÆºúÅÆ£¬²¢ÇÒ×ÀÃæÉÏÃ»ÓĞÈÎºÎ³ÔÅö¸Ü£¬ÈËºú
+					// é—²å®¶æ‘¸èµ·ç¬¬ä¸€å¼ ç‰Œèƒ¡ç‰Œï¼Œå¹¶ä¸”æ¡Œé¢ä¸Šæ²¡æœ‰ä»»ä½•åƒç¢°æ ï¼Œäººèƒ¡
 					if (noChiPengGang())
 						pAvatar->addHuWay(MahjongGenre::HuWay::RenHu);
 				}
 				if (_tilesLeft >= _dealer.getTileLeft())
-					pAvatar->addHuWay(MahjongGenre::HuWay::HaiDiLaoYue);	// ÅÆ³ØÒÑ¾­Ã»ÓĞÊ£ÓàµÄÅÆ£¬º£µ×ÀÌÔÂ
+					pAvatar->addHuWay(MahjongGenre::HuWay::HaiDiLaoYue);	// ç‰Œæ± å·²ç»æ²¡æœ‰å‰©ä½™çš„ç‰Œï¼Œæµ·åº•ææœˆ
 				const MahjongActor& ma = _actors.back();
 				for (int j = ma.getStart(); j < static_cast<int>(_actions.size()); j++) {
 					eType = _actions[j].getType();
@@ -1172,7 +1172,7 @@ namespace NiuMa
 									continue;
 								pAvaTmp = dynamic_cast<MahjongAvatar*>(getAvatar(k).get());
 								if (pAvaTmp == nullptr) {
-									ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")ºúÅÆ£¬Íæ¼Ò(Î»ÖÃ: " << k << ")Îª¿Õ!";
+									ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")èƒ¡ç‰Œï¼Œç©å®¶(ä½ç½®: " << k << ")ä¸ºç©º!";
 									LOG_ERROR(ss.str());
 									return;
 								}
@@ -1200,7 +1200,7 @@ namespace NiuMa
 				else if (nTemp == 4)
 					pAvatar->addHuWay(MahjongGenre::HuWay::GangShangHua4);
 			} else {
-				// µãÅÚ
+				// ç‚¹ç‚®
 				pAvatar->addJiePao();
 				if (pAvaFangPao == nullptr) {
 					pAvaFangPao = dynamic_cast<MahjongAvatar*>(getAvatar(_actor).get());
@@ -1208,25 +1208,25 @@ namespace NiuMa
 						continue;
 					pAvaFangPao->addFangPao();
 				}
-				// ·ÅÅÚµÄÍæ¼ÒÊÖÉÏ½öÊ£Ò»ÕÅÅÆ£¬ÎªÈ«ÇóÅÚ
+				// æ”¾ç‚®çš„ç©å®¶æ‰‹ä¸Šä»…å‰©ä¸€å¼ ç‰Œï¼Œä¸ºå…¨æ±‚ç‚®
 				if (pAvaFangPao->getTileNums() == 1)
 					pAvatar->addHuWay(MahjongGenre::HuWay::QuanQiuPao);
 				if ((pAvatar->getPlayedTileNums() == 0) && noChiPengGang()) {
 					if (_actor == _banker)
-						pAvatar->addHuWay(MahjongGenre::HuWay::DiHu);	// ×¯¼Ò´ò³öµÚÒ»ÕÅÅÆ·ÅÅÚ£¬µØºú
+						pAvatar->addHuWay(MahjongGenre::HuWay::DiHu);	// åº„å®¶æ‰“å‡ºç¬¬ä¸€å¼ ç‰Œæ”¾ç‚®ï¼Œåœ°èƒ¡
 					else
-						pAvatar->addHuWay(MahjongGenre::HuWay::RenHu);	// ÏĞ¼Ò´ò³öµÚÒ»ÕÅÅÆ·ÅÅÚ£¬ÈËºú
+						pAvatar->addHuWay(MahjongGenre::HuWay::RenHu);	// é—²å®¶æ‰“å‡ºç¬¬ä¸€å¼ ç‰Œæ”¾ç‚®ï¼Œäººèƒ¡
 				}
 				if (_tilesLeft >= _dealer.getTileLeft())
-					pAvatar->addHuWay(MahjongGenre::HuWay::HaiDiPao);	// ÅÆ³ØÒÑ¾­Ã»ÓĞÊ£ÓàµÄÅÆ£¬º£µ×ÅÚ
+					pAvatar->addHuWay(MahjongGenre::HuWay::HaiDiPao);	// ç‰Œæ± å·²ç»æ²¡æœ‰å‰©ä½™çš„ç‰Œï¼Œæµ·åº•ç‚®
 				nTemp = 0;
 				if (_waitingQiangGang) {
-					// ÇÀ¸Üºú£¬ºúµÄÅÆÎª¼Ó¸ÜµÄÅÆ
+					// æŠ¢æ èƒ¡ï¼Œèƒ¡çš„ç‰Œä¸ºåŠ æ çš„ç‰Œ
 					_huTileId = _actions.back().getTile();
 					pAvaFangPao->doQiangGang(_huTileId, static_cast<int>(_actions.size()));
 					_gangHu = _actor;
 				} else {
-					// ºúÅÆÎªÍæ¼Ò×îºó´ò³öµÄÒ»ÕÅÅÆ
+					// èƒ¡ç‰Œä¸ºç©å®¶æœ€åæ‰“å‡ºçš„ä¸€å¼ ç‰Œ
 					_huTileId = _playedTileId;
 				}
 				const MahjongActor& ma = _actors.back();
@@ -1268,19 +1268,19 @@ namespace NiuMa
 		if (_gangShangPaoVetoed && bGangShangPao && (pAvaFangPao != nullptr))
 			pAvaFangPao->vetoLastGangs(1);
 		
-		// Í¨ÖªºúÅÆ
+		// é€šçŸ¥èƒ¡ç‰Œ
 		notifyHuTile();
-		// ÏÔÊ¾ËùÓĞÍæ¼ÒµÄÊÖÅÆ
+		// æ˜¾ç¤ºæ‰€æœ‰ç©å®¶çš„æ‰‹ç‰Œ
 		notifyShowTiles();
-		// Ëã·Ö
+		// ç®—åˆ†
 		calcHuScore();
-		// ½áËã
+		// ç»“ç®—
 		doJieSuan();
-		// ÇĞ»»ÏÂÒ»¾ÖµÄ×¯¼Ò
+		// åˆ‡æ¢ä¸‹ä¸€å±€çš„åº„å®¶
 		bankerNextRound(nHuNums, banker);
-		// ±¸·İ×îºóµÄ¶¯×÷Õß
+		// å¤‡ä»½æœ€åçš„åŠ¨ä½œè€…
 		int lastActor = _actor;
-		// ±£´æºú¶¯×÷
+		// ä¿å­˜èƒ¡åŠ¨ä½œ
 		MahjongAction ma;
 		ma.setTile(_actions.back().getTile());
 		for (int i = 0; i < getMaxPlayerNums(); i++) {
@@ -1299,22 +1299,22 @@ namespace NiuMa
 			updateCurrentActor(i);
 			_actions.push_back(ma);
 		}
-		// »¹Ô­×îºóµÄ¶¯×÷Õß
+		// è¿˜åŸæœ€åçš„åŠ¨ä½œè€…
 		_actor = lastActor;
-		// ºóĞø´¦Àí
+		// åç»­å¤„ç†
 		afterHu();
 	}
 
 	void MahjongRoom::noMoreTile() {
-		// ½øÈë½áÊø×´Ì¬
+		// è¿›å…¥ç»“æŸçŠ¶æ€
 		changeState(StateMachine::End);
-		// Ëã·Ö
+		// ç®—åˆ†
 		calcHuScore();
-		// Í¨ÖªºúÅÆ
+		// é€šçŸ¥èƒ¡ç‰Œ
 		doJieSuan();
-		// ºóĞø´¦Àí
+		// åç»­å¤„ç†
 		afterHu();
-		// Á÷¾Ö×îºóÒ»¸öÃşÅÆµÄÍæ¼ÒÎª×¯¼Ò
+		// æµå±€æœ€åä¸€ä¸ªæ‘¸ç‰Œçš„ç©å®¶ä¸ºåº„å®¶
 		MahjongActionList::const_reverse_iterator it = _actions.rbegin();
 		while (it != _actions.rend()) {
 			if (it->getType() == MahjongAction::Type::Fetch) {
@@ -1414,7 +1414,7 @@ namespace NiuMa
 	}
 
 	void MahjongRoom::notifyActionOptionsWaiting(MahjongAvatar* pAvatar) {
-		// ÔÚÍæ¼ÒÑ¡Ôñ¶¯×÷Ñ¡ÏîÖ®ºó£¬Í¨ÖªµÈ´ıÆäËûÍæ¼ÒÑ¡Ôñ¶¯×÷Ñ¡Ïî
+		// åœ¨ç©å®¶é€‰æ‹©åŠ¨ä½œé€‰é¡¹ä¹‹åï¼Œé€šçŸ¥ç­‰å¾…å…¶ä»–ç©å®¶é€‰æ‹©åŠ¨ä½œé€‰é¡¹
 	}
 
 	void MahjongRoom::notifyActionOptionsFinish() {
@@ -1438,7 +1438,7 @@ namespace NiuMa
 		std::stringstream ss;
 		const MahjongChapterArray& lstChaps = pAvatar->getChapters();
 		if (lstChaps.empty()) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")Ã»ÓĞÈÎºÎÕÂ£¬´ËÊ±²»Ó¦¸ÃÍ¨Öª¸Ü·¢Éú!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æ²¡æœ‰ä»»ä½•ç« ï¼Œæ­¤æ—¶ä¸åº”è¯¥é€šçŸ¥æ å‘ç”Ÿ!";
 			LOG_ERROR(ss.str());
 			return;
 		}
@@ -1446,13 +1446,13 @@ namespace NiuMa
 		const MahjongChapter& mc = lstChaps.back();
 		msg.chapter = static_cast<int>(mc.getType());
 		if (!mc.isGang()) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")×îĞÂµÄÕÂ²»ÊÇ¸ÜÅÆ£¬´ËÊ±²»Ó¦¸ÃÍ¨Öª¸Ü·¢Éú!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æœ€æ–°çš„ç« ä¸æ˜¯æ ç‰Œï¼Œæ­¤æ—¶ä¸åº”è¯¥é€šçŸ¥æ å‘ç”Ÿ!";
 			LOG_ERROR(ss.str());
 			return;
 		}
 		const MahjongTileArray& lstTiles = mc.getAllTiles();
 		if (lstTiles.size() < 4) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")¸ÜÕÂÖĞ²»¹»ËÄÕÅÅÆ!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æ ç« ä¸­ä¸å¤Ÿå››å¼ ç‰Œ!";
 			LOG_ERROR(ss.str());
 			return;
 		}
@@ -1479,20 +1479,20 @@ namespace NiuMa
 		std::stringstream ss;
 		const MahjongChapterArray& lstChaps = pAvatar->getChapters();
 		if (lstChaps.empty()) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")Ã»ÓĞÈÎºÎÕÂ£¬´ËÊ±²»Ó¦¸ÃÍ¨ÖªÅö(³Ô)·¢Éú!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æ²¡æœ‰ä»»ä½•ç« ï¼Œæ­¤æ—¶ä¸åº”è¯¥é€šçŸ¥ç¢°(åƒ)å‘ç”Ÿ!";
 			LOG_ERROR(ss.str());
 			return;
 		}
 		const MahjongChapter& mc = lstChaps.back();
 		if ((bPeng && (mc.getType() != MahjongChapter::Type::Peng)) ||
 			(!bPeng && (mc.getType() != MahjongChapter::Type::Chi))) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")×îĞÂµÄÕÂ²»ÊÇÅö(³Ô)ÅÆ£¬´ËÊ±²»Ó¦¸ÃÍ¨ÖªÅö(³Ô)·¢Éú!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")æœ€æ–°çš„ç« ä¸æ˜¯ç¢°(åƒ)ç‰Œï¼Œæ­¤æ—¶ä¸åº”è¯¥é€šçŸ¥ç¢°(åƒ)å‘ç”Ÿ!";
 			LOG_ERROR(ss.str());
 			return;
 		}
 		const MahjongTileArray& lstTiles = mc.getAllTiles();
 		if (lstTiles.size() < 3) {
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")Íæ¼Ò(Id: " << pAvatar->getPlayerId() << ")Åö(³Ô)ÕÂÖĞ²»¹»ÈıÕÅÅÆ!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")ç©å®¶(Id: " << pAvatar->getPlayerId() << ")ç¢°(åƒ)ç« ä¸­ä¸å¤Ÿä¸‰å¼ ç‰Œ!";
 			LOG_ERROR(ss.str());
 			return;
 		}
@@ -1537,7 +1537,7 @@ namespace NiuMa
 		}
 		if (nums > 3) {
 			std::stringstream ss;
-			ss << "Âß¼­´íÎó£¬ÅÆ×À(Id: " << getId() << ")³¬¹ı3Î»Íæ¼ÒÍ¬Ê±ºúÅÆ!";
+			ss << "é€»è¾‘é”™è¯¯ï¼Œç‰Œæ¡Œ(Id: " << getId() << ")è¶…è¿‡3ä½ç©å®¶åŒæ—¶èƒ¡ç‰Œ!";
 			LOG_ERROR(ss.str());
 			return;
 		}
@@ -1634,7 +1634,7 @@ namespace NiuMa
 	}
 
 	void MahjongRoom::bankerNextRound(int huNums, int huPlayer) {
-		// Ò»ÅÚ¶àÏì£¬ÏÂ¾Ö×¯¼ÒÎª·ÅÅÚÕß
+		// ä¸€ç‚®å¤šå“ï¼Œä¸‹å±€åº„å®¶ä¸ºæ”¾ç‚®è€…
 		if (huNums > 1)
 			_banker = _actor;
 		else if (huNums == 1)

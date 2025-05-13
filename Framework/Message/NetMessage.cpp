@@ -1,4 +1,4 @@
-// NetMessage.cpp
+﻿// NetMessage.cpp
 
 #include "NetMessage.h"
 

@@ -1,4 +1,4 @@
-// DebtLiquidation.cpp
+ï»¿// DebtLiquidation.cpp
 
 #include "Base/Log.h"
 #include "Base/BaseUtils.h"
@@ -48,7 +48,7 @@ namespace NiuMa
 		if (node == NULL)
 			return false;
 
-		// Ö»ÓĞÕ®ÎñÈË²ÅÓĞ×Ê¸ñ»¹¿î
+		// åªæœ‰å€ºåŠ¡äººæ‰æœ‰èµ„æ ¼è¿˜æ¬¾
 		try {
 			std::unordered_map<DebtNode*, double>::iterator it = _debtSheet.find(node);
 			if (it == _debtSheet.end())
@@ -83,7 +83,7 @@ namespace NiuMa
 		if (node == NULL)
 			return false;
 
-		// Ö»ÏòÕ®È¨ÈË»¹¿î
+		// åªå‘å€ºæƒäººè¿˜æ¬¾
 		try {
 			std::unordered_map<DebtNode*, double>::iterator it = _debtSheet.find(node);
 			if (it == _debtSheet.end())
@@ -155,12 +155,12 @@ namespace NiuMa
 			return true;
 
 		DebtNode* node = NULL;
-		std::unordered_map<int, DebtNode*> positiveNodes;	// ÕıÊÕÒæµÄÈ«²¿½Úµã
-		std::unordered_map<int, DebtNode*> negativeNodes;	// ¸ºÊÕÒæµÄÈ«²¿½Úµã
+		std::unordered_map<int, DebtNode*> positiveNodes;	// æ­£æ”¶ç›Šçš„å…¨éƒ¨èŠ‚ç‚¹
+		std::unordered_map<int, DebtNode*> negativeNodes;	// è´Ÿæ”¶ç›Šçš„å…¨éƒ¨èŠ‚ç‚¹
 		std::unordered_map<int, DebtNode*>::const_iterator it = debtNet.begin();
 		while ( it != debtNet.end()) {
 			node = (it->second);
-			// ¾»¸ºÕ®Îª¸º£¬¼´»ñµÃÕıÊÕÒæ
+			// å‡€è´Ÿå€ºä¸ºè´Ÿï¼Œå³è·å¾—æ­£æ”¶ç›Š
 			if (node->getDebt() < 0.0)
 				positiveNodes.insert(std::make_pair(node->getId(), node));
 			else
@@ -168,21 +168,21 @@ namespace NiuMa
 			++it;
 		}
 		if (positiveNodes.empty()) {
-			// Õ®ÎñÍøÖĞÃ»ÓĞÈÎºÎ½Úµã»ñµÃÕıÊÕÒæ£¬Ö»ÓĞÁ½ÖÖ¿ÉÄÜ£º
-			// 1¡¢Õ®ÎñÍøÄÚËùÓĞ½Úµã¶¼¼ÈÎŞÇ·¿îÒ²ÎŞÓ¦ÊÕÕË¿î£¬¼´Õ®ÎñÍøÄÚËùÓĞ½Úµã¼ä¶¼ÎŞÕ®Îñ¹ØÏµ
-			// 2¡¢Õ®ÎñÍøÄÚËùÓĞ½ÚµãµÄÇ·¿îÓëÓ¦ÊÕÕË¿îÖ®ºÍÎª0£¬µÈ¼ÛÓÚÕ®ÎñÍøÄÚËùÓĞ½Úµã¼ä¶¼ÎŞÕ®Îñ¹ØÏµ
-			// ×¢£º´ËÊ±µÄÕ®ÎñÍø(±¾º¯ÊıµÄ´«½øÀ´µÄ²ÎÊıdebtNet)ÓëÍâ²¿Ö®¼äµÄÕ®Îñ¶¼ÒÑ¾­°şÀë£¬·ñÔòÎŞ·¨µÃ³ö
-			// ÉÏÊöÁ½¸ö½áÂÛ!!
+			// å€ºåŠ¡ç½‘ä¸­æ²¡æœ‰ä»»ä½•èŠ‚ç‚¹è·å¾—æ­£æ”¶ç›Šï¼Œåªæœ‰ä¸¤ç§å¯èƒ½ï¼š
+			// 1ã€å€ºåŠ¡ç½‘å†…æ‰€æœ‰èŠ‚ç‚¹éƒ½æ—¢æ— æ¬ æ¬¾ä¹Ÿæ— åº”æ”¶è´¦æ¬¾ï¼Œå³å€ºåŠ¡ç½‘å†…æ‰€æœ‰èŠ‚ç‚¹é—´éƒ½æ— å€ºåŠ¡å…³ç³»
+			// 2ã€å€ºåŠ¡ç½‘å†…æ‰€æœ‰èŠ‚ç‚¹çš„æ¬ æ¬¾ä¸åº”æ”¶è´¦æ¬¾ä¹‹å’Œä¸º0ï¼Œç­‰ä»·äºå€ºåŠ¡ç½‘å†…æ‰€æœ‰èŠ‚ç‚¹é—´éƒ½æ— å€ºåŠ¡å…³ç³»
+			// æ³¨ï¼šæ­¤æ—¶çš„å€ºåŠ¡ç½‘(æœ¬å‡½æ•°çš„ä¼ è¿›æ¥çš„å‚æ•°debtNet)ä¸å¤–éƒ¨ä¹‹é—´çš„å€ºåŠ¡éƒ½å·²ç»å‰¥ç¦»ï¼Œå¦åˆ™æ— æ³•å¾—å‡º
+			// ä¸Šè¿°ä¸¤ä¸ªç»“è®º!!
 			return true;
 		}
-		// »ñµÃÕıÊÕÒæµÄ½ÚµãÏÈ³¢»¹È«²¿Õ®Îñ£¬³¥»¹ÍêºóÕıÊÕÒæµÄ½ÚµãÖ»ÓĞÓ¦ÊÕÕË¿îÎŞ¸ºÕ®
+		// è·å¾—æ­£æ”¶ç›Šçš„èŠ‚ç‚¹å…ˆå°è¿˜å…¨éƒ¨å€ºåŠ¡ï¼Œå¿è¿˜å®Œåæ­£æ”¶ç›Šçš„èŠ‚ç‚¹åªæœ‰åº”æ”¶è´¦æ¬¾æ— è´Ÿå€º
 		it = positiveNodes.begin();
 		while (it != positiveNodes.end()) {
 			node = (it->second);
 			node->repayAll();
 			++it;
 		}
-		// °şÀëÈ«²¿¸ºÊÕÒæ½ÚµãÓëÈ«²¿ÕıÊÕÒæ½ÚµãÖ®¼äµÄÕ®Îñ£¬¸ºÊÕÒæ½ÚµãÖ®¼äµÄ×ÓÕ®ÎñÍø×öÄÚ²¿ÇåËã
+		// å‰¥ç¦»å…¨éƒ¨è´Ÿæ”¶ç›ŠèŠ‚ç‚¹ä¸å…¨éƒ¨æ­£æ”¶ç›ŠèŠ‚ç‚¹ä¹‹é—´çš„å€ºåŠ¡ï¼Œè´Ÿæ”¶ç›ŠèŠ‚ç‚¹ä¹‹é—´çš„å­å€ºåŠ¡ç½‘åšå†…éƒ¨æ¸…ç®—
 		DebtNode* tmpNode = NULL;
 		std::unordered_map<int, DebtNode*> subDebtNet;
 		std::unordered_map<DebtNode*, double>::const_iterator it2;
@@ -193,7 +193,7 @@ namespace NiuMa
 			subDebtNet.insert(std::make_pair(node->getId(), tmpNode));
 			++it1;
 		}
-		// testÎªtrueÔò×ÓÍøÄÚÓĞÕ®Îñ¹ØÏµ
+		// testä¸ºtrueåˆ™å­ç½‘å†…æœ‰å€ºåŠ¡å…³ç³»
 		bool test = false;
 		it1 = negativeNodes.begin();
 		while (it1 != negativeNodes.end()) {
@@ -220,7 +220,7 @@ namespace NiuMa
 				releaseDebtNet(subDebtNet);
 				return false;
 			}
-			// Ïû³ı×ÓÕ®ÎñÍøÄÚÈ«²¿½Úµã¼äµÄÕ®Îñ¹ØÏµ
+			// æ¶ˆé™¤å­å€ºåŠ¡ç½‘å†…å…¨éƒ¨èŠ‚ç‚¹é—´çš„å€ºåŠ¡å…³ç³»
 			it1 = negativeNodes.begin();
 			while (it1 != negativeNodes.end()) {
 				node = (it1->second);
@@ -235,9 +235,9 @@ namespace NiuMa
 			}
 		}
 		releaseDebtNet(subDebtNet);
-		// Ö´ĞĞµ½ÕâÀï£¬¸ºÊÕÒæ½ÚµãÖ®¼äÇåËãÍê±Ï£¬ÒÑ¾­Ã»ÓĞÕ®Îñ¹ØÏµ£¬È«²¿¸ºÊÕÒæ½ÚµãÎŞÈÎºÎÓ¦ÊÕÕË¿îÇÒ½ö¶Ô
-		// ÕıÊÕÒæ½ÚµãÓĞ¸ºÕ®£¬È«²¿ÕıÊÕÒæ½ÚµãÎŞÈÎºÎ¸ºÕ®ÇÒ½ö¶Ô¸ºÊÕÒæ½ÚµãÓĞÓ¦ÊÕÕË¿î¡£ÇÒÕ®ÎñÍøÄÚÒÑ¾­ÎŞÈı
-		// ½ÇÕ®£¬Ö»ÓĞ¼òµ¥µÄµ¥ÏòÕ®Îñ¹ØÏµ¡£´ËÊ±ÔÙ¶ÔÈ«²¿½Úµã½øĞĞÇåËã£¬Èô×Ê²»µÖÕ®Ôò°´¸ºÕ®±ÈÀı³¥¸¶¡£
+		// æ‰§è¡Œåˆ°è¿™é‡Œï¼Œè´Ÿæ”¶ç›ŠèŠ‚ç‚¹ä¹‹é—´æ¸…ç®—å®Œæ¯•ï¼Œå·²ç»æ²¡æœ‰å€ºåŠ¡å…³ç³»ï¼Œå…¨éƒ¨è´Ÿæ”¶ç›ŠèŠ‚ç‚¹æ— ä»»ä½•åº”æ”¶è´¦æ¬¾ä¸”ä»…å¯¹
+		// æ­£æ”¶ç›ŠèŠ‚ç‚¹æœ‰è´Ÿå€ºï¼Œå…¨éƒ¨æ­£æ”¶ç›ŠèŠ‚ç‚¹æ— ä»»ä½•è´Ÿå€ºä¸”ä»…å¯¹è´Ÿæ”¶ç›ŠèŠ‚ç‚¹æœ‰åº”æ”¶è´¦æ¬¾ã€‚ä¸”å€ºåŠ¡ç½‘å†…å·²ç»æ— ä¸‰
+		// è§’å€ºï¼Œåªæœ‰ç®€å•çš„å•å‘å€ºåŠ¡å…³ç³»ã€‚æ­¤æ—¶å†å¯¹å…¨éƒ¨èŠ‚ç‚¹è¿›è¡Œæ¸…ç®—ï¼Œè‹¥èµ„ä¸æŠµå€ºåˆ™æŒ‰è´Ÿå€ºæ¯”ä¾‹å¿ä»˜ã€‚
 		double debt = 0.0;
 		double cap = 0.0;
 		double tmp = 0.0;
@@ -247,7 +247,7 @@ namespace NiuMa
 			debt = node->getDebt();
 			cap = node->getCapital();
 			if (debt > cap) {
-				// Õ®Îñ´óÓÚÏÖ½ğ£¬²»×ãÒÔ³¥Õ®Ö»ÄÜ°´±ÈÀı³¥¸¶
+				// å€ºåŠ¡å¤§äºç°é‡‘ï¼Œä¸è¶³ä»¥å¿å€ºåªèƒ½æŒ‰æ¯”ä¾‹å¿ä»˜
 				std::unordered_map<DebtNode*, double>& debtSheet = node->getDebtSheet();
 				it2 = debtSheet.begin();
 				while (it2 != debtSheet.end()) {
@@ -262,7 +262,7 @@ namespace NiuMa
 				debtSheet.clear();
 			}
 			else {
-				// ÏÖ½ğ×ãÒÔ³¥Õ®
+				// ç°é‡‘è¶³ä»¥å¿å€º
 				node->repayAll();
 			}
 			++it1;

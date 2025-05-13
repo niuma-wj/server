@@ -1,4 +1,4 @@
-// MysqlPool.cpp
+ï»¿// MysqlPool.cpp
 
 #include "Base/Log.h"
 #include "Timer/TimerManager.h"
@@ -23,13 +23,13 @@ namespace NiuMa {
 		}
 
 	public:
-		// »ñÈ¡mysqlÁ¬½Ó
+		// è·å–mysqlè¿æ¥
 		sql::Connection* getConnection() const {
 			return _connection;
 		}
 
 	private:
-		// mysqlÁ¬½Ó
+		// mysqlè¿æ¥
 		sql::Connection* _connection;
 	};
 
@@ -54,7 +54,7 @@ namespace NiuMa {
 		typedef std::shared_ptr<MysqlPoolImpl> Ptr;
 
 	public:
-		// Ö´ĞĞmysql²éÑ¯ÈÎÎñ
+		// æ‰§è¡ŒmysqlæŸ¥è¯¢ä»»åŠ¡
 		void execute(const MysqlQueryTask::Ptr& task) {
 			if (!task)
 				return;
@@ -87,7 +87,7 @@ namespace NiuMa {
 		}
 
 	protected:
-		// ´´½¨mysqlÁ¬½Ó
+		// åˆ›å»ºmysqlè¿æ¥
 		virtual DatabaseConnection::Ptr createConnection() override {
 			DatabaseConnection::Ptr con;
 			sql::Connection* sqlCon = nullptr;
@@ -115,14 +115,14 @@ namespace NiuMa {
 		}
 
 		virtual void onTimerImpl(const DatabaseConnection::Ptr& con) override {
-			// ·¢Æğ²âÊÔ²éÑ¯
+			// å‘èµ·æµ‹è¯•æŸ¥è¯¢
 			std::string sql = "select 1";
 			MysqlQueryTask::Ptr task = std::make_shared<MysqlCommonTask>(sql, MysqlQueryTask::QueryType::Select);
 			execute(task, con);
 		}
 
 	private:
-		// Ö´ĞĞmysql²éÑ¯ÈÎÎñ
+		// æ‰§è¡ŒmysqlæŸ¥è¯¢ä»»åŠ¡
 		void execute(const MysqlQueryTask::Ptr& task, const DatabaseConnection::Ptr& conIn) {
 			std::shared_ptr<MysqlConnection> con = std::dynamic_pointer_cast<MysqlConnection>(conIn);
 			if (!con)
@@ -163,7 +163,7 @@ namespace NiuMa {
 				int errNo = e.getErrorCode();
 				std::string sqlState = e.getSQLState();
 				if ((errNo == 2006) || (errNo == 2013) || (sqlState == "08S01"))
-					disconnected = true;	// ÓëÊı¾İ¿â·şÎñÆ÷Á¬½Ó¶Ï¿ª
+					disconnected = true;	// ä¸æ•°æ®åº“æœåŠ¡å™¨è¿æ¥æ–­å¼€
 				ErrorS << "SQLException: " << e.what()
 					<< ", error code: " << errNo
 					<< ", SQLState: " << sqlState;
@@ -192,25 +192,25 @@ namespace NiuMa {
 		}
 
 	private:
-		// Êı¾İ¿â·şÎñÆ÷µØÖ·(Èç£ºtcp://127.0.0.1:3306)
+		// æ•°æ®åº“æœåŠ¡å™¨åœ°å€(å¦‚ï¼štcp://127.0.0.1:3306)
 		const std::string _hostName;
 
-		// ÓÃ»§Ãû
+		// ç”¨æˆ·å
 		const std::string _userName;
 
-		// ÃÜÂë
+		// å¯†ç 
 		const std::string _password;
 
-		// Êı¾İ¿âÃû
+		// æ•°æ®åº“å
 		const std::string _schemaName;
 
 		//
 		sql::Driver* _driver;
 
-		// Òì²½²éÑ¯ÈÎÎñ¶ÓÁĞ
+		// å¼‚æ­¥æŸ¥è¯¢ä»»åŠ¡é˜Ÿåˆ—
 		std::queue<ThreadDispatch::Ptr> _asyncTasks;
 
-		// ÈÎÎñ¶ÓÁĞĞÅºÅÁ¿
+		// ä»»åŠ¡é˜Ÿåˆ—ä¿¡å·é‡
 		std::mutex _mtxTask;
 	};
 
@@ -226,7 +226,7 @@ namespace NiuMa {
 
 	public:
 		virtual void onExecuted() override {
-			// ÔÚÅÉÇ²ÕßÏß³ÌÖĞµ÷ÓÃonQueried·½·¨
+			// åœ¨æ´¾é£è€…çº¿ç¨‹ä¸­è°ƒç”¨onQueriedæ–¹æ³•
 			_task->onQueried();
 		}
 
@@ -238,13 +238,13 @@ namespace NiuMa {
 				impl->execute(_task);
 			ThreadWorker::Ptr disp = _dispatcher.lock();
 			if (!disp) {
-				// ¸ÃÈÎÎñÃ»ÓĞÉè¶¨ÅÉÇ²Õß£¬Ö±½ÓÔÚÖ´ĞĞÕßÏß³Ì(¼´µ±Ç°Ïß³Ì)ÖĞµ÷ÓÃonQueried·½·¨
+				// è¯¥ä»»åŠ¡æ²¡æœ‰è®¾å®šæ´¾é£è€…ï¼Œç›´æ¥åœ¨æ‰§è¡Œè€…çº¿ç¨‹(å³å½“å‰çº¿ç¨‹)ä¸­è°ƒç”¨onQueriedæ–¹æ³•
 				_task->onQueried();
 			}
 		}
 
 	private:
-		// ÈÎÎñ
+		// ä»»åŠ¡
 		MysqlQueryTask::Ptr _task;
 
 		//
@@ -270,7 +270,7 @@ namespace NiuMa {
 				else
 					break;
 			}
-			// ĞİÃß10ºÁÃë
+			// ä¼‘çœ 10æ¯«ç§’
 			return 10;
 		}
 

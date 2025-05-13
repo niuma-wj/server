@@ -1,4 +1,4 @@
-// ThreadWorkerDumb.cpp
+﻿// ThreadWorkerDumb.cpp
 
 #include "ThreadWorkerDumb.h"
 

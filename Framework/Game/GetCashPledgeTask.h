@@ -1,4 +1,4 @@
-// GetCashPledgeTask.h
+ï»¿// GetCashPledgeTask.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.11.25
@@ -10,7 +10,7 @@
 
 namespace NiuMa {
 	/**
-	 * ²éÑ¯Íæ¼ÒÑº½ğSQLÈÎÎñ
+	 * æŸ¥è¯¢ç©å®¶æŠ¼é‡‘SQLä»»åŠ¡
 	 */
 	class GetCashPledgeTask : public MysqlQueryTask {
 	public:
@@ -33,7 +33,7 @@ namespace NiuMa {
 		//
 		std::string _venueId;
 
-		// Ñº½ğÊı¶î
+		// æŠ¼é‡‘æ•°é¢
 		int64_t _amount;
 	};
 }

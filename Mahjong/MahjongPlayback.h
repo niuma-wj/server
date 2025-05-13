@@ -1,4 +1,4 @@
-// MahjongPlayback.h
+ï»¿// MahjongPlayback.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.11.30
@@ -12,7 +12,7 @@
 namespace NiuMa
 {
 	/**
-	 * ´òÅÆÂ¼Ïñ¼ÇÂ¼
+	 * æ‰“ç‰Œå½•åƒè®°å½•
 	 */
 	class MahjongPlaybackData
 	{
@@ -25,22 +25,22 @@ namespace NiuMa
 
 	public:
 		/**
-		 * ËùÓĞÍæ¼ÒµÄ³õÊ¼·¢ÅÆ
+		 * æ‰€æœ‰ç©å®¶çš„åˆå§‹å‘ç‰Œ
 		 */
 		MahjongTileArray dealedTiles[4];
 
 		/**
-		 * ËùÓĞÍæ¼ÒµÄ×îÖÕÅÆÕÂ
+		 * æ‰€æœ‰ç©å®¶çš„æœ€ç»ˆç‰Œç« 
 		 */
 		MahjongChapterArray chapters[4];
 
 		/**
-		 * ¶¯×÷ÁĞ±í
+		 * åŠ¨ä½œåˆ—è¡¨
 		 */
 		MahjongActionList actions;
 
 		/**
-		 * ¶¯×÷ÕßÁĞ±í
+		 * åŠ¨ä½œè€…åˆ—è¡¨
 		 */
 		MahjongActorList actors;
 	};

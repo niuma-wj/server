@@ -1,4 +1,4 @@
-// GetAgencyTask.cpp
+﻿// GetAgencyTask.cpp
 
 #include "GetAgencyTask.h"
 #include <mysql/jdbc.h>

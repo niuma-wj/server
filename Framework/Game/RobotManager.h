@@ -1,4 +1,4 @@
-// RobotManager.h
+ï»¿// RobotManager.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2025.02.17
@@ -23,15 +23,15 @@ namespace NiuMa
 
 	public:
 		/**
-		 * »ñÈ¡Ò»¸ö¿ÕÏĞµÄ»úÆ÷ÈËid
-		 * @param playerId »úÆ÷ÈËÍæ¼Òid
-		 * @return ÊÇ·ñ»ñÈ¡³É¹¦
+		 * è·å–ä¸€ä¸ªç©ºé—²çš„æœºå™¨äººid
+		 * @param playerId æœºå™¨äººç©å®¶id
+		 * @return æ˜¯å¦è·å–æˆåŠŸ
 		 */
 		bool request(std::string& playerId);
 
 		/**
-		 * ÊÍ·ÅÒ»¸ö»úÆ÷ÈË
-		 * @param playerId »úÆ÷ÈËÍæ¼Òid
+		 * é‡Šæ”¾ä¸€ä¸ªæœºå™¨äºº
+		 * @param playerId æœºå™¨äººç©å®¶id
 		 */
 		void free(const std::string& playerId);
 	};

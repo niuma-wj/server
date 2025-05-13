@@ -1,4 +1,4 @@
-// MysqlQueryTask.cpp
+﻿// MysqlQueryTask.cpp
 
 #include "MysqlQueryTask.h"
 

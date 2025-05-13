@@ -1,4 +1,4 @@
-// MahjongPlayback.cpp
+﻿// MahjongPlayback.cpp
 
 #include "MahjongPlayback.h"
 

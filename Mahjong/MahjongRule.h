@@ -1,4 +1,4 @@
-// MahjongRule.h
+ï»¿// MahjongRule.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.12.02
@@ -13,7 +13,7 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«ÓÎÏ·¹æÔò
+	 * éº»å°†æ¸¸æˆè§„åˆ™
 	 */
 	class MahjongAvatar;
 	class MahjongRule : public std::enable_shared_from_this<MahjongRule>
@@ -25,10 +25,10 @@ namespace NiuMa
 		typedef std::shared_ptr<MahjongRule> Ptr;
 
 	protected:
-		bool _13Lan;	// ÊÇ·ñÖ§³Ö13ÀÃÅÆĞÍ
+		bool _13Lan;	// æ˜¯å¦æ”¯æŒ13çƒ‚ç‰Œå‹
 
 	public:
-		// ÊÇ·ñ´ø»¨ÅÆ
+		// æ˜¯å¦å¸¦èŠ±ç‰Œ
 		virtual bool hasFlower() const;
 
 		// 
@@ -37,23 +37,23 @@ namespace NiuMa
 		// 
 		bool is13Lan() const;
 
-		// ¼ì²âÌıÅÆ£¬×¢Òâ´«ÈëµÄÅÆÊı×é±ØĞëÊÇ¾­¹ıÅÅĞòµÄ
-		// ²ÎÊıallGotTilesÎªÍæ¼ÒÊÖÉÏ¼ÓÉÏÅö¸Ü³Ô×ÜÊı´ïµ½4¸öµÄÅÆÀàĞÍÁĞ±í£¬µ±Ç°Îª¼ò»¯Ëã·¨£¬´«Èë¸Ã²ÎÊıµÄÅÆ½ö½öÎª¸ÜµÄÅÆ
+		// æ£€æµ‹å¬ç‰Œï¼Œæ³¨æ„ä¼ å…¥çš„ç‰Œæ•°ç»„å¿…é¡»æ˜¯ç»è¿‡æ’åºçš„
+		// å‚æ•°allGotTilesä¸ºç©å®¶æ‰‹ä¸ŠåŠ ä¸Šç¢°æ åƒæ€»æ•°è¾¾åˆ°4ä¸ªçš„ç‰Œç±»å‹åˆ—è¡¨ï¼Œå½“å‰ä¸ºç®€åŒ–ç®—æ³•ï¼Œä¼ å…¥è¯¥å‚æ•°çš„ç‰Œä»…ä»…ä¸ºæ çš„ç‰Œ
 		void checkTingPai(const MahjongTileArray& tiles, const MahjongTile::TileArray& allGotTiles, MahjongGenre::TingPaiArray& tps, MahjongAvatar* pAvatar) const;
 
-		// ¼ì²â´«ÈëµÄÅÆÊı×éÊÇ·ñÎªÇåÒ»É«
+		// æ£€æµ‹ä¼ å…¥çš„ç‰Œæ•°ç»„æ˜¯å¦ä¸ºæ¸…ä¸€è‰²
 		bool checkQingYiSe(const MahjongTileArray& tiles) const;
 
-		// ¼ì²â´«ÈëµÄÅÆÊı×éÊÇ·ñÎª×ÖÒ»É«
+		// æ£€æµ‹ä¼ å…¥çš„ç‰Œæ•°ç»„æ˜¯å¦ä¸ºå­—ä¸€è‰²
 		bool checkZiYiSe(const MahjongTileArray& tiles) const;
 
-		// ¼ì²â´«ÈëµÄÅÆÊı×éÊÇ·ñÎªÅöÅöºú£¬×¢Òâ´«ÈëµÄÅÆÊı×é±ØĞëÊÇ¾­¹ıÅÅĞòµÄ
+		// æ£€æµ‹ä¼ å…¥çš„ç‰Œæ•°ç»„æ˜¯å¦ä¸ºç¢°ç¢°èƒ¡ï¼Œæ³¨æ„ä¼ å…¥çš„ç‰Œæ•°ç»„å¿…é¡»æ˜¯ç»è¿‡æ’åºçš„
 		bool checkPengPengHu(const MahjongTileArray& tiles) const;
 
-		// ¼ì²âÊÇ·ñÎªÆßĞ¡¶Ô£¬×¢Òâ´«ÈëµÄÅÆÊı×é±ØĞëÊÇ¾­¹ıÅÅĞòµÄ
+		// æ£€æµ‹æ˜¯å¦ä¸ºä¸ƒå°å¯¹ï¼Œæ³¨æ„ä¼ å…¥çš„ç‰Œæ•°ç»„å¿…é¡»æ˜¯ç»è¿‡æ’åºçš„
 		bool checkQiXiaoDui(const MahjongTileArray& tiles) const;
 
-		// ¼ì²âºÀ»ªÆßĞ¡¶Ô£¬×¢Òâ´«ÈëµÄÅÆÊı×é±ØĞëÊÇ¾­¹ıÅÅĞòµÄ
+		// æ£€æµ‹è±ªåä¸ƒå°å¯¹ï¼Œæ³¨æ„ä¼ å…¥çš„ç‰Œæ•°ç»„å¿…é¡»æ˜¯ç»è¿‡æ’åºçš„
 		int checkHaoHuaQiXiaoDui(const MahjongTileArray& tiles) const;
 
 	private:
@@ -67,19 +67,19 @@ namespace NiuMa
 		}PingHuStyle;
 
 	protected:
-		// ÅĞ¶ÏÊÇ·ñÎªÊ®ÈıçÛ£¬×¢Òâ´«ÈëµÄÅÆÊı×é±ØĞëÊÇ¾­¹ıÅÅĞòµÄ
+		// åˆ¤æ–­æ˜¯å¦ä¸ºåä¸‰å¹ºï¼Œæ³¨æ„ä¼ å…¥çš„ç‰Œæ•°ç»„å¿…é¡»æ˜¯ç»è¿‡æ’åºçš„
 		virtual bool checkShiSanYao(const MahjongTileArray& tiles, MahjongGenre::TingPaiArray& tps) const;
 
-		// ÅĞ¶ÏÊÇ·ñÎªÊ®ÈıÀÃ£¬×¢Òâ´«ÈëµÄÅÆÊı×é±ØĞëÊÇ¾­¹ıÅÅĞòµÄ
+		// åˆ¤æ–­æ˜¯å¦ä¸ºåä¸‰çƒ‚ï¼Œæ³¨æ„ä¼ å…¥çš„ç‰Œæ•°ç»„å¿…é¡»æ˜¯ç»è¿‡æ’åºçš„
 		virtual bool checkShiSanLan(const MahjongTileArray& tiles, MahjongGenre::TingPaiArray& tps) const;
 
-		// ÅĞ¶ÏÊÇ·ñÎªÆßĞ¡¶Ô
+		// åˆ¤æ–­æ˜¯å¦ä¸ºä¸ƒå°å¯¹
 		virtual bool checkQiXiaoDui(const MahjongTileArray& tiles, MahjongGenre::TingPaiArray& tps) const;
 
-		// ÅĞ¶ÏÊÇ·ñÎªÆ½ºú
+		// åˆ¤æ–­æ˜¯å¦ä¸ºå¹³èƒ¡
 		virtual bool checkPingHu(const MahjongTileArray& tiles, MahjongGenre::TingPaiArray& tps, PingHuStyle* pStyle = nullptr) const;
 
-		// ¼ì²âÀ©Õ¹µÄºúÅÆÑùÊ½
+		// æ£€æµ‹æ‰©å±•çš„èƒ¡ç‰Œæ ·å¼
 		virtual bool checkHuStyleEx(const MahjongTileArray& tiles, MahjongGenre::TingPaiArray& tps, MahjongAvatar* pAvatar) const;
 
 	private:

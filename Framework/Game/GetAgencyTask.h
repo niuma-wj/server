@@ -1,4 +1,4 @@
-// GetAgencyTask.h
+ï»¿// GetAgencyTask.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.12.06
@@ -10,7 +10,7 @@
 
 namespace NiuMa {
 	/**
-	 * ²éÑ¯Íæ¼ÒËùÊô´úÀíÍæ¼ÒIDÈÎÎñ
+	 * æŸ¥è¯¢ç©å®¶æ‰€å±ä»£ç†ç©å®¶IDä»»åŠ¡
 	 */
 	class GetAgencyTask : public MysqlQueryTask {
 	public:
@@ -26,10 +26,10 @@ namespace NiuMa {
 		const std::string& getAgencyId() const;
 
 	private:
-		// Íæ¼Òid
+		// ç©å®¶id
 		const std::string _playerId;
 
-		// ´úÀíÍæ¼Òid
+		// ä»£ç†ç©å®¶id
 		std::string _agencyId;
 	};
 }

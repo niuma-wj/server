@@ -1,11 +1,11 @@
-// MessageThreadPool.cpp
+ï»¿// MessageThreadPool.cpp
 
 #include "MessageThreadPool.h"
 
 namespace NiuMa {
 	/**
-	 * ÍøÂçÏûÏ¢´¦Àí¹¤×÷Ïß³Ì
-	 * Ò»¸ö¹¤×÷Ïß³Ì¿ÉÒÔ·ÖÅäµ½¶à¸öÍøÂçÏûÏ¢´¦ÀíÆ÷
+	 * ç½‘ç»œæ¶ˆæ¯å¤„ç†å·¥ä½œçº¿ç¨‹
+	 * ä¸€ä¸ªå·¥ä½œçº¿ç¨‹å¯ä»¥åˆ†é…åˆ°å¤šä¸ªç½‘ç»œæ¶ˆæ¯å¤„ç†å™¨
 	 */
 	class MessageThreadWorker : public ThreadWorker {
 	public:
@@ -23,7 +23,7 @@ namespace NiuMa {
 	protected:
 		virtual int oneLoopEx() override {
 			if (_handlers.empty()) {
-				// µÈ´ı100ºÁÃë
+				// ç­‰å¾…100æ¯«ç§’
 				return 100;
 			}
 			bool test = false;
@@ -31,18 +31,18 @@ namespace NiuMa {
 				if (handler->handle())
 					test = true;
 			}
-			// Èô±¾´ÎÑ­»·´¦ÀíÁËÏûÏ¢£¬ÔòÁ¢¼´Ö´ĞĞÏÂÒ»´ÎÑ­»·£¬·ñÔòĞİÃß10ºÁÃë
+			// è‹¥æœ¬æ¬¡å¾ªç¯å¤„ç†äº†æ¶ˆæ¯ï¼Œåˆ™ç«‹å³æ‰§è¡Œä¸‹ä¸€æ¬¡å¾ªç¯ï¼Œå¦åˆ™ä¼‘çœ 10æ¯«ç§’
 			return test ? 0 : 10;
 		}
 
 	private:
-		// ÏûÏ¢´¦ÀíÆ÷ÁĞ±í
+		// æ¶ˆæ¯å¤„ç†å™¨åˆ—è¡¨
 		std::vector<MessageHandler::Ptr> _handlers;
 	};
 
 	void MessageThreadPool::start(int threadNum, const std::vector<MessageHandler::Ptr>& handlers) {
 		if (threadNum > 10)
-			threadNum = 10;	// ×î´ó10¸öÏß³Ì
+			threadNum = 10;	// æœ€å¤§10ä¸ªçº¿ç¨‹
 		int count = static_cast<int>(handlers.size());
 		if (threadNum > count)
 			threadNum = count;

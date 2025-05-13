@@ -1,4 +1,4 @@
-// MsgBase.cpp
+﻿// MsgBase.cpp
 
 #include "Base/Log.h"
 #include "MsgBase.h"

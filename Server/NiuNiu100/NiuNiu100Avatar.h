@@ -1,4 +1,4 @@
-// NiuNiu100Avatar.h
+ï»¿// NiuNiu100Avatar.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2025.02.13
@@ -19,28 +19,28 @@ namespace NiuMa
 		virtual ~NiuNiu100Avatar();
 
 	private:
-		// 4¸öÏÂ×¢ÇøÓòµÄÏÂ×¢×ÜÊı
+		// 4ä¸ªä¸‹æ³¨åŒºåŸŸçš„ä¸‹æ³¨æ€»æ•°
 		int _betAmounts[4];
 
-		// ±¾¾Ö4¸öÏÂ×¢ÇøÓòµÄÊäÓ®ÊıÁ¿
+		// æœ¬å±€4ä¸ªä¸‹æ³¨åŒºåŸŸçš„è¾“èµ¢æ•°é‡
 		int _scores[4];
 
-		// ½ü20¾ÖÀÛ¼ÆÏÂ×¢½ğ¶î
+		// è¿‘20å±€ç´¯è®¡ä¸‹æ³¨é‡‘é¢
 		int64_t _accBets20;
 
-		// ½ü20¾ÖµÄÀÛ¼ÆÓ®¾ÖÊı
+		// è¿‘20å±€çš„ç´¯è®¡èµ¢å±€æ•°
 		int _accWins20;
 
-		// ½ü20¾ÖµÄÏÂ×¢½ğ¶î
+		// è¿‘20å±€çš„ä¸‹æ³¨é‡‘é¢
 		std::queue<int> _bets20;
 
-		// ½ü20¾ÖµÄÊäÓ®½á¹û
+		// è¿‘20å±€çš„è¾“èµ¢ç»“æœ
 		std::queue<int> _wins20;
 
-		// ¼ÓÈëÅÆ×ÀµÄÊ±¼ä(»úÆ÷ÈËÓĞĞ§)
+		// åŠ å…¥ç‰Œæ¡Œçš„æ—¶é—´(æœºå™¨äººæœ‰æ•ˆ)
 		time_t _joinTick;
 
-		// ÏÂÒ»´ÎÏÂ×¢Ê±¼ä(»úÆ÷ÈËÓĞĞ§)
+		// ä¸‹ä¸€æ¬¡ä¸‹æ³¨æ—¶é—´(æœºå™¨äººæœ‰æ•ˆ)
 		time_t _nextBetTick;
 
 	public:
@@ -51,7 +51,7 @@ namespace NiuMa
 		void setScore(int zone, int s);
 		int getScore(int zone) const;
 		int getScore() const;
-		void pushBet();	// ½«±¾¾ÖÏÂ×¢Ñ¹ÈëÀÛ¼Æ£¬Í¬Ê±Çå¿Õ±¾¾ÖÏÂ×¢
+		void pushBet();	// å°†æœ¬å±€ä¸‹æ³¨å‹å…¥ç´¯è®¡ï¼ŒåŒæ—¶æ¸…ç©ºæœ¬å±€ä¸‹æ³¨
 		void pushWin(bool win);
 		int64_t getAccBets20() const;
 		int getAccWins20() const;

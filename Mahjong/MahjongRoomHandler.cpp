@@ -1,4 +1,4 @@
-// MahjongRoomHandler.cpp
+ï»¿// MahjongRoomHandler.cpp
 
 #include "MahjongRoomHandler.h"
 #include "MahjongMessages.h"
@@ -8,7 +8,7 @@ namespace NiuMa
 	MahjongRoomHandler::MahjongRoomHandler(const MessageQueue::Ptr& queue)
 		: GameRoomHandler(queue)
 	{
-		// Ìí¼Ó½ÓÊÕµÄÏûÏ¢ÀàĞÍ
+		// æ·»åŠ æ¥æ”¶çš„æ¶ˆæ¯ç±»å‹
 		addMessage(MsgDoActionOption::TYPE);
 		addMessage(MsgPassActionOption::TYPE);
 		addMessage(MsgNextTile::TYPE);

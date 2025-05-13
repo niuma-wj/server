@@ -1,4 +1,4 @@
-// GameRoomHandler.cpp
+ï»¿// GameRoomHandler.cpp
 
 #include "GameRoom.h"
 #include "GameRoomHandler.h"
@@ -8,7 +8,7 @@ namespace NiuMa {
 	GameRoomHandler::GameRoomHandler(const MessageQueue::Ptr& queue)
 		: VenueInnerHandler(queue)
 	{
-		// Ìí¼Ó½ÓÊÕµÄÏûÏ¢ÀàĞÍ
+		// æ·»åŠ æ¥æ”¶çš„æ¶ˆæ¯ç±»å‹
 		addMessage(MsgGetAvatars::TYPE);
 		addMessage(MsgGetSpectators::TYPE);
 		addMessage(MsgPlayerReady::TYPE);

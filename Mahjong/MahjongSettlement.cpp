@@ -1,4 +1,4 @@
-// MahjongSettlement.cpp
+﻿// MahjongSettlement.cpp
 
 #include "MahjongSettlement.h"
 

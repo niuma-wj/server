@@ -1,4 +1,4 @@
-// NiuNiuRule.cpp
+ï»¿// NiuNiuRule.cpp
 
 #include "NiuNiuRule.h"
 
@@ -95,11 +95,11 @@ namespace NiuMa
 				break;
 			}
 		}
-		// ÏÈÅĞ¶¨ÌØÊâÅÆĞÍ
+		// å…ˆåˆ¤å®šç‰¹æ®Šç‰Œå‹
 		bool bShunZi = straight(pcg.getCards());
 		bool bTongHua = pcg.sameSuit();
 		bool bTest = true;
-		if (bShunZi && bTongHua)	// Í¬»¨Ë³£¬¿ªĞÄÅ£
+		if (bShunZi && bTongHua)	// åŒèŠ±é¡ºï¼Œå¼€å¿ƒç‰›
 			return static_cast<int>(NiuNiuGenre::KaiXin);
 		if (nJokers == 0) {
 			for (unsigned int i = 0; i < 5; i++) {
@@ -113,20 +113,20 @@ namespace NiuMa
 					break;
 				}
 			}
-			if (bTest)			// ÎåĞ¡Å£
+			if (bTest)			// äº”å°ç‰›
 				return static_cast<int>(NiuNiuGenre::WuXiao);
 		}
-		if (pcg.carryM_N(4, 1))	// Õ¨µ¯Å£
+		if (pcg.carryM_N(4, 1))	// ç‚¸å¼¹ç‰›
 			return static_cast<int>(NiuNiuGenre::ZhaDan);
-		if (pcg.carryM_N(3, 2))	// ºùÂ«Å£
+		if (pcg.carryM_N(3, 2))	// è‘«èŠ¦ç‰›
 			return static_cast<int>(NiuNiuGenre::HuLu);
-		if (bTongHua)			// Í¬»¨Å£
+		if (bTongHua)			// åŒèŠ±ç‰›
 			return static_cast<int>(NiuNiuGenre::TongHua);
-		if (wuHua)				// Îå»¨Å£
+		if (wuHua)				// äº”èŠ±ç‰›
 			return static_cast<int>(NiuNiuGenre::WuHua);
 		if (bShunZi)
-			return static_cast<int>(NiuNiuGenre::ShunZi);		// Ë³×ÓÅ£
-		if (nJokers == 2)		// ÓĞÁ½¸öÍõÅÆ£¬±Ø¶¨ÊÇÅ£Å£
+			return static_cast<int>(NiuNiuGenre::ShunZi);		// é¡ºå­ç‰›
+		if (nJokers == 2)		// æœ‰ä¸¤ä¸ªç‹ç‰Œï¼Œå¿…å®šæ˜¯ç‰›ç‰›
 			return static_cast<int>(NiuNiuGenre::NiuNiu);
 		unsigned int ids[5] = { 0, 0, 0, 0, 0 };
 		unsigned int tmp = 0;
@@ -148,13 +148,13 @@ namespace NiuMa
 				break;
 		}
 		if (!bNiu) {
-			if (nJokers == 0)	// Ã»ÓĞÍõÅÆ£¬Ôò±Ø¶¨ÊÇÃ»Å£
+			if (nJokers == 0)	// æ²¡æœ‰ç‹ç‰Œï¼Œåˆ™å¿…å®šæ˜¯æ²¡ç‰›
 				return static_cast<int>(NiuNiuGenre::Niu0);
 			else {
-				// ÓĞÒ»ÕÅÍõÅÆ£¬Ö´ĞĞµ½ÕâÀïËµÃ÷ÈÎÒâÁ½ÕÅ»òÕßÈıÕÅ·ÇÍõÅÆÅÆÅÆÖµÖ®ºÍ¶¼²»ÊÇ10µÄÕûÊı
-				// ±¶(ÒòÍõÅÆÅÆÖµ´ËÇ°Îª0¹Ê¿ÉµÃ´Ë½áÂÛ)¡£²éÕÒ×î´óµÄÅÆĞÍ£¬ÕâÀïÖ»ĞèÒªÕÒÅÆÖµÖ®ºÍ³ı
-				// ÒÔ10µÄÓàÊı×î´óµÄÁ½ÕÅ·ÇÍõÅÆ£¬Õâ¸ö×î´óµÄÓàÊı¾Í¶ÔÓ¦ÁËÅÆĞÍ£¬ÒòÎªÁíÍâÁ½ÕÅ·ÇÍõ
-				// ÅÆÓëÍõÅÆ×éºÏÆğÀ´±Ø¶¨ÊÇÅ£
+				// æœ‰ä¸€å¼ ç‹ç‰Œï¼Œæ‰§è¡Œåˆ°è¿™é‡Œè¯´æ˜ä»»æ„ä¸¤å¼ æˆ–è€…ä¸‰å¼ éç‹ç‰Œç‰Œç‰Œå€¼ä¹‹å’Œéƒ½ä¸æ˜¯10çš„æ•´æ•°
+				// å€(å› ç‹ç‰Œç‰Œå€¼æ­¤å‰ä¸º0æ•…å¯å¾—æ­¤ç»“è®º)ã€‚æŸ¥æ‰¾æœ€å¤§çš„ç‰Œå‹ï¼Œè¿™é‡Œåªéœ€è¦æ‰¾ç‰Œå€¼ä¹‹å’Œé™¤
+				// ä»¥10çš„ä½™æ•°æœ€å¤§çš„ä¸¤å¼ éç‹ç‰Œï¼Œè¿™ä¸ªæœ€å¤§çš„ä½™æ•°å°±å¯¹åº”äº†ç‰Œå‹ï¼Œå› ä¸ºå¦å¤–ä¸¤å¼ éç‹
+				// ç‰Œä¸ç‹ç‰Œç»„åˆèµ·æ¥å¿…å®šæ˜¯ç‰›
 				bTest = true;
 				for (unsigned int i = 0; i < 4; i++) {
 					if (arrPoints[i] == 0)
@@ -193,7 +193,7 @@ namespace NiuMa
 				}
 			}
 			if (nJokers == 1) {
-				// ÓĞÒ»ÕÅÍõÅÆ£¬Ôò±Ø¶¨ÊÇÅ£Å£
+				// æœ‰ä¸€å¼ ç‹ç‰Œï¼Œåˆ™å¿…å®šæ˜¯ç‰›ç‰›
 				bTest = true;
 				if (arrPoints[ids[0]] == 0)
 					tmp = ids[0];
@@ -220,7 +220,7 @@ namespace NiuMa
 			else
 				nRemainder = (arrPoints[ids[3]] + arrPoints[ids[4]]) % 10;
 		}
-		// ÖØĞÂÅÅÁĞ
+		// é‡æ–°æ’åˆ—
 		CardArray arrCards;
 		arrCards.reserve(5);
 		arrCards.push_back(cards[ids[3]]);
@@ -236,7 +236,7 @@ namespace NiuMa
 	}
 
 	int NiuNiuRule::predicateCardGenre2(PokerGenre& pcg) const {
-		if (pcg.carryM_N(4, 1))	// Õ¨µ¯Å£
+		if (pcg.carryM_N(4, 1))	// ç‚¸å¼¹ç‰›
 			return static_cast<int>(NiuNiuGenre::ZhaDan);
 		int arrPoints[5] = { 0 };
 		int nSum = 0;
@@ -256,7 +256,7 @@ namespace NiuMa
 				test = false;
 		}
 		pcg.setOfficer(cards[4]);
-		if (test)			// Îå»¨Å£
+		if (test)			// äº”èŠ±ç‰›
 			return static_cast<int>(NiuNiuGenre::WuHua);
 		unsigned int ids[5] = { 0, 0, 0, 0, 0 };
 		unsigned int tmp = 0;
@@ -278,7 +278,7 @@ namespace NiuMa
 				break;
 		}
 		if (!bNiu)
-			return static_cast<int>(NiuNiuGenre::Niu0);	// Ã»Å£
+			return static_cast<int>(NiuNiuGenre::Niu0);	// æ²¡ç‰›
 		tmp = 0;
 		for (unsigned int i = 0; i < 5; i++) {
 			if (i != ids[0] && i != ids[1] && i != ids[2]) {
@@ -287,7 +287,7 @@ namespace NiuMa
 			}
 		}
 		nRemainder = (arrPoints[ids[3]] + arrPoints[ids[4]]) % 10;
-		// ÖØĞÂÅÅÁĞ
+		// é‡æ–°æ’åˆ—
 		CardArray arrCards;
 		arrCards.reserve(5);
 		arrCards.push_back(cards[ids[0]]);
@@ -323,7 +323,7 @@ namespace NiuMa
 	}
 
 	bool NiuNiuRule::straightExcluded(const PokerCard& c) const {
-		// Ë³×Ó²»ÄÜ³öÏÖÍõ
+		// é¡ºå­ä¸èƒ½å‡ºç°ç‹
 		if (c.getPoint() == static_cast<int>(PokerPoint::Joker))
 			return true;
 

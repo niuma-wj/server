@@ -1,4 +1,4 @@
-// MahjongRoomHandler.h
+ï»¿// MahjongRoomHandler.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.11.26
@@ -11,7 +11,7 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«ÓÎÏ··¿¼äÏûÏ¢´¦ÀíÆ÷
+	 * éº»å°†æ¸¸æˆæˆ¿é—´æ¶ˆæ¯å¤„ç†å™¨
 	 */
 	class MahjongRoomHandler : public GameRoomHandler
 	{

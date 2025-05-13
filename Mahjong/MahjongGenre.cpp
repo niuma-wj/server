@@ -1,4 +1,4 @@
-// MahjongGenre.cpp 
+﻿// MahjongGenre.cpp 
 
 #include "MahjongGenre.h"
 

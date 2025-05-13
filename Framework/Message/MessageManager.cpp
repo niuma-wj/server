@@ -1,4 +1,4 @@
-// MessageManager.cpp
+﻿// MessageManager.cpp
 
 #include "Base/Log.h"
 #include "Base/BaseUtils.h"

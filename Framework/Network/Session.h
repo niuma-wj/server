@@ -1,4 +1,4 @@
-// Session.h
+ï»¿// Session.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.07.17
@@ -11,9 +11,9 @@
 
 namespace NiuMa {
 	/**
-	 * »á»°»ùÀà
-	 * Ò»¸öTCPÍøÂçÁ¬½Ó¶ÔÓ¦Ò»¸ö»á»°£¬ÓÃÓÚ´¦ÀíÒµÎñÂß¼­£¬¶øTCPÍøÂçÁ¬½ÓÀà×ÔÉíÔò·â×°ÁË
-	 * µ×²ãÍøÂçIOÂß¼­£¬²¢ÇÒ²»±©Â¶µ½ÉÏ²ãÒµÎñÂß¼­
+	 * ä¼šè¯åŸºç±»
+	 * ä¸€ä¸ªTCPç½‘ç»œè¿æ¥å¯¹åº”ä¸€ä¸ªä¼šè¯ï¼Œç”¨äºå¤„ç†ä¸šåŠ¡é€»è¾‘ï¼Œè€ŒTCPç½‘ç»œè¿æ¥ç±»è‡ªèº«åˆ™å°è£…äº†
+	 * åº•å±‚ç½‘ç»œIOé€»è¾‘ï¼Œå¹¶ä¸”ä¸æš´éœ²åˆ°ä¸Šå±‚ä¸šåŠ¡é€»è¾‘
 	 */
 	class Connection;
 	class Session : public std::enable_shared_from_this<Session>
@@ -26,67 +26,67 @@ namespace NiuMa {
 
 	public:
 		/**
-		 * ²éÑ¯Á¬½Óid
+		 * æŸ¥è¯¢è¿æ¥id
 		 * 
-		 * @param id ·µ»ØÁ¬½Óid
+		 * @param id è¿”å›è¿æ¥id
 		 */
 		void getId(std::string& id) const;
 
 		/**
-		 * »ñÈ¡Ô¶¶ËipµØÖ·
-		 * @return ·µ»ØÔ¶¶ËipµØÖ·
+		 * è·å–è¿œç«¯ipåœ°å€
+		 * @return è¿”å›è¿œç«¯ipåœ°å€
 		 */
 		const std::string& getRemoteIp() const;
 
 		/**
-		 * ½ÓÊÕµ½Êı¾İÊÂ¼ş
+		 * æ¥æ”¶åˆ°æ•°æ®äº‹ä»¶
 		 * 
-		 * @param buf Êı¾İ»º´æ
-		 * @param length Êı¾İ³¤¶È
+		 * @param buf æ•°æ®ç¼“å­˜
+		 * @param length æ•°æ®é•¿åº¦
 		 */
 		virtual void onRecieve(char* buf, std::size_t length) = 0;
 
 		/**
-		 * »á»°¶Ï¿ªÊÂ¼ş
+		 * ä¼šè¯æ–­å¼€äº‹ä»¶
 		 */
 		virtual void onDisconnect();
 
 		/**
-		 * ·¢ËÍÊı¾İ
+		 * å‘é€æ•°æ®
 		 *
-		 * @param buf Êı¾İ»º´æ
-		 * @param length Êı¾İ³¤¶È
+		 * @param buf æ•°æ®ç¼“å­˜
+		 * @param length æ•°æ®é•¿åº¦
 		 */
 		void send(const char* buf, std::size_t length);
 
 		/**
-		 * ·¢ËÍÊı¾İ
-		 * @param data Êı¾İ»º´æ
+		 * å‘é€æ•°æ®
+		 * @param data æ•°æ®ç¼“å­˜
 		 */
 		void send(const std::shared_ptr<std::string>& data);
 
 		/**
-		 * ·µ»Ø»á»°ÊÇ·ñÈÔÈ»»îÔ¾£¬ÓÃÓÚÖ§³ÖĞÄÌø¼ì²â
-		 * Ä¬ÈÏÔÚÁ¬½ÓÎ´¶Ï¿ªÊ±·µ»Øtrue
+		 * è¿”å›ä¼šè¯æ˜¯å¦ä»ç„¶æ´»è·ƒï¼Œç”¨äºæ”¯æŒå¿ƒè·³æ£€æµ‹
+		 * é»˜è®¤åœ¨è¿æ¥æœªæ–­å¼€æ—¶è¿”å›true
 		 */
 		virtual bool isAlive(const time_t& nowTime) const;
 
 		/**
-		 * ĞÄÌø
-		 * Ä¬ÈÏ²»Ö§³ÖĞÄÌø£¬¿Õº¯Êı
+		 * å¿ƒè·³
+		 * é»˜è®¤ä¸æ”¯æŒå¿ƒè·³ï¼Œç©ºå‡½æ•°
 		 */
 		virtual void heartbeat();
 
 	private:
-		// Á¬½Ó
+		// è¿æ¥
 		std::weak_ptr<Connection> _connection;
 
-		// Ô¶¶Ëip
+		// è¿œç«¯ip
 		std::string _remoteIp;
 	};
 
 	/**
-	 * »á»°¹¹ÔìÆ÷»ùÀà
+	 * ä¼šè¯æ„é€ å™¨åŸºç±»
 	 *
 	 * @Author wujian
 	 * @Email 393817707@qq.com

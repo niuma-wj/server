@@ -1,4 +1,4 @@
-// MsgWrapper.cpp
+﻿// MsgWrapper.cpp
 
 #include "MsgWrapper.h"
 

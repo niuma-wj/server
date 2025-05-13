@@ -1,4 +1,4 @@
-// GetCapitalTask.cpp
+﻿// GetCapitalTask.cpp
 
 #include "GetCapitalTask.h"
 

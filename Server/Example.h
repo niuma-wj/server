@@ -1,4 +1,4 @@
-// Example.h
+ï»¿// Example.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.08.01
@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace NiuMa {
-	// ²âÊÔ²éÑ¯¼ÇÂ¼
+	// æµ‹è¯•æŸ¥è¯¢è®°å½•
 	class TestSelect : public MysqlQueryTask {
 	public:
 		TestSelect() = default;
@@ -35,7 +35,7 @@ namespace NiuMa {
 		std::vector<Record> _records;
 	};
 
-	// ²âÊÔ²åÈë¼ÇÂ¼²¢·µ»Ø×ÔÔöID
+	// æµ‹è¯•æ’å…¥è®°å½•å¹¶è¿”å›è‡ªå¢ID
 	class TestAutoIncrement : public MysqlQueryTask {
 	public:
 		TestAutoIncrement() = default;
@@ -46,7 +46,7 @@ namespace NiuMa {
 		virtual void onQueried() override;
 	};
 
-	// ²âÊÔ¸üĞÂ¼ÇÂ¼
+	// æµ‹è¯•æ›´æ–°è®°å½•
 	class TestUpdate : public MysqlQueryTask {
 	public:
 		TestUpdate() = default;

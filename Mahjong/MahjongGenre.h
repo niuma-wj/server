@@ -1,4 +1,4 @@
-// MahjongGenre.h
+ï»¿// MahjongGenre.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.12.02
@@ -11,7 +11,7 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«ÅÆĞÍ
+	 * éº»å°†ç‰Œå‹
 	 */
 	class MahjongGenre
 	{
@@ -20,60 +20,60 @@ namespace NiuMa
 		virtual ~MahjongGenre();
 
 	public:
-		// ºúÅÆÑùÊ½
+		// èƒ¡ç‰Œæ ·å¼
 		enum class HuStyle : int
 		{
-			Invalid				= 0x00000000,				// ÎŞĞ§
-			PingHu				= 0x00000001,				// Æ½ºú
-			DanDiao				= (0x00000002 | PingHu),	// µ¥µõ
-			BianZhang			= (0x00000004 | PingHu),	// ±ßÕÅ
-			KaZhang				= (0x00000008 | PingHu),	// ¿¨ÕÅ
-			PengPengHu			= (0x00000010 | PingHu),	// ÅöÅöºú
-			QingYiSe			= 0x00000020,				// ÇåÒ»É«
-			ZiYiSe				= 0x00000040,				// ×ÖÒ»É«
-			QiXiaoDui			= 0x00000080,				// ÆßĞ¡¶Ô
-			QiXiaoDui1			= (0x00000100 | QiXiaoDui),	// µ¥ºÀ»ªÆßĞ¡¶Ô
-			QiXiaoDui2			= (0x00000200 | QiXiaoDui),	// Ë«ºÀ»ªÆßĞ¡¶Ô
-			QiXiaoDui3			= (0x00000400 | QiXiaoDui),	// ÈıºÀ»ªÆßĞ¡¶Ô
-			ShiSanYao			= 0x00000800,				// Ê®ÈıçÛ
-			ShiSanLan			= 0x00001000,				// Ê®ÈıÀÃ
-			QiXingShiSanLan		= (0x00002000 | ShiSanLan)	// ÆßĞÇÊ®ÈıÀÃ
+			Invalid				= 0x00000000,				// æ— æ•ˆ
+			PingHu				= 0x00000001,				// å¹³èƒ¡
+			DanDiao				= (0x00000002 | PingHu),	// å•åŠ
+			BianZhang			= (0x00000004 | PingHu),	// è¾¹å¼ 
+			KaZhang				= (0x00000008 | PingHu),	// å¡å¼ 
+			PengPengHu			= (0x00000010 | PingHu),	// ç¢°ç¢°èƒ¡
+			QingYiSe			= 0x00000020,				// æ¸…ä¸€è‰²
+			ZiYiSe				= 0x00000040,				// å­—ä¸€è‰²
+			QiXiaoDui			= 0x00000080,				// ä¸ƒå°å¯¹
+			QiXiaoDui1			= (0x00000100 | QiXiaoDui),	// å•è±ªåä¸ƒå°å¯¹
+			QiXiaoDui2			= (0x00000200 | QiXiaoDui),	// åŒè±ªåä¸ƒå°å¯¹
+			QiXiaoDui3			= (0x00000400 | QiXiaoDui),	// ä¸‰è±ªåä¸ƒå°å¯¹
+			ShiSanYao			= 0x00000800,				// åä¸‰å¹º
+			ShiSanLan			= 0x00001000,				// åä¸‰çƒ‚
+			QiXingShiSanLan		= (0x00002000 | ShiSanLan)	// ä¸ƒæ˜Ÿåä¸‰çƒ‚
 		};
 		
-		// ºúÅÆ·½Ê½
+		// èƒ¡ç‰Œæ–¹å¼
 		enum class HuWay : int
 		{
-			Invalid				= 0x00000000,				// ÎŞĞ§
-			ZiMo				= 0x00000001,				// ×ÔÃş
-			DianPao				= 0x00000002,				// µãÅÚ
-			MenQing				= 0x00000004,				// ÃÅÇå
-			QuanQiuRen			= 0x00000008,				// È«ÇóÈË(ÊÖÉÏ½öÊ£×îºóÒ»ÕÅÅÆ)
-			QuanQiuPao			= (0x00000010 | DianPao),	// È«ÇóÅÚ£¬ÊÖÉÏ½öÊ£×îºóÒ»ÕÅÅÆµÄÍæ¼Ò·ÅÅÚ
-			TianHu				= (0x00000020 | ZiMo),		// Ììºú£¬×¯¼ÒÆğÊÖÄÃµÚÒ»ÕÅÅÆ×ÔÃş
-			DiHu				= (0x00000040 | DianPao),	// µØºú£¬×¯¼Ò´ò³öµÚÒ»ÕÅÅÆ·ÅÅÚ
-			RenHu				= 0x00000080,				// ÈËºú£¬ÏĞ¼ÒµÚÒ»È¦ÄÚ×ÔÃş»ò·ÅÅÚ
-			HaiDiLaoYue			= (0x00000100 | ZiMo),		// º£µ×ÀÌÔÂ
-			HaiDiPao			= (0x00000200 | DianPao),	// º£µ×ÅÚ
-			MingGang			= 0x00000400,				// Ã÷¸Ü£¬×¢Òâ¸ÃÖµ±¾Éí²»´ú±íÒ»¸öºúÅÆ·½Ê½£¬½öÊÇÒ»¸ö±êÖ¾£¬Óë¸ÜÉÏ»¨×éºÏÔÚÒ»ÆğÒÔÇø·ÖÊÇÃ÷¸ÜÉÏ»¨»¹ÊÇ°µ¸ÜÉÏ»¨
-			GangShangHua1		= (0x00000800 | ZiMo),		// ¸ÜÉÏ»¨
-			GangShangHua2		= (0x00001000 | ZiMo),		// ¶şÁ¬¸ÜÉÏ»¨
-			GangShangHua3		= (0x00002000 | ZiMo),		// ÈıÁ¬¸ÜÉÏ»¨
-			GangShangHua4		= (0x00004000 | ZiMo),		// ËÄÁ¬¸ÜÉÏ»¨
-			GangShangPao1		= (0x00008000 | DianPao),	// ¸ÜÉÏÅÚ
-			GangShangPao2		= (0x00010000 | DianPao),	// ¶şÁ¬¸ÜÉÏÅÚ
-			GangShangPao3		= (0x00020000 | DianPao),	// ÈıÁ¬¸ÜÉÏÅÚ
-			GangShangPao4		= (0x00040000 | DianPao),	// ËÄÁ¬¸ÜÉÏÅÚ
-			QiangGangHu1		= (0x00080000 | DianPao),	// ÇÀ¸Üºú
-			QiangGangHu2		= (0x00100000 | DianPao),	// ¶şÁ¬ÇÀ¸Üºú
-			QiangGangHu3		= (0x00200000 | DianPao),	// ÈıÁ¬ÇÀ¸Üºú
-			QiangGangHu4		= (0x00400000 | DianPao)	// ËÄÁ¬ÇÀ¸Üºú
+			Invalid				= 0x00000000,				// æ— æ•ˆ
+			ZiMo				= 0x00000001,				// è‡ªæ‘¸
+			DianPao				= 0x00000002,				// ç‚¹ç‚®
+			MenQing				= 0x00000004,				// é—¨æ¸…
+			QuanQiuRen			= 0x00000008,				// å…¨æ±‚äºº(æ‰‹ä¸Šä»…å‰©æœ€åä¸€å¼ ç‰Œ)
+			QuanQiuPao			= (0x00000010 | DianPao),	// å…¨æ±‚ç‚®ï¼Œæ‰‹ä¸Šä»…å‰©æœ€åä¸€å¼ ç‰Œçš„ç©å®¶æ”¾ç‚®
+			TianHu				= (0x00000020 | ZiMo),		// å¤©èƒ¡ï¼Œåº„å®¶èµ·æ‰‹æ‹¿ç¬¬ä¸€å¼ ç‰Œè‡ªæ‘¸
+			DiHu				= (0x00000040 | DianPao),	// åœ°èƒ¡ï¼Œåº„å®¶æ‰“å‡ºç¬¬ä¸€å¼ ç‰Œæ”¾ç‚®
+			RenHu				= 0x00000080,				// äººèƒ¡ï¼Œé—²å®¶ç¬¬ä¸€åœˆå†…è‡ªæ‘¸æˆ–æ”¾ç‚®
+			HaiDiLaoYue			= (0x00000100 | ZiMo),		// æµ·åº•ææœˆ
+			HaiDiPao			= (0x00000200 | DianPao),	// æµ·åº•ç‚®
+			MingGang			= 0x00000400,				// æ˜æ ï¼Œæ³¨æ„è¯¥å€¼æœ¬èº«ä¸ä»£è¡¨ä¸€ä¸ªèƒ¡ç‰Œæ–¹å¼ï¼Œä»…æ˜¯ä¸€ä¸ªæ ‡å¿—ï¼Œä¸æ ä¸ŠèŠ±ç»„åˆåœ¨ä¸€èµ·ä»¥åŒºåˆ†æ˜¯æ˜æ ä¸ŠèŠ±è¿˜æ˜¯æš—æ ä¸ŠèŠ±
+			GangShangHua1		= (0x00000800 | ZiMo),		// æ ä¸ŠèŠ±
+			GangShangHua2		= (0x00001000 | ZiMo),		// äºŒè¿æ ä¸ŠèŠ±
+			GangShangHua3		= (0x00002000 | ZiMo),		// ä¸‰è¿æ ä¸ŠèŠ±
+			GangShangHua4		= (0x00004000 | ZiMo),		// å››è¿æ ä¸ŠèŠ±
+			GangShangPao1		= (0x00008000 | DianPao),	// æ ä¸Šç‚®
+			GangShangPao2		= (0x00010000 | DianPao),	// äºŒè¿æ ä¸Šç‚®
+			GangShangPao3		= (0x00020000 | DianPao),	// ä¸‰è¿æ ä¸Šç‚®
+			GangShangPao4		= (0x00040000 | DianPao),	// å››è¿æ ä¸Šç‚®
+			QiangGangHu1		= (0x00080000 | DianPao),	// æŠ¢æ èƒ¡
+			QiangGangHu2		= (0x00100000 | DianPao),	// äºŒè¿æŠ¢æ èƒ¡
+			QiangGangHu3		= (0x00200000 | DianPao),	// ä¸‰è¿æŠ¢æ èƒ¡
+			QiangGangHu4		= (0x00400000 | DianPao)	// å››è¿æŠ¢æ èƒ¡
 		};
 
-		// ÌıÅÆ
+		// å¬ç‰Œ
 		typedef struct __TingPai
 		{
-			MahjongTile::Tile tile;	// ÅÆ
-			int style;				// ºúÅÆÑùÊ½
+			MahjongTile::Tile tile;	// ç‰Œ
+			int style;				// èƒ¡ç‰Œæ ·å¼
 
 			__TingPai()
 				: style(static_cast<int>(HuStyle::Invalid))
@@ -86,7 +86,7 @@ namespace NiuMa
 
 		}TingPai;
 
-		// ÌıÅÆÊı×é
+		// å¬ç‰Œæ•°ç»„
 		typedef std::vector<TingPai> TingPaiArray;
 	};
 }

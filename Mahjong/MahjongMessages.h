@@ -1,4 +1,4 @@
-// MahjongMessages.h
+ï»¿// MahjongMessages.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.12.02
@@ -25,8 +25,8 @@ namespace NiuMa
 	};
 
 	/**
-	 * ·¢ÅÆÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * å‘ç‰Œæ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgMahjongTiles : public MsgBase
 	{
@@ -43,15 +43,15 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		// ÊÖÅÆ
+		// æ‰‹ç‰Œ
 		MahjongTileArray tiles;
 
 		MSGPACK_DEFINE_MAP(tiles);
 	};
 
 	/**
-	 * Í¨Öªµ±Ç°Íæ¼Ò¸üĞÂÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥å½“å‰ç©å®¶æ›´æ–°æ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgActorUpdated : public MsgBase
 	{
@@ -74,8 +74,8 @@ namespace NiuMa
 	};
 
 	/**
-	 * Í¨ÖªµÈ´ıÍæ¼ÒÖ´ĞĞ¶¯×÷
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥ç­‰å¾…ç©å®¶æ‰§è¡ŒåŠ¨ä½œ
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgWaitAction : public MsgBase {
 	public:
@@ -91,21 +91,21 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		// µÈ´ı(true)»òÈ¡ÏûµÈ´ı(false)
+		// ç­‰å¾…(true)æˆ–å–æ¶ˆç­‰å¾…(false)
 		bool waitting;
 
-		// ±»Í¨ÖªµÄÍæ¼ÒÊÇ·ñÕıÔÚ±»µÈ´ı
+		// è¢«é€šçŸ¥çš„ç©å®¶æ˜¯å¦æ­£åœ¨è¢«ç­‰å¾…
 		bool beingHeld;
 
-		// ÒÑµÈ´ıÊ±¼ä(Ãë)
+		// å·²ç­‰å¾…æ—¶é—´(ç§’)
 		int second;
 
 		MSGPACK_DEFINE_MAP(waitting, beingHeld, second);
 	};
 
 	/**
-	 * Í¨ÖªÃşÅÆÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥æ‘¸ç‰Œæ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgFetchTile : public MsgBase
 	{
@@ -122,11 +122,11 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		// ÃşÆğÅÆµÄÍæ¼Ò
+		// æ‘¸èµ·ç‰Œçš„ç©å®¶
 		int player;
-		// Ê£ÓàµÄÅÆÊıÁ¿
+		// å‰©ä½™çš„ç‰Œæ•°é‡
 		int nums;
-		// ÊÇ·ñ´ÓºóÃæÃşÆğ(¸Üºó²¹ÅÆ)
+		// æ˜¯å¦ä»åé¢æ‘¸èµ·(æ åè¡¥ç‰Œ)
 		bool back;
 		//
 		MahjongTile tile;
@@ -135,8 +135,8 @@ namespace NiuMa
 	};
 
 	/**
-	 * Í¨Öª¶¯×÷Ñ¡ÏîÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥åŠ¨ä½œé€‰é¡¹æ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgActionOption : public MsgBase
 	{
@@ -159,8 +159,8 @@ namespace NiuMa
 	};
 
 	/**
-	 * Ö´ĞĞ¶¯×÷Ñ¡Ïî
-	 * ¿Í»§¶Ë->·şÎñÆ÷
+	 * æ‰§è¡ŒåŠ¨ä½œé€‰é¡¹
+	 * å®¢æˆ·ç«¯->æœåŠ¡å™¨
 	 */
 	class MsgDoActionOption : public MsgVenueInner {
 	public:
@@ -174,18 +174,18 @@ namespace NiuMa
 		}
 
 	public:
-		// ¶¯×÷id
+		// åŠ¨ä½œid
 		int actionId;
 
-		// ÅÆid
+		// ç‰Œid
 		int tileId;
 
 		MSGPACK_DEFINE_MAP(playerId, timestamp, nonce, signature, venueId, actionId, tileId);
 	};
 
 	/**
-	 * Ö´ĞĞ¶¯×÷Ñ¡Ïî£¬µã¡°¹ı¡±£¬¼´·ÅÆúºú¡¢¸Ü¡¢Åö¡¢³Ô
-	 * ¿Í»§¶Ë->·şÎñÆ÷
+	 * æ‰§è¡ŒåŠ¨ä½œé€‰é¡¹ï¼Œç‚¹â€œè¿‡â€ï¼Œå³æ”¾å¼ƒèƒ¡ã€æ ã€ç¢°ã€åƒ
+	 * å®¢æˆ·ç«¯->æœåŠ¡å™¨
 	 */
 	class MsgPassActionOption : public MsgVenueInner {
 	public:
@@ -202,8 +202,8 @@ namespace NiuMa
 	};
 
 	/**
-	 * Í¨Öª¶¯×÷Ñ¡ÏîÒÑ¾­Íê³É
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥åŠ¨ä½œé€‰é¡¹å·²ç»å®Œæˆ
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgActionOptionFinish : public MsgBase {
 	public:
@@ -219,15 +219,15 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		// Õ¼Î»·û£¬Ã»É¶ÓÃ
+		// å ä½ç¬¦ï¼Œæ²¡å•¥ç”¨
 		int placeholder;
 
 		MSGPACK_DEFINE_MAP(placeholder);
 	};
 
 	/**
-	 * Í¨ÖªÍæ¼Ò³öÅÆÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥ç©å®¶å‡ºç‰Œæ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgPlayTile : public MsgBase
 	{
@@ -244,16 +244,16 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		int actor;							// ³öÅÆµÄÍæ¼Ò
-		MahjongTile tile;					// ´ò³öµÄÅÆ
-		MahjongTileArray handTiles;			// ³öÅÆÖ®ºóµÄÊÖÅÆ
+		int actor;							// å‡ºç‰Œçš„ç©å®¶
+		MahjongTile tile;					// æ‰“å‡ºçš„ç‰Œ
+		MahjongTileArray handTiles;			// å‡ºç‰Œä¹‹åçš„æ‰‹ç‰Œ
 
 		MSGPACK_DEFINE_MAP(actor, tile, handTiles);
 	};
 
 	/**
-	 * Í¨ÖªÍæ¼Ò¸ÜÅÆÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥ç©å®¶æ ç‰Œæ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgGangTile : public MsgBase
 	{
@@ -270,19 +270,19 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		int actor;						// ¸ÜÅÆÍæ¼Ò
-		int player;						// ±»¸ÜÅÆµÄÍæ¼Ò
-		int tileNums;					// Ê£ÓàÊÖÅÆÊıÁ¿
-		int chapter;					// ¸ÜÕÂÀàĞÍ(Ö±¸Ü¡¢¼Ó¸Ü¡¢°µ)
-		MahjongTileArray handTiles;		// ¸Ü¡¢Åö¡¢³ÔÅÆÖ®ºóµÄÊÖÅÆ
-		MahjongChapterArray chapters;	// ÅÆÕÂ
+		int actor;						// æ ç‰Œç©å®¶
+		int player;						// è¢«æ ç‰Œçš„ç©å®¶
+		int tileNums;					// å‰©ä½™æ‰‹ç‰Œæ•°é‡
+		int chapter;					// æ ç« ç±»å‹(ç›´æ ã€åŠ æ ã€æš—)
+		MahjongTileArray handTiles;		// æ ã€ç¢°ã€åƒç‰Œä¹‹åçš„æ‰‹ç‰Œ
+		MahjongChapterArray chapters;	// ç‰Œç« 
 
 		MSGPACK_DEFINE_MAP(actor, player, tileNums, chapter, handTiles, chapters);
 	};
 
 	/**
-	 * Í¨ÖªÍæ¼ÒÅö¡¢³ÔÅÆÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥ç©å®¶ç¢°ã€åƒç‰Œæ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgPengChiTile : public MsgBase
 	{
@@ -299,27 +299,27 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		// Åö¡¢³ÔÅÆÍæ¼Ò
+		// ç¢°ã€åƒç‰Œç©å®¶
 		int actor;
 
-		// ±»Åö¡¢³ÔÅÆµÄÍæ¼Ò
+		// è¢«ç¢°ã€åƒç‰Œçš„ç©å®¶
 		int player;
 
-		// Åö-true, ³Ô-false
+		// ç¢°-true, åƒ-false
 		bool pengOrChi;
 
 		//
 		MahjongTileArray tiles;
 
-		// Åö¡¢³ÔÅÆÖ®ºóµÄÊÖÅÆ
+		// ç¢°ã€åƒç‰Œä¹‹åçš„æ‰‹ç‰Œ
 		MahjongTileArray handTiles;		
 
 		MSGPACK_DEFINE_MAP(actor, player, pengOrChi, tiles, handTiles);
 	};
 
 	/**
-	 * Í¨ÖªÍæ¼ÒÌıÅÆÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥ç©å®¶å¬ç‰Œæ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgTingTile : public MsgBase {
 	public:
@@ -335,15 +335,15 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		// ÌıÅÆÁĞ±í
+		// å¬ç‰Œåˆ—è¡¨
 		MahjongTile::TileArray tiles;
 
 		MSGPACK_DEFINE_MAP(tiles);
 	};
 
 	/**
-	 * Í¨ÖªÍæ¼ÒºúÏûÏ¢
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * é€šçŸ¥ç©å®¶èƒ¡æ¶ˆæ¯
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgHuTile : public MsgBase
 	{
@@ -360,17 +360,17 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		int players[3];					// ºúÅÆÍæ¼ÒÎ»ÖÃ
-		int actor;						// ³öÅÆÍæ¼Ò(¼´·ÅÅÚÍæ¼Ò)
-		bool ziMo;						// ÊÇ·ñ×ÔÃş
-		MahjongTile tile;				// ËùºúµÄÅÆ
+		int players[3];					// èƒ¡ç‰Œç©å®¶ä½ç½®
+		int actor;						// å‡ºç‰Œç©å®¶(å³æ”¾ç‚®ç©å®¶)
+		bool ziMo;						// æ˜¯å¦è‡ªæ‘¸
+		MahjongTile tile;				// æ‰€èƒ¡çš„ç‰Œ
 
 		MSGPACK_DEFINE_MAP(players, actor, ziMo, tile);
 	};
 
 	/**
-	 * ÏÔÊ¾ËùÓĞÍæ¼ÒµÄÊÖÅÆÏûÏ¢(ÓÃÓÚÔÚÒ»¾Ö½áÊøÊ±£¬ËùÓĞÍæ¼ÒµÄÅÆµ¹ÏÂ)
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * æ˜¾ç¤ºæ‰€æœ‰ç©å®¶çš„æ‰‹ç‰Œæ¶ˆæ¯(ç”¨äºåœ¨ä¸€å±€ç»“æŸæ—¶ï¼Œæ‰€æœ‰ç©å®¶çš„ç‰Œå€’ä¸‹)
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgShowTiles : public MsgBase
 	{
@@ -387,14 +387,14 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		MahjongTileArray handTiles[4];	// ËùÓĞÍæ¼ÒµÄÊÖÅÆ
+		MahjongTileArray handTiles[4];	// æ‰€æœ‰ç©å®¶çš„æ‰‹ç‰Œ
 
 		MSGPACK_DEFINE_MAP(handTiles);
 	};
 
 	/**
-	 * ÌáÊ¾Íæ¼ÒÒò¹ıÅö»ò¹ıºú¶ø²»ÄÜÅö»òºú
-	 * ·şÎñÆ÷->¿Í»§¶Ë
+	 * æç¤ºç©å®¶å› è¿‡ç¢°æˆ–è¿‡èƒ¡è€Œä¸èƒ½ç¢°æˆ–èƒ¡
+	 * æœåŠ¡å™¨->å®¢æˆ·ç«¯
 	 */
 	class MsgPassTip : public MsgBase {
 	public:
@@ -410,18 +410,18 @@ namespace NiuMa
 		MSG_PACK_IMPL
 
 	public:
-		// 0-¹ıÅö£¬1-¹ıºú
+		// 0-è¿‡ç¢°ï¼Œ1-è¿‡èƒ¡
 		int action;
 
-		// ¹ıÅö»ò¹ıºúµÄÅÆ
+		// è¿‡ç¢°æˆ–è¿‡èƒ¡çš„ç‰Œ
 		std::string tile;
 
 		MSGPACK_DEFINE_MAP(action, tile);
 	};
 
 	/**
-	 * Ö¸¶¨ÏÂÒ»´ÎÃşÆğµÄÅÆ(½öÓÃÓÚ²âÊÔÓÎÏ·Ïà¹ØËã·¨µÄÕıÈ·ĞÔ)
-	 * ¿Í»§¶Ë->·şÎñÆ÷
+	 * æŒ‡å®šä¸‹ä¸€æ¬¡æ‘¸èµ·çš„ç‰Œ(ä»…ç”¨äºæµ‹è¯•æ¸¸æˆç›¸å…³ç®—æ³•çš„æ­£ç¡®æ€§)
+	 * å®¢æˆ·ç«¯->æœåŠ¡å™¨
 	 */
 	class MsgNextTile : public MsgVenueInner {
 	public:
@@ -435,10 +435,10 @@ namespace NiuMa
 		}
 
 	public:
-		// ÅÆid
+		// ç‰Œid
 		int tileId;
 
-		// ÅÆÃû³Æ
+		// ç‰Œåç§°
 		std::string tileName;
 
 		MSGPACK_DEFINE_MAP(playerId, timestamp, nonce, signature, venueId, tileId, tileName);

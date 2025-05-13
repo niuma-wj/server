@@ -1,4 +1,4 @@
-// MahjongAction.h
+ï»¿// MahjongAction.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.11.30
@@ -13,25 +13,25 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«¶¯×÷
-	 * Âé½«ÓÎÏ·µÄÂß¼­Á÷³Ì¼°×´Ì¬±ä»¯ÓÉ¶¯×÷À´Çý¶¯
+	 * éº»å°†åŠ¨ä½œ
+	 * éº»å°†æ¸¸æˆçš„é€»è¾‘æµç¨‹åŠçŠ¶æ€å˜åŒ–ç”±åŠ¨ä½œæ¥é©±åŠ¨
 	 */
 	class MahjongAction
 	{
 	public:
-		// ¶¯×÷ÀàÐÍ
+		// åŠ¨ä½œç±»åž‹
 		enum class Type : int
 		{
-			Invalid = 0,	// ·Ç·¨¶¯×÷
-			Fetch,			// ´ÓÊ£ÓàÅÆÖÐÈ¡»ØÒ»ÕÅÅÆ
-			Play,			// ´ò³öÒ»ÕÅÅÆ
-			Chi,			// ³Ô
-			Peng,			// Åö
-			ZhiGang,		// Ö±¸Ü
-			JiaGang,		// ¼Ó¸Ü
-			AnGang,			// °µ¸Ü
-			DianPao,		// µãÅÚ(ÓÐµÄµØ·½³Æ½ÓÅÚ£¬¶¼ÊÇºúÆäËûÍæ¼Ò´ò³öµÄÅÆµÄÒâË¼)
-			ZiMo			// ×ÔÃþ
+			Invalid = 0,	// éžæ³•åŠ¨ä½œ
+			Fetch,			// ä»Žå‰©ä½™ç‰Œä¸­å–å›žä¸€å¼ ç‰Œ
+			Play,			// æ‰“å‡ºä¸€å¼ ç‰Œ
+			Chi,			// åƒ
+			Peng,			// ç¢°
+			ZhiGang,		// ç›´æ 
+			JiaGang,		// åŠ æ 
+			AnGang,			// æš—æ 
+			DianPao,		// ç‚¹ç‚®(æœ‰çš„åœ°æ–¹ç§°æŽ¥ç‚®ï¼Œéƒ½æ˜¯èƒ¡å…¶ä»–çŽ©å®¶æ‰“å‡ºçš„ç‰Œçš„æ„æ€)
+			ZiMo			// è‡ªæ‘¸
 		};
 
 	public:
@@ -42,17 +42,17 @@ namespace NiuMa
 
 	protected:
 		/**
-		 * ¶¯×÷ÀàÐÍ
+		 * åŠ¨ä½œç±»åž‹
 		 */
 		int type;
 
 		/**
-		 * ¶¯×÷ÕßÁÐ±íÖÐµÄÎ»ÖÃË÷Òý
+		 * åŠ¨ä½œè€…åˆ—è¡¨ä¸­çš„ä½ç½®ç´¢å¼•
 		 */
 		int slot;
 
 		/**
-		 * ´Ë¶¯×÷µÄÅÆID
+		 * æ­¤åŠ¨ä½œçš„ç‰ŒID
 		 */
 		int tile;
 
@@ -70,15 +70,15 @@ namespace NiuMa
 		MSGPACK_DEFINE_MAP(type, slot, tile);
 	};
 
-	// ¶¯×÷ÁÐ±í
+	// åŠ¨ä½œåˆ—è¡¨
 	typedef std::vector<MahjongAction> MahjongActionList;
 
 	/**
-	 * ¶¯×÷Õß
-	 * Ò»¸ö¶¯×÷Õß»áÓÐÁ¬¹á¶à¸ö¶¯×÷£¬ÀýÈç£º×î¼òµ¥µÄÃþÅÆÊÇÒ»¸ö¶¯×÷£¬½Ó×Å³öÅÆÒ²ÊÇÒ»¸ö¶¯×÷£¬
-	 * ÕâÁ½¸öÁ¬¹áµÄ¶¯×÷¶¼ÓÉÒ»¸ö¶¯×÷ÕßÀ´Íê³É£»¸ü¸´ÔÓµÄÇé¿ö£¬Ö±¸ÜÊÇÒ»¸ö¶¯×÷(1)£¬½Ó×Å¸Üºó²¹ÅÆ
-	 * ÓÖÊÇÒ»¸ö¶¯×÷(2)£¬Èç¹ûÃþÉÏÀ´µÄÅÆÓÖÄÜ¸Ü(°µ¸Ü)£¬°µ¸ÜÒ²ÊÇÒ»¸ö¶¯×÷(3)£¬½Ó×Å¸Üºó²¹ÅÆÓÖÊÇÒ»¸ö
-	 * ¶¯×÷(4)£¬Íêºó³öÅÆ»¹ÊÇÒ»¸ö¶¯×÷(5)£¬×Ü¹²5¸öÁ¬¹áµÄ¶¯×÷¶¼ÓÉÒ»¸ö¶¯×÷ÕßÍê³É
+	 * åŠ¨ä½œè€…
+	 * ä¸€ä¸ªåŠ¨ä½œè€…ä¼šæœ‰è¿žè´¯å¤šä¸ªåŠ¨ä½œï¼Œä¾‹å¦‚ï¼šæœ€ç®€å•çš„æ‘¸ç‰Œæ˜¯ä¸€ä¸ªåŠ¨ä½œï¼ŒæŽ¥ç€å‡ºç‰Œä¹Ÿæ˜¯ä¸€ä¸ªåŠ¨ä½œï¼Œ
+	 * è¿™ä¸¤ä¸ªè¿žè´¯çš„åŠ¨ä½œéƒ½ç”±ä¸€ä¸ªåŠ¨ä½œè€…æ¥å®Œæˆï¼›æ›´å¤æ‚çš„æƒ…å†µï¼Œç›´æ æ˜¯ä¸€ä¸ªåŠ¨ä½œ(1)ï¼ŒæŽ¥ç€æ åŽè¡¥ç‰Œ
+	 * åˆæ˜¯ä¸€ä¸ªåŠ¨ä½œ(2)ï¼Œå¦‚æžœæ‘¸ä¸Šæ¥çš„ç‰Œåˆèƒ½æ (æš—æ )ï¼Œæš—æ ä¹Ÿæ˜¯ä¸€ä¸ªåŠ¨ä½œ(3)ï¼ŒæŽ¥ç€æ åŽè¡¥ç‰Œåˆæ˜¯ä¸€ä¸ª
+	 * åŠ¨ä½œ(4)ï¼Œå®ŒåŽå‡ºç‰Œè¿˜æ˜¯ä¸€ä¸ªåŠ¨ä½œ(5)ï¼Œæ€»å…±5ä¸ªè¿žè´¯çš„åŠ¨ä½œéƒ½ç”±ä¸€ä¸ªåŠ¨ä½œè€…å®Œæˆ
 	 */
 	class MahjongActor
 	{
@@ -97,12 +97,12 @@ namespace NiuMa
 
 	protected:
 		/**
-		 * Íæ¼ÒÔÚÅÆ×ÀÉÏµÄÎ»ÖÃË÷Òý
+		 * çŽ©å®¶åœ¨ç‰Œæ¡Œä¸Šçš„ä½ç½®ç´¢å¼•
 		 */
 		int player;
 
 		/**
-		 * ¸Ã¶¯×÷ÕßµÄµÚÒ»¸ö¶¯×÷ÔÚ¶¯×÷ÁÐ±íÖÐµÄË÷Òý
+		 * è¯¥åŠ¨ä½œè€…çš„ç¬¬ä¸€ä¸ªåŠ¨ä½œåœ¨åŠ¨ä½œåˆ—è¡¨ä¸­çš„ç´¢å¼•
 		 */
 		int start;
 
@@ -110,16 +110,16 @@ namespace NiuMa
 		MSGPACK_DEFINE_MAP(player, start);
 	};
 
-	// ¶¯×÷ÕßÁÐ±í
+	// åŠ¨ä½œè€…åˆ—è¡¨
 	typedef std::vector<MahjongActor> MahjongActorList;
 
 
 	/**
-	 * ¶¯×÷Ñ¡Ïî
-	 * µ±Íæ¼ÒÃþÆðÀ´Ò»ÕÅÅÆºó£¬ÄÜ×ÔÃþ¡¢ÄÜ¼Ó¸Ü¡¢ÄÜ°µ¸Ü£¬×¢Òâ¼Ó¸ÜºÍ°µ¸Ü²»Ò»¶¨ÊÇ¸Ü¸ÕÃþÆðÀ´µÄÅÆ
-	 * (¿ÉÄÜÊÖÍ·ÉÏÄÜ¼Ó¸Ü»òÕß°µ¸Ü¶à·ùÅÆ£¬Ã¿¸ö¸Ü¶¼ÊÇÒ»¸öÑ¡Ïî)£¬ÕâÑù¾ÍÓÐ¶àÖÖ¶¯×÷Ñ¡Ïî¡£ÁíÍâ£¬
-	 * µ±Íæ¼Ò´ò³öÒ»ÕÅÅÆºó£¬ÆäËûÍæ¼ÒÄÜºú(¿ÉÄÜÍ¬Ê±ÓÐ¶à¸öÍæ¼Òºú)¡¢ÄÜÖ±¸Ü¡¢ÄÜÅö£¬ÏÂ¼ÒÄÜ³Ô(×î¶à
-	 * ÄÜÓÐÈýÖÖ³Ô·¨£¬Ã¿ÖÖ³Ô·¨¶¼ÊÇÒ»¸öÑ¡Ïî)£¬ÕâÑùÒ²ÓÐºÜ¶àÖÖ¶¯×÷Ñ¡Ïî
+	 * åŠ¨ä½œé€‰é¡¹
+	 * å½“çŽ©å®¶æ‘¸èµ·æ¥ä¸€å¼ ç‰ŒåŽï¼Œèƒ½è‡ªæ‘¸ã€èƒ½åŠ æ ã€èƒ½æš—æ ï¼Œæ³¨æ„åŠ æ å’Œæš—æ ä¸ä¸€å®šæ˜¯æ åˆšæ‘¸èµ·æ¥çš„ç‰Œ
+	 * (å¯èƒ½æ‰‹å¤´ä¸Šèƒ½åŠ æ æˆ–è€…æš—æ å¤šå¹…ç‰Œï¼Œæ¯ä¸ªæ éƒ½æ˜¯ä¸€ä¸ªé€‰é¡¹)ï¼Œè¿™æ ·å°±æœ‰å¤šç§åŠ¨ä½œé€‰é¡¹ã€‚å¦å¤–ï¼Œ
+	 * å½“çŽ©å®¶æ‰“å‡ºä¸€å¼ ç‰ŒåŽï¼Œå…¶ä»–çŽ©å®¶èƒ½èƒ¡(å¯èƒ½åŒæ—¶æœ‰å¤šä¸ªçŽ©å®¶èƒ¡)ã€èƒ½ç›´æ ã€èƒ½ç¢°ï¼Œä¸‹å®¶èƒ½åƒ(æœ€å¤š
+	 * èƒ½æœ‰ä¸‰ç§åƒæ³•ï¼Œæ¯ç§åƒæ³•éƒ½æ˜¯ä¸€ä¸ªé€‰é¡¹)ï¼Œè¿™æ ·ä¹Ÿæœ‰å¾ˆå¤šç§åŠ¨ä½œé€‰é¡¹
 	 */
 	class MahjongActionOption
 	{
@@ -145,27 +145,27 @@ namespace NiuMa
 
 	protected:
 		/**
-		 * Ñ¡ÏîID
+		 * é€‰é¡¹ID
 		 */
 		int id;
 
 		/**
-		 * ¶¯×÷ÀàÐÍ(MahjongAction::Type)
+		 * åŠ¨ä½œç±»åž‹(MahjongAction::Type)
 		 */
 		int type;
 
 		/**
-		 * Íæ¼ÒÎ»ÖÃË÷Òý
+		 * çŽ©å®¶ä½ç½®ç´¢å¼•
 		 */
 		int player;
 
 		/**
-		 * ÅÆID1
+		 * ç‰ŒID1
 		 */
 		int tile1;
 
 		/**
-		 * ÅÆID2(³ÔÑ¡Ïî»áÓÐÁ½¸öÅÆ)
+		 * ç‰ŒID2(åƒé€‰é¡¹ä¼šæœ‰ä¸¤ä¸ªç‰Œ)
 		 */
 		int tile2;
 

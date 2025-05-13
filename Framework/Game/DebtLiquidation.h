@@ -1,4 +1,4 @@
-// DebtLiquidation.h
+ï»¿// DebtLiquidation.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.12.05
@@ -11,12 +11,12 @@
 
 namespace NiuMa
 {
-	// Õ®ÎñÇåËãËã·¨
-	// ÓÃÓÚ´¦Àí¶à±ßÕ®Îñ¡¢»·ĞÎÕ®ÎñµÈ¸´ÔÓÇé¿ö£¬µ±Õ®ÎñÍøÖĞ½Úµã²»×ãÒÔ³¥¸¶Ê±£¬°´±ÈÀı³¥¸¶¡£
-	// Ëã·¨Ê¹ÓÃ¸´Ê½¼ÇÕË·¨¼ÇÂ¼½ÚµãµÄ×Ê²ú¸ºÕ®¡£
+	// å€ºåŠ¡æ¸…ç®—ç®—æ³•
+	// ç”¨äºå¤„ç†å¤šè¾¹å€ºåŠ¡ã€ç¯å½¢å€ºåŠ¡ç­‰å¤æ‚æƒ…å†µï¼Œå½“å€ºåŠ¡ç½‘ä¸­èŠ‚ç‚¹ä¸è¶³ä»¥å¿ä»˜æ—¶ï¼ŒæŒ‰æ¯”ä¾‹å¿ä»˜ã€‚
+	// ç®—æ³•ä½¿ç”¨å¤å¼è®°è´¦æ³•è®°å½•èŠ‚ç‚¹çš„èµ„äº§è´Ÿå€ºã€‚
 
 	/**
-	 * Õ®Îñ½Úµã
+	 * å€ºåŠ¡èŠ‚ç‚¹
 	 */
 	class DebtNode
 	{
@@ -25,58 +25,58 @@ namespace NiuMa
 		virtual ~DebtNode();
 
 	public:
-		// ·µ»ØID
+		// è¿”å›ID
 		int getId() const;
 
-		// ·µ»ØÏÖ½ğ×Ü¶î
+		// è¿”å›ç°é‡‘æ€»é¢
 		double getCapital() const;
 
-		// ÉèÖÃÏÖ½ğ×Ü¶î
+		// è®¾ç½®ç°é‡‘æ€»é¢
 		void setCapital(double cap);
 
-		// Ôö¼ÓÏÖ½ğ
+		// å¢åŠ ç°é‡‘
 		void addCapital(double cap);
 
-		// ¼ÇÕË
+		// è®°è´¦
 		void tally(DebtNode* node, double amount);
 
-		// ´Ó½ÚµãÊÕ»ØÈ«²¿Ç·¿î
+		// ä»èŠ‚ç‚¹æ”¶å›å…¨éƒ¨æ¬ æ¬¾
 		bool receipt(DebtNode* node);
 
-		// ³¥»¹ËùÓĞ½ÚµãµÄÈ«²¿Ç·¿î
+		// å¿è¿˜æ‰€æœ‰èŠ‚ç‚¹çš„å…¨éƒ¨æ¬ æ¬¾
 		void repayAll();
 
-		// ³¥»¹Ö¸¶¨½ÚµãµÄÈ«²¿Ç·¿î
+		// å¿è¿˜æŒ‡å®šèŠ‚ç‚¹çš„å…¨éƒ¨æ¬ æ¬¾
 		bool repay(DebtNode* node);
 
-		// Ïû³ıÓëÖ¸¶¨½Úµã¼äµÄÕ®Îñ¹ØÏµ
+		// æ¶ˆé™¤ä¸æŒ‡å®šèŠ‚ç‚¹é—´çš„å€ºåŠ¡å…³ç³»
 		void erase(DebtNode* node);
 
-		// Ïû³ıÓëÕ®ÎñÍøÄÚËùÓĞ½Úµã¼äµÄÕ®Îñ¹ØÏµ
+		// æ¶ˆé™¤ä¸å€ºåŠ¡ç½‘å†…æ‰€æœ‰èŠ‚ç‚¹é—´çš„å€ºåŠ¡å…³ç³»
 		void erase(const std::unordered_map<int, DebtNode*>& debtNet);
 
-		// ·µ»Ø¸ºÕ®±í
+		// è¿”å›è´Ÿå€ºè¡¨
 		std::unordered_map<DebtNode*, double>& getDebtSheet();
 
-		// ·µ»Ø¸ºÕ®±í
+		// è¿”å›è´Ÿå€ºè¡¨
 		const std::unordered_map<DebtNode*, double>& getDebtSheet() const;
 
-		// ·µ»Ø¾»¸ºÕ®(Ó¦ÊÕÕË¿î×Ü¶î¼õÈ¥Ç·¿î×Ü¶î)
+		// è¿”å›å‡€è´Ÿå€º(åº”æ”¶è´¦æ¬¾æ€»é¢å‡å»æ¬ æ¬¾æ€»é¢)
 		double getDebt() const;
 
 	private:
-		// ½ÚµãID
+		// èŠ‚ç‚¹ID
 		const int _id;
 
-		// ½Úµã³ÖÓĞµÄÏÖ½ğ×Ü¶î(²»ËãÓ¦ÊÕÕË¿î¼°Ç·¿î)
+		// èŠ‚ç‚¹æŒæœ‰çš„ç°é‡‘æ€»é¢(ä¸ç®—åº”æ”¶è´¦æ¬¾åŠæ¬ æ¬¾)
 		double _capital;
 
-		// ¸ºÕ®¹ØÏµ±í£¬Ó¦ÊÕÕË¿î(Ğ¡ÓÚ0)Ç·¿î(´óÓÚ0)
+		// è´Ÿå€ºå…³ç³»è¡¨ï¼Œåº”æ”¶è´¦æ¬¾(å°äº0)æ¬ æ¬¾(å¤§äº0)
 		std::unordered_map<DebtNode*, double> _debtSheet;
 	};
 
 	/**
-	 * Õ®ÎñÇåËã
+	 * å€ºåŠ¡æ¸…ç®—
 	 */
 	class DebtLiquidation
 	{
@@ -84,18 +84,18 @@ namespace NiuMa
 		DebtLiquidation();
 		~DebtLiquidation();
 
-		// Èİ²îÖµ
+		// å®¹å·®å€¼
 		static const double TOLERANCE;
 
 	public:
-		// Õ®ÎñÍøÇåËã
+		// å€ºåŠ¡ç½‘æ¸…ç®—
 		bool operator()(std::unordered_map<int, DebtNode*>& debtNet);
 
-		// ÊÍ·ÅÕ®ÎñÍø
+		// é‡Šæ”¾å€ºåŠ¡ç½‘
 		static void releaseDebtNet(std::unordered_map<int, DebtNode*>& debtNet);
 
-		// ´òÓ¡Õ®ÎñÍøµ½×Ö·û´®ÖĞ£¬ÈôÇåËã½á¹û²»ÕıÈ··½±ã½«Ô­Ê¼Õ®ÎñÍøÊä³öµ½ÈÕÖ¾ÖĞ
-		// ÒÔ±ã²âÊÔËã·¨
+		// æ‰“å°å€ºåŠ¡ç½‘åˆ°å­—ç¬¦ä¸²ä¸­ï¼Œè‹¥æ¸…ç®—ç»“æœä¸æ­£ç¡®æ–¹ä¾¿å°†åŸå§‹å€ºåŠ¡ç½‘è¾“å‡ºåˆ°æ—¥å¿—ä¸­
+		// ä»¥ä¾¿æµ‹è¯•ç®—æ³•
 		static void printDebtNet(const std::unordered_map<int, DebtNode*>& debtNet, std::string& text);
 	};
 }

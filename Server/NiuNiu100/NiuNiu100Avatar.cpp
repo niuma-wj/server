@@ -1,4 +1,4 @@
-// NiuNiu100Avatar.cpp
+ï»¿// NiuNiu100Avatar.cpp
 
 #include "NiuNiu100Avatar.h"
 
@@ -91,7 +91,7 @@ namespace NiuMa
 	}
 
 	int64_t NiuNiu100Avatar::getAccBets20() const {
-		// Ç°ÃæÀÛ¼Æ¼Ó±¾¾ÖÏÂ×¢
+		// å‰é¢ç´¯è®¡åŠ æœ¬å±€ä¸‹æ³¨
 		return _accBets20 + getBetAmount();
 	}
 

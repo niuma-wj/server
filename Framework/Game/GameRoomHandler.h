@@ -1,4 +1,4 @@
-// GameRoomHandler.h
+ï»¿// GameRoomHandler.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.11.26
@@ -10,7 +10,7 @@
 
 namespace NiuMa {
 	/**
-	 * ÆåÅÆÀàÓÎÏ··¿¼äÏûÏ¢´¦ÀíÆ÷
+	 * æ£‹ç‰Œç±»æ¸¸æˆæˆ¿é—´æ¶ˆæ¯å¤„ç†å™¨
 	 */
 	class GameRoomHandler : public VenueInnerHandler {
 	public:

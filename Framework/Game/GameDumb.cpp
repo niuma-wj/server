@@ -1,4 +1,4 @@
-// GameDumb.cpp
+ï»¿// GameDumb.cpp
 
 #include "GameDumb.h"
 #include "MySql/MysqlPool.h"
@@ -17,7 +17,7 @@ namespace NiuMa {
 
 	void GameDumb::onDisconnect(const std::string& playerId) {
 		Venue::onDisconnect(playerId);
-		// Íæ¼ÒÀëÏß£¬Ö±½ÓÀë¿ª³¡µØ
+		// çŽ©å®¶ç¦»çº¿ï¼Œç›´æŽ¥ç¦»å¼€åœºåœ°
 		//std::string errMsg;
 		//onLeave(playerId, errMsg);
 	}
@@ -81,7 +81,7 @@ namespace NiuMa {
 				while (res->next()) {
 					_name = res->getString("name");
 #ifdef _MSC_VER
-					// VC»·¾³ÏÂutf8±àÂë×ªgb2312£¬ÒÔ·½±ãµ÷ÊÔºÍÈÕÖ¾Êä³ö
+					// VCçŽ¯å¢ƒä¸‹utf8ç¼–ç è½¬gb2312ï¼Œä»¥æ–¹ä¾¿è°ƒè¯•å’Œæ—¥å¿—è¾“å‡º
 					_name = boost::locale::conv::from_utf(_name, std::string("gb2312"));
 #endif
 					_maxPlayers = res->getInt("max_players");

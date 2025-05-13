@@ -1,4 +1,4 @@
-// NetMessage.h
+ï»¿// NetMessage.h
 // Author: wujian
 // Email: 393817707@qq.com
 // Date: 2024.07.18
@@ -9,7 +9,7 @@
 #include "MsgBase.h"
 
 namespace NiuMa {
-	// ÍøÂçÏûÏ¢
+	// ç½‘ç»œæ¶ˆæ¯
 	class NetMessage
 	{
 	public:
@@ -24,13 +24,13 @@ namespace NiuMa {
 		const std::string& getType() const;
 
 	private:
-		// Á¬½Ó»á»°
+		// è¿æ¥ä¼šè¯
 		std::weak_ptr<Session> _session;
 
-		// ÏûÏ¢Ìå
+		// æ¶ˆæ¯ä½“
 		MsgBase::Ptr _msg;
 
-		// ÏûÏ¢ÀàĞÍ
+		// æ¶ˆæ¯ç±»å‹
 		const std::string _type;
 	};
 }

@@ -1,4 +1,4 @@
-// MahjongChapter.cpp
+﻿// MahjongChapter.cpp
 
 #include "MahjongChapter.h"
 

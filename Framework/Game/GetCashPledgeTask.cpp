@@ -1,4 +1,4 @@
-// GetCashPledgeTask.cpp
+﻿// GetCashPledgeTask.cpp
 
 #include "GetCashPledgeTask.h"
 

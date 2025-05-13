@@ -1,4 +1,4 @@
-// GameDefines.h
+ï»¿// GameDefines.h
 // Author wujian
 // Email 393817707@qq.com
 // Date 2024.12.03
@@ -10,25 +10,25 @@ namespace NiuMa
 {
 	enum class GameType : int
 	{
-		Invalid,			// ÎŞĞ§ÓÎÏ·
-		Mahjong = 1021,		// Âé½«ÓÎÏ·
-		DouDiZhu = 1022,	// ¶·µØÖ÷ÅÆ×À
-		NiuNiu100 = 1023,	// °ÙÈËÅ£Å£
-		NiuNiu = 1024,		// ¾­µäÅ£Å£
-		RedBlack = 1025,	// ºìºÚ´óÕ½
-		ZhaJinHua = 1026,	// Õ¨½ğ»¨
-		LiuAnBiJi = 1027,	// Áù°²±È¼¦
-		Lackey = 1028,		// ´ş¹·ÍÈ
-		Tractor = 1029		// ÍÏÀ­»ú
+		Invalid,			// æ— æ•ˆæ¸¸æˆ
+		Mahjong = 1021,		// éº»å°†æ¸¸æˆ
+		DouDiZhu = 1022,	// æ–—åœ°ä¸»ç‰Œæ¡Œ
+		NiuNiu100 = 1023,	// ç™¾äººç‰›ç‰›
+		NiuNiu = 1024,		// ç»å…¸ç‰›ç‰›
+		RedBlack = 1025,	// çº¢é»‘å¤§æˆ˜
+		ZhaJinHua = 1026,	// ç‚¸é‡‘èŠ±
+		LiuAnBiJi = 1027,	// å…­å®‰æ¯”é¸¡
+		Lackey = 1028,		// é€®ç‹—è…¿
+		Tractor = 1029		// æ‹–æ‹‰æœº
 	};
 
 
-	// ÓÎÏ·½×¶Î×´Ì¬
+	// æ¸¸æˆé˜¶æ®µçŠ¶æ€
 	enum class StageState : int
 	{
-		NotStarted,		// Î´¿ªÊ¼
-		Underway,		// ½øĞĞÖĞ
-		Finished		// ÒÑ½áÊø
+		NotStarted,		// æœªå¼€å§‹
+		Underway,		// è¿›è¡Œä¸­
+		Finished		// å·²ç»“æŸ
 	};
 }
 

@@ -1,4 +1,4 @@
-// MahjongDealer.cpp 
+ï»¿// MahjongDealer.cpp 
 
 #include "Base/BaseUtils.h"
 #include "MahjongDealer.h"
@@ -13,7 +13,7 @@
 namespace NiuMa
 {
 	/**
-	 * Âé½«ÅÆÉú³ÉÆ÷£¬È«¾ÖÎ¨Ò»
+	 * éº»å°†ç‰Œç”Ÿæˆå™¨ï¼Œå…¨å±€å”¯ä¸€
 	 */
 	class MahjongTileGenerator
 	{
@@ -40,13 +40,13 @@ namespace NiuMa
 		virtual ~MahjongTileGenerator() {}
 
 	private:
-		// È«¾ÖÊµÀı
+		// å…¨å±€å®ä¾‹
 		static std::shared_ptr<MahjongTileGenerator> s_inst;
 
-		// ĞÅºÅÁ¿
+		// ä¿¡å·é‡
 		static std::mutex s_mtx;
 
-		// Âé½«ÅÆ³Ø
+		// éº»å°†ç‰Œæ± 
 		MahjongTile::Tile _tileBuffer[TILE_NUMS_HAS_FLOWER];
 
 	public:

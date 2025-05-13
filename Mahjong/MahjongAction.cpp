@@ -1,4 +1,4 @@
-// MahjongAction.cpp 
+﻿// MahjongAction.cpp 
 
 #include "MahjongAction.h"
 #include "MahjongTile.h"
