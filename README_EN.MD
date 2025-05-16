@@ -1,5 +1,9 @@
 **Read this in other languages: [English](README_EN.MD), [中文](README.MD).**
 
+# Testing client
+A testing client is available on the Internet, every one is welcomed to download and test it.\
+[client](http://106.13.15.226:8896/download)
+
 # Introduction
 NiuMa game server is a card game server base on C++ language development, implement the card game backend logic, such as mahjong game function logic and flow control. Clients communicate with this server on TCP connections, using MessagePack serialization solution to transport messages. The dependent third part components of this project include: MySql, Redis and RabbitMQ, this server is cross-platform deployment supported, lightweight design reduces third part dependence when deploying. Based on the overall distributed architecture design, the server can flexibly expand it's instances according to the business volume. A major feature of the design of this server is that the functional modules are concise, the code logic is clear, the core module is highly abstract and reusable, and it is easy for developers to master and carry out function expansion and maintenance.
 
