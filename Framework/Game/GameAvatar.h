@@ -43,8 +43,7 @@ namespace NiuMa
 		void setAuthorize(bool s);
 		bool isReady() const;
 		void setReady(bool s);
-		bool isOffline() const;
-		void setOffline(bool s);
+		bool isOffline();
 		void setSession(const Session::Ptr& session);
 		Session::Ptr getSession();
 		// 获得经纬度
@@ -88,9 +87,6 @@ namespace NiuMa
 
 		// 是否已准备就绪
 		bool _ready;
-
-		// 是否离线
-		bool _offline;
 
 		// 网络会话
 		std::weak_ptr<Session> _session;

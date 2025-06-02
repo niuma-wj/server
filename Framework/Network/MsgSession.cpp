@@ -169,6 +169,7 @@ namespace NiuMa {
 	}
 
 	void MsgSession::onDisconnect() {
+		Session::onDisconnect();
 		std::string sessionId;
 		getId(sessionId);
 		std::shared_ptr<MsgDisconnect> msg(new MsgDisconnect());

@@ -60,7 +60,6 @@ namespace NiuMa
 			PlayerManager::getSingleton().removeSessionId(sessionId);
 		session->getId(sessionId);
 		player->setSession(session);
-		player->setOffline(false);
 		PlayerManager::getSingleton().setSessionPlayerId(sessionId, playerId);
 		InfoS << "Player(id:" << playerId << ") connected, session id: " << sessionId;
 		std::string venueId;
@@ -96,7 +95,7 @@ namespace NiuMa
 		if (!player)
 			return;
 		PlayerManager::getSingleton().removeSessionId(sessionId);
-		player->setOffline(true);
+		player->setOffline();
 		PlayerManager::getSingleton().addOfflinePlayer(player->getId());
 		std::string venueId;
 		player->getVenueId(venueId);

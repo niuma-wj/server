@@ -172,9 +172,9 @@ namespace NiuMa {
 
             std::shared_ptr<TcpServer> srv = _server.lock();
             if (srv && !(srv->isStopping())) {
-                srv->removeConnection(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
                 if (_session)
                     _session->onDisconnect();
+                srv->removeConnection(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
             }
             InfoS << "Session(id: " << _uuid << ") error, msg: " << ec.message();
         }

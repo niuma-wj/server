@@ -7,7 +7,6 @@ namespace NiuMa {
 	Player::Player(const std::string& id)
 		: _id(id)
 		, _sex(0)
-		, _offline(false)
 		, _offlineTime(0LL)
 	{
 		_referenceTime = BaseUtils::getCurrentSecond();
@@ -141,20 +140,18 @@ namespace NiuMa {
 		return !(ip.empty());
 	}
 
-	void Player::setOffline(bool offline) {
+	void Player::setOffline() {
 		std::lock_guard<std::mutex> lck(_mtx);
 
-		_offline = offline;
-		if (offline) {
-			_session.reset();
-			_offlineTime = BaseUtils::getCurrentSecond();
-		}
+		_session.reset();
+		_offlineTime = BaseUtils::getCurrentSecond();
 	}
 
 	bool Player::getOffline() {
-		std::lock_guard<std::mutex> lck(_mtx);
-
-		return _offline;
+		Session::Ptr sess = getSession();
+		if (sess && sess->isValid())
+			return false;
+		return true;
 	}
 
 	void Player::getTime(time_t& offlineTime, time_t& referenceTime) {

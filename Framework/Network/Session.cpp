@@ -6,6 +6,7 @@
 namespace NiuMa {
 	Session::Session(const std::shared_ptr<Connection>& con)
 		: _connection(con)
+		, _valid(true)
 	{
 		if (con)
 			con->getRemoteIp(_remoteIp);
@@ -23,7 +24,21 @@ namespace NiuMa {
 		return _remoteIp;
 	}
 
-	void Session::onDisconnect() {}
+	bool Session::isValid() {
+		std::lock_guard<std::mutex> lck(_mtx);
+
+		return _valid;
+	}
+
+	void Session::setInvalid() {
+		std::lock_guard<std::mutex> lck(_mtx);
+
+		_valid = false;
+	}
+
+	void Session::onDisconnect() {
+		setInvalid();
+	}
 
 	void Session::send(const char* buf, std::size_t length) {
 		Connection::Ptr con = _connection.lock();

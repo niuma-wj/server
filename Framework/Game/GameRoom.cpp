@@ -108,7 +108,6 @@ namespace NiuMa
 		Player::Ptr player = PlayerManager::getSingleton().getPlayer(playerId);
 		if (!player)
 			return;
-		avatar->setOffline(false);
 		avatar->setSession(player->getSession());
 		// 通知玩家上线
 		MsgAvatarConnect msg;
@@ -124,7 +123,6 @@ namespace NiuMa
 		GameAvatar::Ptr avatar = getAvatar(playerId);
 		if (!avatar)
 			return;
-		avatar->setOffline(true);
 		avatar->setSession(Session::Ptr());
 		// 通知玩家离线
 		MsgAvatarConnect msg;

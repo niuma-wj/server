@@ -12,7 +12,6 @@ namespace NiuMa {
 		, _cashPledge(0LL)
 		, _authorize(false)
 		, _ready(false)
-		, _offline(false)
 		, _latitude(0.0f)
 		, _longitude(0.0f)
 		, _altitude(0.0f)
@@ -100,12 +99,11 @@ namespace NiuMa {
 		_ready = s;
 	}
 
-	bool GameAvatar::isOffline() const {
-		return _offline;
-	}
-
-	void GameAvatar::setOffline(bool s) {
-		_offline = s;
+	bool GameAvatar::isOffline() {
+		Session::Ptr sess = getSession();
+		if (sess && sess->isValid())
+			return false;
+		return true;
 	}
 
 	void GameAvatar::setSession(const Session::Ptr& session) {

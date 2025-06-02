@@ -8,6 +8,7 @@
 
 #include <memory>
 #include <string>
+#include <mutex>
 
 namespace NiuMa {
 	/**
@@ -37,6 +38,12 @@ namespace NiuMa {
 		 * @return 返回远端ip地址
 		 */
 		const std::string& getRemoteIp() const;
+
+		/**
+		 * 会话是否仍有效
+		 * @return true-有效，false-无效
+		 */
+		bool isValid();
 
 		/**
 		 * 接收到数据事件
@@ -78,11 +85,23 @@ namespace NiuMa {
 		virtual void heartbeat();
 
 	private:
+		/**
+		 * 设置会话无效
+		 */
+		void setInvalid();
+
+	private:
 		// 连接
 		std::weak_ptr<Connection> _connection;
 
 		// 远端ip
 		std::string _remoteIp;
+
+		// 有效标志
+		bool _valid;
+
+		// 信号量
+		std::mutex _mtx;
 	};
 
 	/**

@@ -16,6 +16,8 @@
 #include <mysql/jdbc.h>
 #include "jsoncpp/include/json/json.h"
 
+#include <boost/locale.hpp>
+
 namespace NiuMa {
 	template<> VenueManager* Singleton<VenueManager>::_inst = nullptr;
 
@@ -343,8 +345,15 @@ namespace NiuMa {
 				int ret = 0;
 				std::string errMsg = "success";
 				Venue::Ptr strong = weakVenue.lock();
-				if (strong)
+				if (strong) {
 					ret = strong->onLeave(playerId, errMsg);
+#ifdef _MSC_VER
+					if (ret != 0) {
+						// VC环境下gb2312编码转utf8
+						errMsg = boost::locale::conv::to_utf<char>(errMsg, std::string("gb2312"));
+					}
+#endif
+				}
 				Json::Value tmp(Json::objectValue);
 				tmp["commandId"] = commandId;
 				tmp["result"] = ret;

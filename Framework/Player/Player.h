@@ -140,14 +140,13 @@ namespace NiuMa {
 		bool getIp(std::string& ip);
 
 		/**
-		 * 设置离线状态
-		 * @param offline 离线状态
+		 * 设置离线
 		 */
-		void setOffline(bool offline);
+		void setOffline();
 
 		/**
 		 * 获取离线状态
-		 * @return 离线状态
+		 * @return true-离线，false-在线
 		 */
 		bool getOffline();
 
@@ -197,9 +196,6 @@ namespace NiuMa {
 
 		// 当前所在场地id
 		std::string _venueId;
-
-		// 是否离线
-		bool _offline;
 
 		// 离线时间
 		time_t _offlineTime;
