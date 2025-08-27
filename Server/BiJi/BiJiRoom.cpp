@@ -169,6 +169,7 @@ namespace NiuMa
 	}
 
 	void BiJiRoom::onAvatarJoined(int seat, const std::string& playerId) {
+		GameRoom::onAvatarJoined(seat, playerId);
 		if (getAvatarCount() == 1)
 			_commander = seat;
 	}
@@ -208,7 +209,7 @@ namespace NiuMa
 		}
 	}
 
-	bool BiJiRoom::checkEnter(const std::string& playerId, std::string& errMsg) const {
+	bool BiJiRoom::checkEnter(const std::string& playerId, std::string& errMsg, bool robot) const {
 		// 任意时候只要还有空位都可以加入
 		return true;
 	}
@@ -238,7 +239,8 @@ namespace NiuMa
 		tmp["diamond"] = static_cast<Json::Int64>(diamod);
 		if (!avatar->isOffline()) {
 			Session::Ptr session = avatar->getSession();
-			tmp["ip"] = session->getRemoteIp();
+			if (session)
+				tmp["ip"] = session->getRemoteIp();
 		}
 		BiJiAvatar* inst = dynamic_cast<BiJiAvatar*>(avatar.get());
 		if (inst != nullptr)

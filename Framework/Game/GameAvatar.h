@@ -52,6 +52,27 @@ namespace NiuMa
 		// 设置经纬度
 		void setGeolocation(double lat, double lon, double alt);
 
+		// 设置输赢及平局次数
+		void setScoreboard(int win, int lose, int draw);
+
+		// 获取输赢及平局次数
+		void getScoreboard(int& win, int& lose, int& draw) const;
+
+		// 增加赢局次数
+		void incWinNum();
+
+		// 增加输局次数
+		void incLoseNum();
+
+		// 增加平局次数
+		void incDrawNum();
+
+		// 设置离线时间
+		void setOfflineTick(time_t t);
+
+		// 获取离线时间
+		time_t getOfflineTick() const;
+
 	private:
 		// 玩家id
 		const std::string _playerId;
@@ -99,6 +120,18 @@ namespace NiuMa
 
 		// 海拔
 		double _altitude;
+
+		// 赢局总数
+		int _winNum;
+
+		// 输局总数
+		int _loseNum;
+
+		// 平局总数
+		int _drawNum;
+
+		// 离线线时间，单位毫秒
+		time_t _offlineTick;
 	};
 }
 

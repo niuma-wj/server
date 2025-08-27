@@ -4,8 +4,9 @@
 #include "Player.h"
 
 namespace NiuMa {
-	Player::Player(const std::string& id)
+	Player::Player(const std::string& id, bool robot)
 		: _id(id)
+		, _robot(robot)
 		, _sex(0)
 		, _offlineTime(0LL)
 	{
@@ -16,6 +17,10 @@ namespace NiuMa {
 
 	const std::string& Player::getId() const {
 		return _id;
+	}
+
+	bool Player::isRobot() const {
+		return _robot;
 	}
 
 	void Player::setName(const std::string& name) {
@@ -148,6 +153,8 @@ namespace NiuMa {
 	}
 
 	bool Player::getOffline() {
+		if (_robot)
+			return false;
 		Session::Ptr sess = getSession();
 		if (sess && sess->isValid())
 			return false;

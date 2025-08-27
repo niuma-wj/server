@@ -5,6 +5,10 @@
 
 namespace NiuMa
 {
+	const std::string MsgJoinGame::TYPE("MsgJoinGame");
+	const std::string MsgJoinGameResp::TYPE("MsgJoinGameResp");
+	const std::string MsgBecomeSpectator::TYPE("MsgBecomeSpectator");
+	const std::string MsgBecomeSpectatorResp::TYPE("MsgBecomeSpectatorResp");
 	const std::string MsgAddAvatar::TYPE("MsgAddAvatar");
 	const std::string MsgRemoveAvatar::TYPE("MsgRemoveAvatar");
 	const std::string MsgAddSpectator::TYPE("MsgAddSpectator");
@@ -15,6 +19,19 @@ namespace NiuMa
 	const std::string MsgPlayerDiamonds::TYPE("MsgPlayerDiamonds");
 	const std::string MsgPlayerReady::TYPE("MsgPlayerReady");
 	const std::string MsgPlayerReadyResp::TYPE("MsgPlayerReadyResp");
+
+	MsgJoinGame::MsgJoinGame()
+		: seat(-1)
+	{}
+
+	MsgJoinGameResp::MsgJoinGameResp()
+		: seat(-1)
+		, success(false)
+	{}
+
+	MsgBecomeSpectatorResp::MsgBecomeSpectatorResp()
+		: result(0)
+	{}
 
 	MsgPlayerReadyResp::MsgPlayerReadyResp()
 		: seat(-1)
@@ -108,10 +125,14 @@ namespace NiuMa
 		: seat(0)
 	{}
 
-	MsgVoiceServer::~MsgVoiceServer() {}
+	const std::string MsgTipText::TYPE("MsgTipText");
 
 	void GameMessages::registMessages() {
-		IMsgCreator::Ptr creator = IMsgCreator::Ptr(new MsgCreator<MsgGetAvatars>());
+		IMsgCreator::Ptr creator = IMsgCreator::Ptr(new MsgCreator<MsgJoinGame>());
+		MessageManager::getSingleton().registCreator(MsgJoinGame::TYPE, creator);
+		creator = IMsgCreator::Ptr(new MsgCreator<MsgBecomeSpectator>());
+		MessageManager::getSingleton().registCreator(MsgBecomeSpectator::TYPE, creator);
+		creator = IMsgCreator::Ptr(new MsgCreator<MsgGetAvatars>());
 		MessageManager::getSingleton().registCreator(MsgGetAvatars::TYPE, creator);
 		creator = IMsgCreator::Ptr(new MsgCreator<MsgGetSpectators>());
 		MessageManager::getSingleton().registCreator(MsgGetSpectators::TYPE, creator);

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{abf3963f-4fc6-4e22-96a7-3ce70a361f78}</ProjectGuid>
+    <RootNamespace>Framework</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;./;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;AMQP_STATIC;STATIC_CONCPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;./;../3rdpart;D:\MySQL\mysql-connector-c++-9.1.0\include;C:\Program Files\OpenSSL\include;D:\Work\Develop\Cpp\rabbitmq-c\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4200;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;./;../3rdpart;D:\Work\Develop\Cpp\openssl-1.1.1q\include;D:\MySQL\MySQL Connector C++ 8.4\include;D:\Work\Develop\Cpp\rabbitmq-c\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4200;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Base\BaseUtils.cpp" />
+    <ClCompile Include="Base\IdentityAllocator.cpp" />
+    <ClCompile Include="Base\IniConfig.cpp" />
+    <ClCompile Include="Base\Log.cpp" />
+    <ClCompile Include="Constant\RedisKeys.cpp" />
+    <ClCompile Include="Database\DatabaseConnection.cpp" />
+    <ClCompile Include="Database\DatabasePool.cpp" />
+    <ClCompile Include="Game\DebtLiquidation.cpp" />
+    <ClCompile Include="Game\GameAvatar.cpp" />
+    <ClCompile Include="Game\GameDumb.cpp" />
+    <ClCompile Include="Game\GameMessages.cpp" />
+    <ClCompile Include="Game\GameRoom.cpp" />
+    <ClCompile Include="Game\GameRoomHandler.cpp" />
+    <ClCompile Include="Game\GetAgencyTask.cpp" />
+    <ClCompile Include="Game\GetCapitalTask.cpp" />
+    <ClCompile Include="Game\GetCashPledgeTask.cpp" />
+    <ClCompile Include="Game\RobotManager.cpp" />
+    <ClCompile Include="Game\ScoreboardTask.cpp" />
+    <ClCompile Include="Message\MessageManager.cpp" />
+    <ClCompile Include="Message\MessageHandler.cpp" />
+    <ClCompile Include="Message\MessageThreadPool.cpp" />
+    <ClCompile Include="Message\MsgBase.cpp" />
+    <ClCompile Include="Message\MsgDisconnect.cpp" />
+    <ClCompile Include="Message\MsgWrapper.cpp" />
+    <ClCompile Include="Message\NetMessage.cpp" />
+    <ClCompile Include="MySql\MysqlPool.cpp" />
+    <ClCompile Include="MySql\MysqlQueryTask.cpp" />
+    <ClCompile Include="Network\Connection.cpp" />
+    <ClCompile Include="Network\EchoSession.cpp" />
+    <ClCompile Include="Network\MsgSession.cpp" />
+    <ClCompile Include="Network\SecurityManager.cpp" />
+    <ClCompile Include="Network\Session.cpp" />
+    <ClCompile Include="Network\TcpServer.cpp" />
+    <ClCompile Include="Player\LoadPlayerTask.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\PlayerManager.cpp" />
+    <ClCompile Include="Player\PlayerMessages.cpp" />
+    <ClCompile Include="Player\PlayerSignatureHandler.cpp" />
+    <ClCompile Include="Rabbitmq\RabbitmqClient.cpp" />
+    <ClCompile Include="Rabbitmq\RabbitmqConfig.cpp" />
+    <ClCompile Include="Rabbitmq\RabbitmqConnection.cpp" />
+    <ClCompile Include="Rabbitmq\RabbitmqConsumer.cpp" />
+    <ClCompile Include="Rabbitmq\RabbitmqMessageHandler.cpp" />
+    <ClCompile Include="Rabbitmq\RabbitmqMessageJsonHandler.cpp" />
+    <ClCompile Include="Rabbitmq\RabbitmqUtils.cpp" />
+    <ClCompile Include="Redis\RedisPool.cpp" />
+    <ClCompile Include="Thread\ThreadBlocker.cpp" />
+    <ClCompile Include="Thread\ThreadDispatch.cpp" />
+    <ClCompile Include="Thread\ThreadPool.cpp" />
+    <ClCompile Include="Thread\ThreadWorker.cpp" />
+    <ClCompile Include="Thread\ThreadWorkerDumb.cpp" />
+    <ClCompile Include="Timer\TimerManager.cpp" />
+    <ClCompile Include="Venue\Venue.cpp" />
+    <ClCompile Include="Venue\VenueInnerHandler.cpp" />
+    <ClCompile Include="Venue\VenueLoader.cpp" />
+    <ClCompile Include="Venue\VenueManager.cpp" />
+    <ClCompile Include="Venue\VenueMessages.cpp" />
+    <ClCompile Include="Venue\VenueOuterHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Base\BaseUtils.h" />
+    <ClInclude Include="Base\IdentityAllocator.h" />
+    <ClInclude Include="Base\IniConfig.h" />
+    <ClInclude Include="Base\Log.h" />
+    <ClInclude Include="Base\Optional.h" />
+    <ClInclude Include="Base\Singleton.h" />
+    <ClInclude Include="Constant\ErrorDefines.h" />
+    <ClInclude Include="Constant\RedisKeys.h" />
+    <ClInclude Include="Database\DatabaseConnection.h" />
+    <ClInclude Include="Database\DatabasePool.h" />
+    <ClInclude Include="Game\DebtLiquidation.h" />
+    <ClInclude Include="Game\GameAvatar.h" />
+    <ClInclude Include="Game\GameDumb.h" />
+    <ClInclude Include="Game\GameRoom.h" />
+    <ClInclude Include="Game\GameRoomHandler.h" />
+    <ClInclude Include="Game\GetAgencyTask.h" />
+    <ClInclude Include="Game\GetCapitalTask.h" />
+    <ClInclude Include="Game\GetCashPledgeTask.h" />
+    <ClInclude Include="Game\GameMessages.h" />
+    <ClInclude Include="Game\RobotManager.h" />
+    <ClInclude Include="Game\ScoreboardTask.h" />
+    <ClInclude Include="Message\MessageThreadPool.h" />
+    <ClInclude Include="Message\MsgBase.h" />
+    <ClInclude Include="Message\MessageManager.h" />
+    <ClInclude Include="Message\MessageHandler.h" />
+    <ClInclude Include="Message\MsgCreator.h" />
+    <ClInclude Include="Message\MsgDisconnect.h" />
+    <ClInclude Include="Message\MsgWrapper.h" />
+    <ClInclude Include="Message\NetMessage.h" />
+    <ClInclude Include="MySql\MysqlPool.h" />
+    <ClInclude Include="MySql\MysqlQueryTask.h" />
+    <ClInclude Include="Network\Connection.h" />
+    <ClInclude Include="Network\EchoSession.h" />
+    <ClInclude Include="Network\MsgSession.h" />
+    <ClInclude Include="Network\SecurityManager.h" />
+    <ClInclude Include="Network\Session.h" />
+    <ClInclude Include="Network\TcpServer.h" />
+    <ClInclude Include="Player\LoadPlayerTask.h" />
+    <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\PlayerManager.h" />
+    <ClInclude Include="Player\PlayerMessages.h" />
+    <ClInclude Include="Player\PlayerSignatureHandler.h" />
+    <ClInclude Include="Rabbitmq\RabbitmqClient.h" />
+    <ClInclude Include="Rabbitmq\RabbitmqConfig.h" />
+    <ClInclude Include="Rabbitmq\RabbitmqConnection.h" />
+    <ClInclude Include="Rabbitmq\RabbitmqConsumer.h" />
+    <ClInclude Include="Rabbitmq\RabbitmqMessageHandler.h" />
+    <ClInclude Include="Rabbitmq\RabbitmqMessageJsonHandler.h" />
+    <ClInclude Include="Rabbitmq\RabbitmqUtils.h" />
+    <ClInclude Include="Redis\RedisPool.h" />
+    <ClInclude Include="Thread\ThreadBlocker.h" />
+    <ClInclude Include="Thread\ThreadDispatch.h" />
+    <ClInclude Include="Thread\ThreadPool.h" />
+    <ClInclude Include="Thread\ThreadWorker.h" />
+    <ClInclude Include="Thread\ThreadWorkerDumb.h" />
+    <ClInclude Include="Timer\TimerManager.h" />
+    <ClInclude Include="Venue\Venue.h" />
+    <ClInclude Include="Venue\VenueInnerHandler.h" />
+    <ClInclude Include="Venue\VenueLoader.h" />
+    <ClInclude Include="Venue\VenueManager.h" />
+    <ClInclude Include="Venue\VenueMessages.h" />
+    <ClInclude Include="Venue\VenueOuterHandler.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

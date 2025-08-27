@@ -1,6 +1,7 @@
 ﻿// GameAvatar.cpp
 
 #include "GameAvatar.h"
+#include "Player/PlayerManager.h"
 
 namespace NiuMa {
 	GameAvatar::GameAvatar(const std::string& playerId, bool robot)
@@ -15,6 +16,10 @@ namespace NiuMa {
 		, _latitude(0.0f)
 		, _longitude(0.0f)
 		, _altitude(0.0f)
+		, _winNum(0)
+		, _loseNum(0)
+		, _drawNum(0)
+		, _offlineTick(0)
 	{}
 
 	GameAvatar::~GameAvatar() {}
@@ -100,6 +105,8 @@ namespace NiuMa {
 	}
 
 	bool GameAvatar::isOffline() {
+		if (_robot)
+			return false;
 		Session::Ptr sess = getSession();
 		if (sess && sess->isValid())
 			return false;
@@ -114,7 +121,13 @@ namespace NiuMa {
 	}
 
 	Session::Ptr GameAvatar::getSession() {
-		return _session.lock();
+		Session::Ptr sess = _session.lock();
+		if (sess)
+			return sess;
+		Player::Ptr player = PlayerManager::getSingleton().getPlayer(_playerId);
+		if (!player)
+			return sess;
+		return player->getSession();
 	}
 
 	void GameAvatar::getGeolocation(double& lat, double& lon, double& alt) const
@@ -129,5 +142,37 @@ namespace NiuMa {
 		_latitude = lat;
 		_longitude = lon;
 		_altitude = alt;
+	}
+
+	void GameAvatar::setScoreboard(int win, int lose, int draw) {
+		_winNum = win;
+		_loseNum = lose;
+		_drawNum = draw;
+	}
+
+	void GameAvatar::getScoreboard(int& win, int& lose, int& draw) const {
+		win = _winNum;
+		lose = _loseNum;
+		draw = _drawNum;
+	}
+
+	void GameAvatar::incWinNum() {
+		_winNum++;
+	}
+
+	void GameAvatar::incLoseNum() {
+		_loseNum++;
+	}
+
+	void GameAvatar::incDrawNum() {
+		_drawNum++;
+	}
+
+	void GameAvatar::setOfflineTick(time_t t) {
+		_offlineTick = t;
+	}
+
+	time_t GameAvatar::getOfflineTick() const {
+		return _offlineTick;
 	}
 }

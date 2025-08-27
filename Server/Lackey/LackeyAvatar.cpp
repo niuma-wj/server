@@ -8,7 +8,7 @@
 namespace NiuMa
 {
 	LackeyAvatar::LackeyAvatar(const std::shared_ptr<LackeyRule>& rule, const std::string& playerId, int seat, bool robot)
-		: DouDiZhuAvatar(rule, playerId, seat, robot)
+		: PokerAvatar(rule, playerId, seat, robot)
 		, _lackeyCard(-1)
 		, _xiQian(0)
 	{}
@@ -35,18 +35,19 @@ namespace NiuMa
 		int tmp = 0;
 		int genre = 0;
 		int bomb = 0;
-		DouDiZhuCombination::Ptr comb;
-		CombinationVec::iterator it1;
+		LackeyRule* rule = dynamic_cast<LackeyRule*>(_rule.get());
+		PokerCombination::Ptr comb;
+		CombinationList::iterator it1;
 		CombinationMap::iterator it2 = _combinations.begin();
 		std::unordered_map<int, int>::const_iterator it3;
 		while (it2 != _combinations.end()) {
-			CombinationVec& vec = (it2->second);
-			it1 = vec.begin();
-			while (it1 != vec.end()) {
+			CombinationList& combList = (it2->second);
+			it1 = combList.begin();
+			while (it1 != combList.end()) {
 				comb = *it1;
 				nums = 0;
 				genre = comb->getGenre();
-				bomb = LackeyRule::getBombOrder(genre);
+				bomb = rule->getBombOrder(genre);
 				const std::unordered_map<int, int>& orders = comb->getOrders();
 				it3 = orders.begin();
 				while (it3 != orders.end()) {
@@ -70,13 +71,13 @@ namespace NiuMa
 							}
 						}
 						else {
-							if (_pointNums[order] > tmp)
+							if (_pointOrderNums[order] > tmp)
 								nums++;
-							if (_pointNums[order] > 3)	// 破坏炸弹
+							if (_pointOrderNums[order] > 3)	// 破坏炸弹
 								nums++;
 						}
 					}
-					else if (_pointNums[order] > tmp)	// 破坏更大的炸弹
+					else if (_pointOrderNums[order] > tmp)	// 破坏更大的炸弹
 						nums++;
 				}
 				comb->setDamages(nums);
@@ -119,7 +120,8 @@ namespace NiuMa
 		int tmp = 0;
 		int end = 12;
 		int straights = genre - static_cast<int>(LackeyGenre::Butterfly1) + 1;
-		DouDiZhuCombination::Ptr comb;
+		PokerCard c;
+		PokerCombination::Ptr comb;
 		std::vector<int> ids;
 		std::string str;
 		if (genre == static_cast<int>(LackeyGenre::Butterfly1))	// 3带2可以有2，其他蝴蝶牌型不可以
@@ -128,7 +130,7 @@ namespace NiuMa
 		for (int i = 0; i <= (end - straights); i++) {
 			test = true;
 			for (int j = 0; j < straights; j++) {
-				if (_pointNums[i + j] < 3) {
+				if (_pointOrderNums[i + j] < 3) {
 					test = false;
 					break;
 				}
@@ -136,9 +138,9 @@ namespace NiuMa
 			if (!test)
 				continue;
 #ifdef _MSC_VER
-			memcpy_s(tmpNums, 14 * sizeof(int), _pointNums, 14 * sizeof(int));
+			memcpy_s(tmpNums, 14 * sizeof(int), _pointOrderNums, 14 * sizeof(int));
 #else
-			memcpy(tmpNums, _pointNums, 14 * sizeof(int));
+			memcpy(tmpNums, _pointOrderNums, 14 * sizeof(int));
 #endif
 			for (int j = 0; j < straights; j++)
 				tmpNums[i + j] -= 3;
@@ -179,19 +181,22 @@ namespace NiuMa
 			comb->setGenre(genre);
 			for (int j = 0; j < straights; j++) {
 				if (!getCardIds(i + j, 3, ids)) {
+					freeCombination(comb);
 					PokerUtilities::cardArray2String(_cards, str);
 					ErrorS << "检索牌型(" << genre << ")错误，牌数组: " << str;
-					freeCombination(comb);
 					test = false;
 					break;
 				}
 				comb->addCards(ids);
 				comb->addOrder(i + j, 3);
-				if (j == (straights - 1))
-					comb->setOfficer(ids.back());
+				if (j == (straights - 1)) {
+					getCardById(ids.back(), c);
+					comb->setOfficerPoint(c.getPoint());
+					comb->setOfficerSuit(c.getSuit());
+				}
 			}
 			if (test)
-				addCombination(genre, comb);
+				insertCombination(comb);
 		}
 	}
 
@@ -201,7 +206,7 @@ namespace NiuMa
 			return;
 		bool test = false;
 		for (int i = 0; i < 13; i++) {
-			if (_pointNums[i] > 1) {
+			if (_pointOrderNums[i] > 1) {
 				test = true;
 				break;
 			}
@@ -209,17 +214,21 @@ namespace NiuMa
 		if (!test)
 			return;
 		int genre = static_cast<int>(LackeyGenre::Butterfly1);
-		DouDiZhuCombination::Ptr comb;
+		PokerCombination::Ptr comb;
 		for (int i = 0; i < 2; i++) {
 			if (_jokerCards[i].size() < 3)
 				continue;
 			comb = allocateCombination();
 			comb->setGenre(genre);
-			addCombination(genre, comb);
+			insertCombination(comb);
 			for (unsigned int j = 0; j < 3; j++)
 				comb->addCard(_jokerCards[i][j]);
 			comb->addOrder(13, 3);
-			comb->setOfficer(_jokerCards[i][0]);
+			comb->setOfficerPoint(static_cast<int>(PokerPoint::Joker));
+			if (i == 0)
+				comb->setOfficerSuit(static_cast<int>(PokerSuit::Little));
+			else
+				comb->setOfficerSuit(static_cast<int>(PokerSuit::Big));
 		}
 	}
 
@@ -251,12 +260,12 @@ namespace NiuMa
 		int genre = 0;
 		int buf[14][3];
 		int straights = 0;
-		DouDiZhuCombination::Ptr comb;
+		PokerCombination::Ptr comb;
 		bool test = false;
 		std::string str;
 		std::vector<int> orders;
 		CombinationMap::iterator it;
-		CombinationVec::iterator it1;
+		CombinationList::iterator it1;
 		std::vector<int>::const_iterator it2;
 		for (int i = 0; i < 7; i++) {
 			genre = static_cast<int>(GENRES[i]);
@@ -264,11 +273,11 @@ namespace NiuMa
 			it = _combinations.find(genre);
 			if (it == _combinations.end())
 				continue;
-			CombinationVec& vec = it->second;
-			if (vec.empty())
+			CombinationList& combList = it->second;
+			if (combList.empty())
 				continue;
-			it1 = vec.begin();
-			while (it1 != vec.end()) {
+			it1 = combList.begin();
+			while (it1 != combList.end()) {
 				comb = *it1;
 				++it1;
 				for (int j = 0; j < 14; j++)
@@ -289,13 +298,13 @@ namespace NiuMa
 							continue;
 					}
 					else {
-						tmp = _pointNums[j];
+						tmp = _pointOrderNums[j];
 						if (test)
 							tmp -= 3;
 						if (tmp < 2)
 							continue;
 					}
-					const std::vector<int>& ids = _pointCards[j];
+					const std::vector<int>& ids = _pointOrderCards[j];
 					if (test) {
 						nums = 0;
 						it2 = ids.begin();
@@ -308,7 +317,7 @@ namespace NiuMa
 							}
 							++it2;
 						}
-						buf[j][0] = _pointNums[j] - 3;
+						buf[j][0] = _pointOrderNums[j] - 3;
 					}
 					else if (j == 13) {
 						nums1 = static_cast<int>(_jokerCards[0].size());
@@ -328,7 +337,7 @@ namespace NiuMa
 					else {
 						buf[j][1] = ids[0];
 						buf[j][2] = ids[1];
-						buf[j][0] = _pointNums[j];
+						buf[j][0] = _pointOrderNums[j];
 					}
 				}
 				orders.clear();
@@ -404,7 +413,8 @@ namespace NiuMa
 		bool test = true;
 		int end = 12;
 		int straights = genre - static_cast<int>(LackeyGenre::Triple1) + 1;
-		DouDiZhuCombination::Ptr comb;
+		PokerCard c;
+		PokerCombination::Ptr comb;
 		std::vector<int> ids;
 		std::vector<int>::const_iterator it;
 		std::string str;
@@ -413,7 +423,7 @@ namespace NiuMa
 		for (int i = 0; i <= (end - straights); i++) {
 			test = true;
 			for (int j = 0; j < straights; j++) {
-				if (_pointNums[i + j] < 3) {
+				if (_pointOrderNums[i + j] < 3) {
 					test = false;
 					break;
 				}
@@ -432,11 +442,14 @@ namespace NiuMa
 				}
 				comb->addCards(ids);
 				comb->addOrder(i + j, 3);
-				if (j == (straights - 1))
-					comb->setOfficer(ids[2]);
+				if (j == (straights - 1)) {
+					getCardById(ids.back(), c);
+					comb->setOfficerPoint(c.getPoint());
+					comb->setOfficerSuit(c.getSuit());
+				}
 			}
 			if (test)
-				addCombination(genre, comb);
+				insertCombination(comb);
 		}
 	}
 
@@ -444,7 +457,8 @@ namespace NiuMa
 		bool test = true;
 		int end = 12;
 		int straights = genre - static_cast<int>(LackeyGenre::Pair1) + 2;
-		DouDiZhuCombination::Ptr comb;
+		PokerCard c;
+		PokerCombination::Ptr comb;
 		std::vector<int> ids;
 		std::vector<int>::const_iterator it;
 		std::set<int>::const_iterator it1;
@@ -456,7 +470,7 @@ namespace NiuMa
 		for (int i = 0; i <= (end - straights); i++) {
 			test = true;
 			for (int j = 0; j < straights; j++) {
-				if (_pointNums[i + j] < 2) {
+				if (_pointOrderNums[i + j] < 2) {
 					test = false;
 					break;
 				}
@@ -475,39 +489,47 @@ namespace NiuMa
 				}
 				comb->addCards(ids);
 				comb->addOrder(i + j, 2);
-				if (j == (straights - 1))
-					comb->setOfficer(ids[1]);
+				if (j == (straights - 1)) {
+					getCardById(ids.back(), c);
+					comb->setOfficerPoint(c.getPoint());
+					comb->setOfficerSuit(c.getSuit());
+				}
 			}
 			if (test)
-				addCombination(genre, comb);
+				insertCombination(comb);
 		}
 	}
 
 	void LackeyAvatar::combinePair() {
 		// 3-2的对子牌型已经检索过了，这里只需要检索对小王或对大王
-		if (_pointNums[13] < 2)
+		if (_pointOrderNums[13] < 2)
 			return;
 		int id = 0;
-		DouDiZhuCombination::Ptr comb;
+		PokerCombination::Ptr comb;
 		for (int i = 0; i < 2; i++) {
 			if (_jokerCards[i].size() < 2)
 				continue;
 			comb = allocateCombination();
 			comb->setGenre(static_cast<int>(LackeyGenre::Pair1));
-			addCombination(static_cast<int>(LackeyGenre::Pair1), comb);
+			insertCombination(comb);
 			for (int j = 0; j < 2; j++) {
 				id = _jokerCards[i][j];
 				comb->addCard(id);
 			}
-			comb->setOfficer(_jokerCards[i][0]);
 			comb->addOrder(13, 2);
+			comb->setOfficerPoint(static_cast<int>(PokerPoint::Joker));
+			if (i == 0)
+				comb->setOfficerSuit(static_cast<int>(PokerSuit::Little));
+			else
+				comb->setOfficerSuit(static_cast<int>(PokerSuit::Big));
 		}
 	}
 
 	void LackeyAvatar::combineSingle()
 	{
 		int order = 0;
-		DouDiZhuCombination::Ptr comb;
+		PokerCard c;
+		PokerCombination::Ptr comb;
 		std::vector<int> ids;
 		std::vector<int>::const_iterator it;
 		std::string str;
@@ -516,7 +538,7 @@ namespace NiuMa
 				order = 13;
 			else
 				order = i;
-			if (_pointNums[order] < 1)
+			if (_pointOrderNums[order] < 1)
 				continue;
 			comb = allocateCombination();
 			comb->setGenre(static_cast<int>(LackeyGenre::Single));
@@ -540,27 +562,30 @@ namespace NiuMa
 			}
 			if (ids[0] == _lackeyCard) {
 				ids.clear();
-				if (_pointCards[order].size() > 1)
-					ids.push_back(_pointCards[order][1]);
+				if (_pointOrderCards[order].size() > 1)
+					ids.push_back(_pointOrderCards[order][1]);
 				if (ids.empty())
 					continue;
 			}
 			comb->addCards(ids);
-			comb->setOfficer(ids[0]);
 			comb->addOrder(order, 1);
-			addCombination(static_cast<int>(LackeyGenre::Single), comb);
+			getCardById(ids[0], c);
+			comb->setOfficerPoint(c.getPoint());
+			comb->setOfficerSuit(c.getSuit());
+			insertCombination(comb);
 		}
 	}
 
 	void LackeyAvatar::combineBomb(int genre) {
 		int nums = genre - static_cast<int>(LackeyGenre::Bomb4) + 4;
-		DouDiZhuCombination::Ptr comb;
+		PokerCard c;
+		PokerCombination::Ptr comb;
 		std::vector<int> ids;
 		std::vector<int>::const_iterator it;
 		std::set<int>::const_iterator it1;
 		std::string str;
 		for (int i = 0; i < 13; i++) {
-			if (_pointNums[i] < nums)
+			if (_pointOrderNums[i] < nums)
 				continue;
 			comb = allocateCombination();
 			comb->setGenre(genre);
@@ -572,13 +597,15 @@ namespace NiuMa
 			}
 			comb->addCards(ids);
 			comb->addOrder(i, nums);
-			comb->setOfficer(ids.back());
-			addCombination(genre, comb);
+			getCardById(ids.back(), c);
+			comb->setOfficerPoint(c.getPoint());
+			comb->setOfficerSuit(c.getSuit());
+			insertCombination(comb);
 		}
 	}
 
 	void LackeyAvatar::combineBombJoker(int genre) {
-		if (_pointNums[13] < 3)
+		if (_pointOrderNums[13] < 3)
 			return;
 		int nums[2] = { 0, 0 };
 		int needs[2] = { 0, 0 };
@@ -622,9 +649,9 @@ namespace NiuMa
 		if (nums[0] < needs[0] || nums[1] < needs[1])
 			return;
 		int id = 0;
-		DouDiZhuCombination::Ptr comb = allocateCombination();
+		PokerCombination::Ptr comb = allocateCombination();
 		comb->setGenre(genre);
-		addCombination(genre, comb);
+		insertCombination(comb);
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < needs[i]; j++) {
 				id = _jokerCards[i].at(j);
@@ -632,7 +659,10 @@ namespace NiuMa
 			}
 		}
 		comb->addOrder(13, needs[0] + needs[1]);
-		comb->setOfficer(id);
+		PokerCard c;
+		getCardById(id, c);
+		comb->setOfficerPoint(c.getPoint());
+		comb->setOfficerSuit(c.getSuit());
 	}
 
 	void LackeyAvatar::combineBombLackey() {
@@ -640,32 +670,34 @@ namespace NiuMa
 		if (!getCardById(_lackeyCard, c))
 			return;
 		int genre = static_cast<int>(LackeyGenre::BombLackey);
-		DouDiZhuCombination::Ptr comb = allocateCombination();
+		PokerCombination::Ptr comb = allocateCombination();
 		comb->setGenre(genre);
 		comb->addCard(_lackeyCard);
-		addCombination(genre, comb);
+		comb->setOfficerPoint(c.getPoint());
+		comb->setOfficerSuit(c.getSuit());
+		insertCombination(comb);
 	}
 
-	void LackeyAvatar::candidateCombinationsImpl() {
+	void LackeyAvatar::candidateCombinationsImpl(int situation) {
 		// 按照组合顺序表的逆顺序来排列候选组合列表
 		// 1、非炸弹组合，破坏系数为0
 		// 2、炸弹组合，破坏系数为0
 		// 3、非炸弹组合，破坏系数由小到大排列
 		bool test = false;
 		int genre = 0;
-		DouDiZhuCombination::Ptr comb;
+		PokerCombination::Ptr comb;
 		CombinationVec combs;
 		CombinationMap::const_iterator it1;
-		CombinationVec::const_iterator it2;
+		CombinationList::const_iterator it2;
 		CombinationVec::const_iterator it3;
 		for (int j = 0; j < 49; j++) {
 			genre = LackeyRule::CANDIDATE_ORDERS[j];
 			it1 = _combinations.find(genre);
 			if (it1 == _combinations.end())
 				continue;
-			const CombinationVec& vec = it1->second;
-			it2 = vec.begin();
-			while (it2 != vec.end()) {
+			const CombinationList& combList = it1->second;
+			it2 = combList.begin();
+			while (it2 != combList.end()) {
 				comb = *it2;
 				++it2;
 				if (comb->isCandidate() || comb->getDamages() > 0)
@@ -679,9 +711,9 @@ namespace NiuMa
 			it1 = _combinations.find(genre);
 			if (it1 == _combinations.end())
 				continue;
-			const CombinationVec& vec = it1->second;
-			it2 = vec.begin();
-			while (it2 != vec.end()) {
+			const CombinationList& combList = it1->second;
+			it2 = combList.begin();
+			while (it2 != combList.end()) {
 				comb = *it2;
 				++it2;
 				if (comb->isCandidate())
@@ -709,14 +741,15 @@ namespace NiuMa
 		}
 	}
 
-	void LackeyAvatar::candidateCombinationsImpl(const PokerGenre& pg) {
+	void LackeyAvatar::candidateCombinationsImpl(const PokerGenre& pg, int situation) {
 		int genre = pg.getGenre();
 		if (!(_rule->isValidGenre(genre)))
 			return;
 		// 1、同牌型组合，破坏系数为0
 		addCandidate(pg);
 		// 2、更大的炸弹组合，破坏系数为0
-		int order = LackeyRule::getBombOrder(genre);
+		LackeyRule* rule = dynamic_cast<LackeyRule*>(_rule.get());
+		int order = rule->getBombOrder(genre);
 		addCandidateBomb(order);
 		// 3、同牌型，破坏系数由小到大
 		addCandidateSort(pg);
@@ -729,16 +762,16 @@ namespace NiuMa
 			return;
 		PokerCard c;
 		int ret = 0;
-		DouDiZhuCombination::Ptr comb;
-		const CombinationVec& vec = it->second;
-		CombinationVec::const_iterator it1 = vec.begin();
-		while (it1 != vec.end()) {
+		PokerCombination::Ptr comb;
+		const CombinationList& combList = it->second;
+		CombinationList::const_iterator it1 = combList.begin();
+		while (it1 != combList.end()) {
 			comb = (*it1);
 			++it1;
 			if (comb->isCandidate() || comb->getDamages() > 0)
 				continue;
-			if (!getCardById(comb->getOfficer(), c))
-				continue;
+			c.setPoint(comb->getOfficerPoint());
+			c.setSuit(comb->getOfficerSuit());
 			// 同牌型，比较主牌
 			ret = _rule->compareCard(c, pg.getOfficer());
 			if (ret == 1) {
@@ -756,18 +789,18 @@ namespace NiuMa
 		bool test = false;
 		PokerCard c;
 		int ret = 0;
-		DouDiZhuCombination::Ptr comb;
+		PokerCombination::Ptr comb;
 		CombinationVec combs;
-		const CombinationVec& vec = it->second;
-		CombinationVec::const_iterator it1 = vec.begin();
+		const CombinationList& combList = it->second;
+		CombinationList::const_iterator it1 = combList.begin();
 		CombinationVec::const_iterator it2;
-		while (it1 != vec.end()) {
+		while (it1 != combList.end()) {
 			comb = (*it1);
 			++it1;
 			if (comb->isCandidate())
 				continue;
-			if (!getCardById(comb->getOfficer(), c))
-				continue;
+			c.setPoint(comb->getOfficerPoint());
+			c.setSuit(comb->getOfficerSuit());
 			// 同牌型，比较主牌
 			ret = _rule->compareCard(c, pg.getOfficer());
 			if (ret != 1)
@@ -796,17 +829,18 @@ namespace NiuMa
 
 	void LackeyAvatar::addCandidateBomb(int order) {
 		int genre = 0;
-		DouDiZhuCombination::Ptr comb;
+		LackeyRule* rule = dynamic_cast<LackeyRule*>(_rule.get());
+		PokerCombination::Ptr comb;
 		CombinationMap::const_iterator it;
-		CombinationVec::const_iterator it1;
+		CombinationList::const_iterator it1;
 		for (int i = order + 1; i < 18; i++) {
-			genre = LackeyRule::getBombByOrder(i);
+			genre = rule->getBombByOrder(i);
 			it = _combinations.find(genre);
 			if (it == _combinations.end())
 				continue;
-			const CombinationVec& vec = it->second;
-			it1 = vec.begin();
-			while (it1 != vec.end()) {
+			const CombinationList& combList = it->second;
+			it1 = combList.begin();
+			while (it1 != combList.end()) {
 				comb = (*it1);
 				++it1;
 				if (comb->isCandidate() || comb->getDamages() > 0)
@@ -818,7 +852,7 @@ namespace NiuMa
 	}
 
 	void LackeyAvatar::clear() {
-		DouDiZhuAvatar::clear();
+		PokerAvatar::clear();
 
 		_lackeyCard = -1;
 		_xiQian = 0;
@@ -839,21 +873,22 @@ namespace NiuMa
 		int xiQian = 0;
 		CardArray cards;
 		std::vector<int> ids;
-		DouDiZhuCombination::Ptr comb;
-		CombinationVec::iterator it1;
+		PokerCombination::Ptr comb;
+		LackeyRule* rule = dynamic_cast<LackeyRule*>(_rule.get());
+		CombinationList::iterator it1;
 		CombinationMap::iterator it2 = _combinations.begin();
 		std::map<int, int>::const_iterator it3;
 		while (it2 != _combinations.end()) {
-			CombinationVec& vec = (it2->second);
-			it1 = vec.begin();
-			while (it1 != vec.end()) {
+			CombinationList& combList = (it2->second);
+			it1 = combList.begin();
+			while (it1 != combList.end()) {
 				comb = *it1;
 				it1++;
 				if (comb->getDamages() > 0)
 					continue;
 				if (comb->getGenre() == static_cast<int>(LackeyGenre::Bomb4))
 					continue;
-				order = LackeyRule::getBombOrder(comb->getGenre());
+				order = rule->getBombOrder(comb->getGenre());
 				if (order == -1)
 					continue;
 				cards.clear();

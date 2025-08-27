@@ -7,6 +7,7 @@
 #include "MySql/MysqlPool.h"
 #include "Timer/TimerManager.h"
 #include "GetCapitalTask.h"
+#include "ScoreboardTask.h"
 #include "GetCashPledgeTask.h"
 #include "GameMessages.h"
 #include "GetAgencyTask.h"
@@ -67,6 +68,10 @@ namespace NiuMa
 		return static_cast<int>(_allAvatars.size());
 	}
 
+	int GameRoom::getSpectatorCount() const {
+		return static_cast<int>(_spectators.size());
+	}
+
 	bool GameRoom::hasSpectator(const std::string& playerId) const {
 		std::unordered_set<std::string>::const_iterator it_s = _spectators.find(playerId);
 		return (it_s != _spectators.end());
@@ -81,7 +86,11 @@ namespace NiuMa
 			return true;
 		bool ret = true;
 		const std::string& msgType = netMsg->getType();
-		if (MsgGetAvatars::TYPE == msgType)
+		if (MsgJoinGame::TYPE == msgType)
+			onJoinGame(netMsg);
+		else if (MsgBecomeSpectator::TYPE == msgType)
+			onBecomeSpectator(netMsg);
+		else if (MsgGetAvatars::TYPE == msgType)
 			onGetAvatars(netMsg);
 		else if (MsgGetSpectators::TYPE == msgType)
 			onGetSpectators(netMsg);
@@ -123,6 +132,7 @@ namespace NiuMa
 		GameAvatar::Ptr avatar = getAvatar(playerId);
 		if (!avatar)
 			return;
+		avatar->setOfflineTick(BaseUtils::getCurrentMillisecond());
 		avatar->setSession(Session::Ptr());
 		// 通知玩家离线
 		MsgAvatarConnect msg;
@@ -166,6 +176,13 @@ namespace NiuMa
 		return ret;
 	}
 
+	bool GameRoom::hasAvatar(const std::string& playerId) const {
+		std::unordered_map<std::string, GameAvatar::Ptr>::const_iterator it = _allAvatars.find(playerId);
+		if (it != _allAvatars.end())
+			return true;
+		return false;
+	}
+
 	bool GameRoom::hasPlayer(const std::string& playerId) {
 		std::unordered_map<std::string, GameAvatar::Ptr>::const_iterator it = _allAvatars.find(playerId);
 		if (it != _allAvatars.end())
@@ -177,9 +194,13 @@ namespace NiuMa
 		return false;
 	}
 
-	void GameRoom::getPlayerIds(std::vector<std::string>& playerIds) {
+	void GameRoom::getPlayerIds(std::vector<std::string>& playerIds, bool robot) {
 		std::unordered_map<std::string, GameAvatar::Ptr>::const_iterator it1 = _allAvatars.begin();
 		while (it1 != _allAvatars.end()) {
+			if (!robot && (it1->second)->isRobot()) {
+				++it1;
+				continue;
+			}
 			playerIds.emplace_back(it1->first);
 			++it1;
 		}
@@ -210,8 +231,10 @@ namespace NiuMa
 		if (test) {
 			// 添加观众
 			_spectators.insert(playerId);
-			// 通知观众加入
+			// 通知观众进入
 			notifyAddSpectator(playerId);
+			// 执行观众进入后的上层逻辑
+			onSpectatorJoined(playerId);
 		}
 		else {
 			// 加入游戏
@@ -225,7 +248,7 @@ namespace NiuMa
 		return true;
 	}
 
-	bool GameRoom::joinGame(int seat, const std::string& playerId, std::string& errMsg) {
+	bool GameRoom::joinGame(int seat, const std::string& playerId, std::string& errMsg, bool robot) {
 		if (!checkJoin(seat, playerId, errMsg))
 			return false;
 		// 当前已经预扣初的押金数量
@@ -301,7 +324,7 @@ namespace NiuMa
 			}
 		}
 		// 创建玩家替身
-		GameAvatar::Ptr avatar = createAvatar(playerId, seat, false);
+		GameAvatar::Ptr avatar = createAvatar(playerId, seat, robot);
 		Player::Ptr player = PlayerManager::getSingleton().getPlayer(playerId);
 		if (player) {
 			avatar->setNickname(player->getNickname());
@@ -329,6 +352,8 @@ namespace NiuMa
 			removeSpectator(playerId);
 			// 通知观众离开
 			notifyRemoveSpectator(playerId);
+			// 执行观众离开后的上层逻辑
+			onSpectatorLeaved(playerId);
 		}
 		GameAvatar::Ptr avatar = getAvatar(playerId);
 		if (!avatar)
@@ -349,6 +374,29 @@ namespace NiuMa
 		return ret;
 	}
 
+	bool GameRoom::joinRobot(const std::string& playerId) {
+		if (hasAvatar(playerId))
+			return true;
+		int seat = -1;
+		if (RoomCategory::RoomCategoryA == _category) {
+			// A类房，机器人进入房间就必须加入游戏，检查是否还有空位
+			seat = getEmptySeat();
+			if (seat == -1)
+				return false;
+		}
+		std::string errMsg;
+		if (!checkEnter(playerId, errMsg, true))
+			return false;
+		// 加入游戏
+		if (!joinGame(seat, playerId, errMsg, true))
+			return false;
+		// 通知玩家加入
+		notifyAddAvatar(seat, playerId);
+		// 执行玩家加入后的上层逻辑
+		onAvatarJoined(seat, playerId);
+		return true;
+	}
+
 	bool GameRoom::enableSpectator() const {
 		return false;
 	}
@@ -367,7 +415,7 @@ namespace NiuMa
 		info.offline = avatar->isOffline();
 	}
 
-	void GameRoom::notifyAddAvatar(int seat, const std::string& playerId) {
+	void GameRoom::notifyAddAvatar(int seat, const std::string& playerId, bool selfExclude) {
 		GameAvatar::Ptr avatar = getAvatar(playerId);
 		if (!avatar)
 			return;
@@ -376,17 +424,23 @@ namespace NiuMa
 		getAvatarExtraInfo(avatar, info.base64);
 		MsgAddAvatar msg;
 		msg.avatars.push_back(info);
-		sendMessageToAll(msg, playerId, true);
+		if (selfExclude)
+			sendMessageToAll(msg, playerId, true);
+		else
+			sendMessageToAll(msg, BaseUtils::EMPTY_STRING, true);
 	}
 
-	void GameRoom::notifyRemoveAvatar(int seat, const std::string& playerId) {
+	void GameRoom::notifyRemoveAvatar(int seat, const std::string& playerId, bool selfExclude) {
 		MsgRemoveAvatar msg;
 		msg.playerId = playerId;
 		msg.seat = seat;
-		sendMessageToAll(msg, playerId, true);
+		if (selfExclude)
+			sendMessageToAll(msg, playerId, true);
+		else
+			sendMessageToAll(msg, BaseUtils::EMPTY_STRING, true);
 	}
 
-	void GameRoom::notifyAddSpectator(const std::string& playerId) {
+	void GameRoom::notifyAddSpectator(const std::string& playerId, bool selfExclude) {
 		Player::Ptr player = PlayerManager::getSingleton().getPlayer(playerId);
 		if (!player)
 			return;
@@ -397,18 +451,28 @@ namespace NiuMa
 		getSpectatorExtraInfo(playerId, info.base64);
 		MsgAddSpectator msg;
 		msg.spectators.push_back(info);
-		sendMessageToAll(msg, playerId, true);
+		if (selfExclude)
+			sendMessageToAll(msg, playerId, true);
+		else
+			sendMessageToAll(msg, BaseUtils::EMPTY_STRING, true);
 	}
 
-	void GameRoom::notifyRemoveSpectator(const std::string& playerId) {
+	void GameRoom::notifyRemoveSpectator(const std::string& playerId, bool selfExclude) {
 		MsgRemoveSpectator msg;
 		msg.playerId = playerId;
-		sendMessageToAll(msg, playerId, true);
+		if (selfExclude)
+			sendMessageToAll(msg, playerId, true);
+		else
+			sendMessageToAll(msg, BaseUtils::EMPTY_STRING, true);
 	}
 
 	void GameRoom::getAvatarExtraInfo(const GameAvatar::Ptr& avatar, std::string& base64) const {}
 
 	void GameRoom::getSpectatorExtraInfo(const std::string& playerId, std::string& base64) const {}
+
+	void GameRoom::onSpectatorJoined(const std::string& playerId) {}
+
+	void GameRoom::onSpectatorLeaved(const std::string& playerId) {}
 
 	void GameRoom::onAvatarJoined(int seat, const std::string& playerId) {
 		GameAvatar::Ptr avatar = getAvatar(playerId);
@@ -432,16 +496,24 @@ namespace NiuMa
 			_allAvatars.insert(std::make_pair(avatar->getPlayerId(), avatar));
 	}
 
-	void GameRoom::removeAvatar(const std::string& playerId) {
+	bool GameRoom::removeAvatar(const std::string& playerId) {
+		bool ret = false;
 		std::unordered_map<std::string, GameAvatar::Ptr>::iterator it = _allAvatars.find(playerId);
-		if (it != _allAvatars.end())
+		if (it != _allAvatars.end()) {
+			ret = true;
 			_allAvatars.erase(it);
+		}
+		return ret;
 	}
 
-	void GameRoom::removeSpectator(const std::string& playerId) {
+	bool GameRoom::removeSpectator(const std::string& playerId) {
+		bool ret = false;
 		std::unordered_set<std::string>::iterator it_s = _spectators.find(playerId);
-		if (it_s != _spectators.end())
+		if (it_s != _spectators.end()) {
+			ret = true;
 			_spectators.erase(it_s);
+		}
+		return ret;
 	}
 
 	bool GameRoom::returnCashPledge(const std::string& playerId) const {
@@ -789,7 +861,8 @@ namespace NiuMa
 		std::unordered_map<std::string, GameAvatar::Ptr>::iterator it = _allAvatars.begin();
 		while (it != _allAvatars.end()) {
 			GameAvatar::Ptr& avatar = it->second;
-			playerIds.push_back(avatar->getPlayerId());
+			if (!avatar->isRobot())
+				playerIds.push_back(avatar->getPlayerId());
 			// 返还玩家押金
 			if (returnCashPledge(avatar->getPlayerId()))
 				avatar->setCashPledge(0LL);
@@ -802,6 +875,16 @@ namespace NiuMa
 		}
 		// 执行玩家离开后的上层逻辑
 		onAvatarLeaved(0, BaseUtils::EMPTY_STRING);
+	}
+
+	void GameRoom::kickAllSpectators() {
+		for (const std::string& playerId : _spectators) {
+			// 离开后续处理
+			afterLeave(playerId);
+		}
+		_spectators.clear();
+		// 执行观众离开后的上层逻辑
+		onSpectatorLeaved(BaseUtils::EMPTY_STRING);
 	}
 
 	void GameRoom::sendMessage(const MsgBase& msg, const std::string& playerId) const {
@@ -817,16 +900,16 @@ namespace NiuMa
 			if (playerExcepted == it1->first)
 				continue;
 			Session::Ptr session = (it1->second)->getSession();
-			if (session) {
+			if (!session)
+				continue;
+			if (!data) {
+				data = msg.pack();
 				if (!data) {
-					data = msg.pack();
-					if (!data) {
-						ErrorS << "Pack message(type: \"" << msg.getType() << "\") failed, check whether the \"MSG_PACK_IMPL\" macro has been added to the message declaration.";
-						return;
-					}
+					ErrorS << "Pack message(type: \"" << msg.getType() << "\") failed, check whether the \"MSG_PACK_IMPL\" macro has been added to the message declaration.";
+					return;
 				}
-				session->send(data);
 			}
+			session->send(data);
 		}
 		if (spectator) {
 			std::unordered_set<std::string>::const_iterator it2;
@@ -837,17 +920,158 @@ namespace NiuMa
 				if (!player)
 					continue;
 				Session::Ptr session = player->getSession();
-				if (session) {
+				if (!session)
+					continue;
+				if (!data) {
+					data = msg.pack();
 					if (!data) {
-						data = msg.pack();
-						if (!data) {
-							ErrorS << "Pack message(type: \"" << msg.getType() << "\") failed, check whether the \"MSG_PACK_IMPL\" macro has been added to the message declaration.";
-							return;
-						}
+						ErrorS << "Pack message(type: \"" << msg.getType() << "\") failed, check whether the \"MSG_PACK_IMPL\" macro has been added to the message declaration.";
+						return;
 					}
-					session->send(data);
 				}
+				session->send(data);
 			}
+		}
+	}
+
+	void GameRoom::sendTipText(const std::string& tip, const std::string& playerId) {
+		MsgTipText msg;
+		msg.tip = tip;
+#ifdef _MSC_VER
+		// VC环境下gb2312编码转utf8
+		msg.tip = boost::locale::conv::to_utf<char>(msg.tip, std::string("gb2312"));
+#endif
+		if (playerId.empty())
+			sendMessageToAll(msg);
+		else
+			sendMessage(msg, playerId);
+	}
+
+	void GameRoom::checkOffline(int period) {
+		time_t nowTick = BaseUtils::getCurrentMillisecond();
+		int deltaTicks = 0;
+		std::vector<std::string> playerIds;
+		std::unordered_map<std::string, GameAvatar::Ptr>::const_iterator it;
+		for (it = _allAvatars.begin(); it != _allAvatars.end(); it++) {
+			const GameAvatar::Ptr& avatar = it->second;
+			if (!(avatar && avatar->isOffline()))
+				continue;
+			deltaTicks = static_cast<int>(nowTick - avatar->getOfflineTick());
+			if (deltaTicks > period) {
+				// 将离线超过指定时间的玩家踢出游戏场
+				playerIds.emplace_back(it->first);
+			}
+		}
+		for (const std::string& playerId : playerIds) {
+			kickAvatar(getAvatar(playerId));
+		}
+	}
+
+	void GameRoom::onJoinGame(const NetMessage::Ptr& netMsg) {
+		if (RoomCategory::RoomCategoryA != _category) {
+			// 非A类房不需要加入游戏，因为在玩家进入房间的时候就已经自动加入
+			return;
+		}
+		MsgJoinGame* inst = dynamic_cast<MsgJoinGame*>(netMsg->getMessage().get());
+		if (inst == nullptr)
+			return;
+		MsgJoinGameResp resp;
+		resp.seat = inst->seat;
+		resp.success = true;
+		// 判断该玩家是否已经加入，若已经加入则无需再次加入
+		GameAvatar::Ptr avatar = getAvatar(inst->getPlayerId());
+		if (avatar) {
+			resp.seat = avatar->getSeat();
+			resp.send(netMsg->getSession());
+			return;
+		}
+		if (inst->seat < 0 || inst->seat >= _maxPlayerNums) {
+			resp.success = false;
+			resp.errMsg = "座位号错误";
+		}
+		else if (_avatarSeats[inst->seat]) {
+			resp.success = false;
+			resp.errMsg = "该座位上已有玩家";
+		}
+		if (resp.success) {
+			// 加入游戏
+			resp.success = joinGame(inst->seat, inst->getPlayerId(), resp.errMsg);
+		}
+#ifdef _MSC_VER
+		if (!resp.success) {
+			// VC环境下GB2312编码转utf8
+			resp.errMsg = boost::locale::conv::to_utf<char>(resp.errMsg, std::string("gb2312"));
+		}
+#endif
+		resp.send(netMsg->getSession());
+		if (resp.success) {
+			// 删除观众
+			if (removeSpectator(inst->getPlayerId())) {
+				// 通知观众离开
+				notifyRemoveSpectator(inst->getPlayerId(), false);
+				// 执行观众离开后的上层逻辑
+				onSpectatorLeaved(inst->getPlayerId());
+			}
+			// 通知玩家加入
+			notifyAddAvatar(inst->seat, inst->getPlayerId(), false);
+			// 执行玩家加入后的上层逻辑
+			onAvatarJoined(inst->seat, inst->getPlayerId());
+		}
+	}
+
+	void GameRoom::onBecomeSpectator(const NetMessage::Ptr& netMsg) {
+		if (RoomCategory::RoomCategoryA != _category) {
+			// 非A类房没有观众
+			return;
+		}
+		MsgBecomeSpectator* inst = dynamic_cast<MsgBecomeSpectator*>(netMsg->getMessage().get());
+		if (inst == nullptr)
+			return;
+		MsgBecomeSpectatorResp resp;
+		if (!enableSpectator()) {
+			resp.result = 100;
+			BaseUtils::toUtf8(std::string("当前房间不能有观众"), resp.errMsg);
+			resp.send(netMsg->getSession());
+			return;
+		}
+		const std::string playerId = inst->getPlayerId();
+		GameAvatar::Ptr avatar = getAvatar(playerId);
+		if (!avatar)
+			return;
+		resp.result = checkLeave(playerId, resp.errMsg);
+		if (resp.result != 0) {
+			// 玩家离开游戏失败
+			BaseUtils::toUtf8(resp.errMsg, resp.errMsg);
+			resp.send(netMsg->getSession());
+			return;
+		}
+		resp.send(netMsg->getSession());
+		// 返还玩家押金
+		if (returnCashPledge(playerId))
+			avatar->setCashPledge(0LL);
+		int seat = -1;
+		if (RoomCategory::RoomCategoryA == _category) {
+			seat = avatar->getSeat();
+			_avatarSeats[seat].reset();
+		}
+		bool test1 = removeAvatar(playerId);
+		bool test2 = hasSpectator(playerId);
+		if (!test2) {
+			// 变为观众
+			test2 = true;
+			_spectators.insert(playerId);
+		}
+		if (test1) {
+			// 通知玩家离开
+			notifyRemoveAvatar(seat, playerId, false);
+			// 执行玩家离开后的上层逻辑
+			onAvatarLeaved(seat, playerId);
+		}
+		if (test2) {
+			// 通知观众进入
+			notifyAddSpectator(playerId, false);
+			// 执行观众进入后的上层逻辑
+			onSpectatorJoined(playerId);
 		}
 	}
 
@@ -862,6 +1086,8 @@ namespace NiuMa
 
 	void GameRoom::sendAvatars(const Session::Ptr& session) const {
 		if (!session)
+			return;
+		if (_allAvatars.empty())
 			return;
 		AvatarInfo info;
 		MsgAddAvatar msg;
@@ -994,7 +1220,7 @@ namespace NiuMa
 		msg.index = inst->index;
 		msg.text = inst->text;
 		msg.playerId = inst->getPlayerId();
-		sendMessageToAll(msg);
+		sendMessageToAll(msg, BaseUtils::EMPTY_STRING, true);
 	}
 
 	void GameRoom::onEffectClient(const NetMessage::Ptr& netMsg) {
@@ -1010,7 +1236,7 @@ namespace NiuMa
 		msg.index = inst->index;
 		msg.srcSeat = avatar1->getSeat();
 		msg.dstSeat = avatar2->getSeat();
-		sendMessageToAll(msg);
+		sendMessageToAll(msg, BaseUtils::EMPTY_STRING, true);
 	}
 
 	void GameRoom::onVoiceClient(const NetMessage::Ptr& netMsg) {
@@ -1024,8 +1250,57 @@ namespace NiuMa
 		msg.seat = avatar->getSeat();
 		msg.playerId = inst->getPlayerId();
 		msg.base64 = inst->base64;
-		sendMessageToAll(msg, inst->getPlayerId());
+		sendMessageToAll(msg, inst->getPlayerId(), true);
 	}
 
 	void GameRoom::clean() {}
+
+	void GameRoom::initScoreboard(const std::string& playerId) {
+		std::stringstream ss;
+		ss << "select count(*) from `game_scoreboard` where `player_id` = \'";
+		ss << playerId << "\' and `game_type` = " << getGameType();
+		std::shared_ptr<MysqlCountTask> task1 = std::make_shared<MysqlCountTask>(ss.str());
+		MysqlPool::getSingleton().syncQuery(task1);
+		if (!task1->getSucceed())
+			return;
+		GameAvatar::Ptr avatar = getAvatar(playerId);
+		if (task1->getCount() > 0) {
+			if (avatar) {
+				std::shared_ptr<GetScoreboardTask> task2 = std::make_shared<GetScoreboardTask>(playerId, getGameType());
+				MysqlPool::getSingleton().syncQuery(task2);
+				if (task2->getSucceed()) {
+					int winNum = 0;
+					int loseNum = 0;
+					int drawNum = 0;
+					task2->getScoreboard(winNum, loseNum, drawNum);
+					avatar->setScoreboard(winNum, loseNum, drawNum);
+				}
+			}
+			return;
+		}
+		ss.str("");
+		ss << "insert into `game_scoreboard` (`player_id`, `game_type`, `win_num`, `lose_num`, `draw_num`) values(\'";
+		ss << playerId << "\', " << getGameType() << ", 0, 0, 0)";
+		MysqlQueryTask::Ptr task3 = std::make_shared<MysqlCommonTask>(ss.str(), MysqlQueryTask::QueryType::Insert);
+		MysqlPool::getSingleton().syncQuery(task3);
+		avatar->setScoreboard(0, 0, 0);
+	}
+
+	void GameRoom::incWinNum(const std::string& playerId) {
+		MysqlQueryTask::Ptr task = incWinNumTask(playerId, getGameType());
+		if (task)
+			MysqlPool::getSingleton().asyncQuery(task);
+	}
+
+	void GameRoom::incLoseNum(const std::string& playerId) {
+		MysqlQueryTask::Ptr task = incLoseNumTask(playerId, getGameType());
+		if (task)
+			MysqlPool::getSingleton().asyncQuery(task);
+	}
+
+	void GameRoom::incDrawNum(const std::string& playerId) {
+		MysqlQueryTask::Ptr task = incDrawNumTask(playerId, getGameType());
+		if (task)
+			MysqlPool::getSingleton().asyncQuery(task);
+	}
 }

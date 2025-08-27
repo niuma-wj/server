@@ -26,7 +26,7 @@ namespace NiuMa {
 
 	protected:
 		virtual bool hasPlayer(const std::string& playerId) override;
-		virtual void getPlayerIds(std::vector<std::string>& playerIds) override;
+		virtual void getPlayerIds(std::vector<std::string>& playerIds, bool robot = false) override;
 		virtual int getPlayerCount() override;
 		virtual bool enterImpl(const std::string& playerId, const std::string& base64, std::string& errMsg) override;
 		virtual int leaveImpl(const std::string& playerId, std::string& errMsg) override;

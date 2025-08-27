@@ -22,6 +22,108 @@ namespace NiuMa
 	};
 
 	/**
+	 * 加入游戏消息，由观众变为玩家
+	 * 客户端->服务器
+	 */
+	class MsgJoinGame : public MsgVenueInner
+	{
+	public:
+		MsgJoinGame();
+		virtual ~MsgJoinGame() {}
+
+		static const std::string TYPE;
+
+		virtual const std::string& getType() const {
+			return TYPE;
+		}
+
+	public:
+		// 座位号
+		int seat;
+
+		MSGPACK_DEFINE_MAP(playerId, timestamp, nonce, signature, venueId, seat);
+	};
+
+	/**
+	 * 响应加入游戏消息
+	 * 服务器->客户端
+	 */
+	class MsgJoinGameResp : public MsgBase
+	{
+	public:
+		MsgJoinGameResp();
+		virtual ~MsgJoinGameResp() {}
+
+		static const std::string TYPE;
+
+		virtual const std::string& getType() const {
+			return TYPE;
+		}
+
+		MSG_PACK_IMPL
+
+	public:
+		// 座位号
+		int seat;
+
+		// 是否成功加入
+		bool success;
+
+		// 错误消息
+		std::string errMsg;
+
+		MSGPACK_DEFINE_MAP(seat, success, errMsg);
+	};
+
+	/**
+	 * 退出游戏消息，由玩家变为观众
+	 * 客户端->服务器
+	 */
+	class MsgBecomeSpectator : public MsgVenueInner
+	{
+	public:
+		MsgBecomeSpectator() {}
+		virtual ~MsgBecomeSpectator() {}
+
+		static const std::string TYPE;
+
+		virtual const std::string& getType() const {
+			return TYPE;
+		}
+
+	public:
+		MSGPACK_DEFINE_MAP(playerId, timestamp, nonce, signature, venueId);
+	};
+
+	/**
+	 * 响应退出游戏消息
+	 * 服务器->客户端
+	 */
+	class MsgBecomeSpectatorResp : public MsgBase
+	{
+	public:
+		MsgBecomeSpectatorResp();
+		virtual ~MsgBecomeSpectatorResp() {}
+
+		static const std::string TYPE;
+
+		virtual const std::string& getType() const {
+			return TYPE;
+		}
+
+		MSG_PACK_IMPL
+
+	public:
+		// 结果，0-成功，其他失败原因
+		int result;
+
+		// 错误消息
+		std::string errMsg;
+
+		MSGPACK_DEFINE_MAP(result, errMsg);
+	};
+
+	/**
 	 * 玩家信息
 	 */
 	typedef struct _AvatarInfo {
@@ -574,10 +676,10 @@ namespace NiuMa
 		}
 
 	public:
-		// 消息类型，1-表情，2-常用语，3-普通文本
+		// 消息类型，1-表情，2-常用语，3-普通文本，4-meme(静态搞笑图)
 		int type;
 
-		// 索引，当type为1和2时有效
+		// 索引，当type为1、2、4时有效
 		int index;
 
 		// 文本
@@ -711,7 +813,7 @@ namespace NiuMa
 	{
 	public:
 		MsgVoiceServer();
-		virtual ~MsgVoiceServer();
+		virtual ~MsgVoiceServer() {}
 
 		static const std::string TYPE;
 
@@ -732,6 +834,31 @@ namespace NiuMa
 		std::string base64;
 
 		MSGPACK_DEFINE_MAP(seat, playerId, base64);
+	};
+
+	/**
+	 * 提示文本消息
+	 * 服务器->客户端
+	 */
+	class MsgTipText : public MsgBase
+	{
+	public:
+		MsgTipText() {}
+		virtual ~MsgTipText() {}
+
+		static const std::string TYPE;
+
+		virtual const std::string& getType() const {
+			return TYPE;
+		}
+
+		MSG_PACK_IMPL
+
+	public:
+		// 提示文本
+		std::string tip;
+
+		MSGPACK_DEFINE_MAP(tip);
 	};
 }
 

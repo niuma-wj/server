@@ -16,13 +16,11 @@ namespace NiuMa
 	int PokerUtilities::getPointNums(const CardArray& cards, int point) {
 		if (point == static_cast<int>(PokerPoint::Invalid))
 			return 0;
-
 		int nums = 0;
 		CardArray::const_iterator it = cards.begin();
 		while (it != cards.end()) {
 			if ((*it).getPoint() == point)
 				nums++;
-
 			++it;
 		}
 		return nums;
@@ -31,16 +29,180 @@ namespace NiuMa
 	int PokerUtilities::getSuitNums(const CardArray& cards, int suit) {
 		if (suit == static_cast<int>(PokerSuit::Invalid))
 			return 0;
-
 		int nums = 0;
 		CardArray::const_iterator it = cards.begin();
 		while (it != cards.end()) {
 			if ((*it).getSuit() == suit)
 				nums++;
-
 			++it;
 		}
 		return nums;
+	}
+
+	int PokerUtilities::getCardNums(const CardArray& cards, int point, int suit) {
+		if (point == static_cast<int>(PokerPoint::Invalid))
+			return 0;
+		if (suit == static_cast<int>(PokerSuit::Invalid))
+			return 0;
+		int nums = 0;
+		CardArray::const_iterator it = cards.begin();
+		while (it != cards.end()) {
+			if (((*it).getPoint() == point) && ((*it).getSuit() == suit))
+				nums++;
+			++it;
+		}
+		return nums;
+	}
+
+	bool ignore(const PokerCard& c, int ignorePoint, int ignoreSuit) {
+		bool test = false;
+		int point = c.getPoint();
+		int suit = c.getSuit();
+		if (ignorePoint > 0) {
+			if (ignoreSuit > 0) {
+				if (point == ignorePoint && suit == ignoreSuit)
+					test = true;
+			}
+			else if (point == ignorePoint)
+				test = true;
+		}
+		else if (ignoreSuit > 0) {
+			if (suit == ignoreSuit)
+				test = true;
+		}
+		return test;
+	}
+
+	int PokerUtilities::getPointTypes(const CardArray& cards, int ignorePoint, int ignoreSuit) {
+		if (cards.empty())
+			return 0;
+		// 某张牌与其前一张不被忽略的牌的牌值是否相等
+		bool test = false;
+		int types = 0;
+		CardArray::size_type size = cards.size();
+		for (CardArray::size_type i = 0; i < size; i++) {
+			const PokerCard& c = cards.at(i);
+			if (ignore(c, ignorePoint, ignoreSuit))
+				continue;
+			// 因为cards已从小到打排序，所以每张牌仅需要与其前一张不被忽略的牌做比较，若与其前
+			// 一张不被忽略的牌的牌值不相等，则种类数量加1
+			test = false;
+			if (i > 0) {
+				for (CardArray::size_type j = i; j > 0; j--) {
+					const PokerCard& c1 = cards.at(j - 1);
+					if (ignore(c1, ignorePoint, ignoreSuit))
+						continue;
+					test = (c1.getPoint() == c.getPoint());
+					break;
+				}
+			}
+			if (!test)
+				types++;
+		}
+		if (types == 0) {
+			// cards中所有牌都是被忽略的牌
+			types = 1;
+		}
+		return types;
+	}
+
+	void addPointGraph(std::vector<std::pair<int, int> >& graph, const std::pair<int, int>& pr, const PointComparator::Ptr& comp) {
+		if (comp) {
+			bool test = false;
+			std::vector<std::pair<int, int> >::const_iterator it = graph.begin();
+			while (it != graph.end()) {
+				if ((*comp)(pr.first, it->first)) {
+					graph.insert(it, pr);
+					test = true;
+					break;
+				}
+				++it;
+			}
+			if (!test)
+				graph.push_back(pr);
+		}
+		else
+			graph.push_back(pr);
+	}
+
+	void PokerUtilities::getPointGraph(const CardArray& cards, std::vector<std::pair<int, int> >& graph,
+		int ignorePoint, int ignoreSuit, const PointComparator::Ptr& comp) {
+		bool first = true;
+		int point1 = 0;
+		int point2 = 0;
+		std::pair<int, int> pr;
+		CardArray::const_iterator it = cards.begin();
+		while (it != cards.end()) {
+			if (ignore(*it, ignorePoint, ignoreSuit)) {
+				++it;
+				continue;
+			}
+			point2 = (*it).getPoint();
+			if (first) {
+				first = false;
+				pr.first = point2;
+				pr.second = 1;
+				point1 = point2;
+			}
+			else if (point1 != point2) {
+				addPointGraph(graph, pr, comp);
+				pr.first = point2;
+				pr.second = 1;
+				point1 = point2;
+			}
+			else {
+				pr.second += 1;
+			}
+			++it;
+		}
+		if (!first)
+			addPointGraph(graph, pr, comp);
+	}
+
+	bool PokerUtilities::samePoint(const CardArray& cards, int ignorePoint, int ignoreSuit) {
+		if (cards.empty())
+			return true;
+
+		bool first = true;
+		int point = 0;
+		CardArray::const_iterator it = cards.begin();
+		while (it != cards.end()) {
+			if (ignore(*it, ignorePoint, ignoreSuit)) {
+				++it;
+				continue;
+			}
+			if (first) {
+				first = false;
+				point = (*it).getPoint();
+			}
+			else if (point != (*it).getPoint())
+				return false;
+			++it;
+		}
+		return true;
+	}
+
+	bool PokerUtilities::sameSuit(const CardArray& cards, int ignorePoint, int ignoreSuit) {
+		if (cards.empty())
+			return true;
+
+		bool first = true;
+		int suit = 0;
+		CardArray::const_iterator it = cards.begin();
+		while (it != cards.end()) {
+			if (ignore(*it, ignorePoint, ignoreSuit)) {
+				++it;
+				continue;
+			}
+			if (first) {
+				first = false;
+				suit = (*it).getSuit();
+			}
+			else if (suit != (*it).getSuit())
+				return false;
+			++it;
+		}
+		return true;
 	}
 
 	bool PokerUtilities::findSamePointN(const CardArray& cards, PokerCard& c, int N_) {
@@ -182,6 +344,16 @@ namespace NiuMa
 		return false;
 	}
 
+	bool PokerUtilities::hasCard(const CardArray& cards, int point, int suit) {
+		CardArray::const_iterator it = cards.begin();
+		while (it != cards.end()) {
+			if (it->getPoint() == point && it->getSuit() == suit)
+				return true;
+			++it;
+		}
+		return false;
+	}
+
 	bool PokerUtilities::getFirstCardOfPoint(const CardArray& cards, PokerCard& c, int point) {
 		bool found = false;
 		CardArray::const_iterator it = cards.begin();
@@ -212,32 +384,107 @@ namespace NiuMa
 		return found;
 	}
 
-	void PokerUtilities::getCardsByPoint(const CardArray& cards, CardArray& results, int point) {
-		bool found = false;
+	bool PokerUtilities::getCardsByIds(const CardArray& cardsIn, CardArray& cardsOut, const std::vector<int>& ids) {
+		if (ids.empty())
+			return false;
+		cardsOut.clear();
+		bool ret = true;
+		bool test = false;
+		std::vector<int>::const_iterator it = ids.begin();
+		for (; it != ids.end(); ++it) {
+			test = false;
+			for (const PokerCard& c : cardsIn) {
+				if (c.getId() == *it) {
+					cardsOut.push_back(c);
+					test = true;
+					break;
+				}
+			}
+			if (!test)
+				ret = false;
+		}
+		return ret;
+	}
+
+	bool PokerUtilities::getCardById(const CardArray& cards, int id, PokerCard& c) {
 		CardArray::const_iterator it = cards.begin();
 		while (it != cards.end()) {
-			if (it->getPoint() == point) {
-				results.push_back(*it);
-				found = true;
+			if ((*it).getId() == id) {
+				c = *it;
+				return true;
 			}
-			else if (found)
-				break;
-
 			++it;
 		}
+		return false;
 	}
 
 	void PokerUtilities::getCards(const CardArray& cards, CardArray& results, int point, int suit) {
+		bool test1 = false;
+		bool test2 = false;
+		if (point == -1)
+			test1 = true;
+		if (suit == -1)
+			test2 = true;
 		CardArray::const_iterator it = cards.begin();
 		while (it != cards.end()) {
-			if (it->getPoint() == point && it->getSuit() == suit)
-				results.push_back(*it);
+			const PokerCard& c = *it;
+			if (point != -1)
+				test1 = (c.getPoint() == point);
+			if (suit != -1)
+				test2 = (c.getSuit() == suit);
+			if (test1 && test2)
+				results.push_back(c);
 			it++;
 		}
 	}
 
-	bool PokerUtilities::getStraightCards(const CardArray& cards, CardArray& results, int point, int straight, int N_, const PokerRule::Ptr& rule) {
-		if (rule == NULL)
+	void PokerUtilities::getCardIds(const CardArray& cards, std::vector<int>& ids, int point, int suit) {
+		bool test1 = false;
+		bool test2 = false;
+		if (point == -1)
+			test1 = true;
+		if (suit == -1)
+			test2 = true;
+		CardArray::const_iterator it = cards.begin();
+		while (it != cards.end()) {
+			const PokerCard& c = *it;
+			if (point != -1)
+				test1 = (c.getPoint() == point);
+			if (suit != -1)
+				test2 = (c.getSuit() == suit);
+			if (test1 && test2)
+				ids.push_back(c.getId());
+			it++;
+		}
+	}
+
+	int PokerUtilities::getCardId(const CardArray& cards, const std::unordered_set<int>& excludedIds, int point, int suit) {
+		bool test1 = false;
+		bool test2 = false;
+		if (point == -1)
+			test1 = true;
+		if (suit == -1)
+			test2 = true;
+		std::unordered_set<int>::const_iterator it_s;
+		CardArray::const_iterator it = cards.begin();
+		while (it != cards.end()) {
+			const PokerCard& c = *it;
+			if (point != -1)
+				test1 = (c.getPoint() == point);
+			if (suit != -1)
+				test2 = (c.getSuit() == suit);
+			if (test1 && test2) {
+				it_s = excludedIds.find(it->getId());
+				if (it_s == excludedIds.end())
+					return it->getId();
+			}
+			it++;
+		}
+		return -1;
+	}
+
+	bool PokerUtilities::getStraightCards(const CardArray& cards, CardArray& results, int point, int straight, int N_, const std::shared_ptr<PokerRule>& rule) {
+		if (!rule)
 			return false;
 
 		bool found = false;
@@ -443,5 +690,20 @@ namespace NiuMa
 				black++;
 			++it;
 		}
+	}
+
+	bool PokerUtilities::getBiggestCard(const CardArray& cards, PokerCard& c, int ignorePoint, int ignoreSuit) {
+		bool ret = false;
+		CardArray::const_reverse_iterator rit = cards.rbegin();
+		while (rit != cards.rend()) {
+			if (ignore(*rit, ignorePoint, ignoreSuit)) {
+				++rit;
+				continue;
+			}
+			c = *rit;
+			ret = true;
+			break;
+		}
+		return ret;
 	}
 }

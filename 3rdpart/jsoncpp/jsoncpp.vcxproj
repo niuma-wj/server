@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3E525C71-91E7-327F-8806-903319E43A5C}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>jsoncpp</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.lib</TargetExt>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Lib\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ENABLE_OPENSSL;ENABLE_HLS;ENABLE_MP4;ENABLE_RTPPROXY;WIN32_LEAN_AND_MEAN;MP4V2_NO_STDINT_DEFS;OS_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;ENABLE_OPENSSL;DBUG_OFF;ENABLE_HLS;ENABLE_MP4;ENABLE_RTPPROXY;WIN32_LEAN_AND_MEAN;MP4V2_NO_STDINT_DEFS;OS_WINDOWS;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\ZLToolKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart;C:\Program Files\OpenSSL\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmpeg\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmov\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libflv\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\librtp\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\server\..\3rdpart;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\ZLToolKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart;C:\Program Files\OpenSSL\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmpeg\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmov\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libflv\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\librtp\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\server\..\3rdpart;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_OPENSSL;ENABLE_HLS;ENABLE_MP4;ENABLE_RTPPROXY;WIN32_LEAN_AND_MEAN;MP4V2_NO_STDINT_DEFS;OS_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;ENABLE_OPENSSL;DBUG_OFF;ENABLE_HLS;ENABLE_MP4;ENABLE_RTPPROXY;WIN32_LEAN_AND_MEAN;MP4V2_NO_STDINT_DEFS;OS_WINDOWS;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\ZLToolKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart;C:\Program Files\OpenSSL\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmpeg\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmov\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libflv\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\librtp\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\server\..\3rdpart;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\ZLToolKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\src;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart;C:\Program Files\OpenSSL\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmpeg\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libmov\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\libflv\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\3rdpart\media-server\librtp\include;C:\Users\Administrator\Work\Develop\Cpp\ZLMediaKit\server\..\3rdpart;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Lib>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include=".\source\json_reader.cpp" />
+    <ClCompile Include=".\source\json_value.cpp" />
+    <ClCompile Include=".\source\json_writer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\json\assertions.h" />
+    <ClInclude Include="include\json\autolink.h" />
+    <ClInclude Include="include\json\config.h" />
+    <ClInclude Include="include\json\features.h" />
+    <ClInclude Include="include\json\forwards.h" />
+    <ClInclude Include="include\json\json.h" />
+    <ClInclude Include="include\json\json_tool.h" />
+    <ClInclude Include="include\json\reader.h" />
+    <ClInclude Include="include\json\value.h" />
+    <ClInclude Include="include\json\version.h" />
+    <ClInclude Include="include\json\writer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="include\json\json_valueiterator.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

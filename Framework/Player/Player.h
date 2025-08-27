@@ -23,7 +23,7 @@ namespace NiuMa {
 	 */
 	class Player {
 	public:
-		Player(const std::string& id);
+		Player(const std::string& id, bool robot = false);
 		virtual ~Player();
 		typedef std::shared_ptr<Player> Ptr;
 
@@ -32,6 +32,11 @@ namespace NiuMa {
 		 * 返回玩家id
 		 */
 		const std::string& getId() const;
+
+		/**
+		 * 返回是否为机器人
+		 */
+		bool isRobot() const;
 
 		/**
 		 * 设置登录账户名
@@ -166,6 +171,9 @@ namespace NiuMa {
 	private:
 		// 玩家id
 		const std::string _id;
+
+		// 是否为机器人
+		const bool _robot;
 
 		// 登录账户名
 		std::string _name;

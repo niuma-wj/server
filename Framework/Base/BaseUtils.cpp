@@ -10,6 +10,7 @@
 #include <random>
 
 #include <string.h>
+#include <boost/locale.hpp>
 
 namespace NiuMa {
 	const float BaseUtils::FLOAT_TOLERANCE = 1.0e-5f;
@@ -51,6 +52,24 @@ namespace NiuMa {
 			fileName = path;
 		else
 			fileName = path.substr(pos + 1);
+	}
+
+	bool BaseUtils::toUtf8(const std::string& text, std::string& utf8) {
+#ifdef _MSC_VER
+		utf8 = boost::locale::conv::to_utf<char>(text, std::string("gb2312"));
+#else
+		utf8 = text;
+#endif
+		return true;
+	}
+
+	bool BaseUtils::fromUtf8(const std::string& utf8, std::string& text) {
+#ifdef _MSC_VER
+		text = boost::locale::conv::from_utf<char>(utf8, std::string("gb2312"));
+#else
+		text = utf8;
+#endif
+		return true;
 	}
 
 	bool BaseUtils::encodeBase64(std::string& base64, const char* input, int len) {

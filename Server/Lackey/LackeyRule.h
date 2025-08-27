@@ -11,7 +11,7 @@
 
 namespace NiuMa
 {
-	// 牌型
+	// 逮狗腿牌型
 	enum class LackeyGenre : int
 	{
 		Invalid = 0,	// 无效牌型
@@ -78,12 +78,7 @@ namespace NiuMa
 
 		static const int BOMB_ORDERS[18];		// 炸弹大小顺序表(越排后越大)
 
-	public:
-		// 获得炸弹牌型在炸弹顺序表中的位置
-		static int getBombOrder(int genre);
-
-		// 获得顺序表某一位置对应的炸弹牌型
-		static int getBombByOrder(int order);
+		static const int GENRE_CARD_NUMS[49];	// 牌型对应的牌张数
 
 		// 计算喜钱
 		static int calcXiQian(int genre, const CardArray& cards);
@@ -95,11 +90,17 @@ namespace NiuMa
 		// 判定牌型
 		virtual int predicateCardGenre(PokerGenre& pcg) const override;
 
+		// 获取牌型的牌张数
+		virtual int getGenreCardNums(int genre) const override;
+
 		// 判定两个牌c1是否大于c2。返回0：两者相等或者无法比较，返回1：前者大于后者，返回2：后者大于前者
 		virtual int compareCard(const PokerCard& c1, const PokerCard& c2) const override;
 
-		// 判断两个牌型pcg1是否大于pcg2。返回0：两者相等或者无法比较，返回1：前者大于后者，返回2：后者大于前者
-		virtual int compareGenre(const PokerGenre& pcg1, const PokerGenre& pcg2) const override;
+		// 获得炸弹牌型在炸弹顺序表中的位置
+		virtual int getBombOrder(int genre) const override;
+
+		// 获得顺序表某一位置对应的炸弹牌型
+		virtual int getBombByOrder(int order) const override;
 
 		// 连对牌型排除的牌
 		virtual bool straightPairExcluded(const PokerCard& c) const override;
@@ -120,4 +121,4 @@ namespace NiuMa
 	};
 }
 
-#endif
+#endif // !_NIU_MA_LACKEY_RULE_H_

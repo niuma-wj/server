@@ -9,6 +9,8 @@ namespace NiuMa {
 		: VenueInnerHandler(queue)
 	{
 		// 添加接收的消息类型
+		addMessage(MsgJoinGame::TYPE);
+		addMessage(MsgBecomeSpectator::TYPE);
 		addMessage(MsgGetAvatars::TYPE);
 		addMessage(MsgGetSpectators::TYPE);
 		addMessage(MsgPlayerReady::TYPE);

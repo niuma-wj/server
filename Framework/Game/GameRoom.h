@@ -55,6 +55,7 @@ namespace NiuMa {
 		GameAvatar::Ptr getAvatar(int seat) const;
 		GameAvatar::Ptr getAvatar(const std::string& playerId) const;
 		int getAvatarCount() const;
+		int getSpectatorCount() const;
 		bool hasSpectator(const std::string& playerId) const;
 
 	protected:
@@ -90,6 +91,20 @@ namespace NiuMa {
 		 * 是否全部玩家已就绪
 		 */
 		bool isAllReady() const;
+
+		/**
+		 * 是否包含指定玩家替身
+		 * @param playerId 玩家id
+		 * @return true-包含，false-不包含
+		 */
+		bool hasAvatar(const std::string& playerId) const;
+
+		/**
+		 * 加入机器人
+		 * @param playerId 机器人玩家id
+		 * @return 是否加入成功
+		 */
+		bool joinRobot(const std::string& playerId);
 
 		/**
 		 * 归还玩家押金
@@ -150,6 +165,11 @@ namespace NiuMa {
 		void kickAllAvatars();
 
 		/**
+		 * 踢出全部观众
+		 */
+		void kickAllSpectators();
+
+		/**
 		 * 计算指定玩家与所有其他玩家之间的地理距离
 		 * @param seat 玩家座位号
 		 * @param distances 距离数值数组
@@ -163,6 +183,30 @@ namespace NiuMa {
 		 */
 		void clearDistances(int seat, double* distances);
 
+		/**
+		 * 初始化指定玩家在当前游戏的计分板
+		 * @param playerId 玩家id
+		 */
+		void initScoreboard(const std::string& playerId);
+
+		/**
+		 * 玩家赢局数量+1
+		 * @param playerId 玩家id
+		 */
+		void incWinNum(const std::string& playerId);
+
+		/**
+		 * 玩家输局数量+1
+		 * @param playerId 玩家id
+		 */
+		void incLoseNum(const std::string& playerId);
+
+		/**
+		 * 玩家平局数量+1
+		 * @param playerId 玩家id
+		 */
+		void incDrawNum(const std::string& playerId);
+
 	public:
 		virtual bool onMessage(const NetMessage::Ptr& netMsg) override;
 		virtual void onConnect(const std::string& playerId) override;
@@ -173,15 +217,15 @@ namespace NiuMa {
 		virtual bool hasPlayer(const std::string& playerId) override;
 
 		// 包括观众
-		virtual void getPlayerIds(std::vector<std::string>& playerIds) override;
+		virtual void getPlayerIds(std::vector<std::string>& playerIds, bool robot = false) override;
 
 		// 包括观众
 		virtual int getPlayerCount() override;
 
-		//
+		// 进入房间
 		virtual bool enterImpl(const std::string& playerId, const std::string& base64, std::string& errMsg) override;
 
-		//
+		// 离开房间
 		virtual int leaveImpl(const std::string& playerId, std::string& errMsg) override;
 
 	protected:
@@ -189,9 +233,10 @@ namespace NiuMa {
 		 * 检查指定玩家是否满足进入房间的条件
 		 * @param playerId 玩家id
 		 * @param errMsg 错误消息
+		 * @param robot 是否为机器人
 		 * @return 是否满足进入房间的条件
 		 */
-		virtual bool checkEnter(const std::string& playerId, std::string& errMsg) const = 0;
+		virtual bool checkEnter(const std::string& playerId, std::string& errMsg, bool robot = false) const = 0;
 
 		/**
 		 * 检查指定玩家当前是否可以离开房间
@@ -234,27 +279,31 @@ namespace NiuMa {
 		 * 通知添加玩家
 		 * @param seat 座位号
 		 * @param playerId 玩家id
+		 * @param selfExclude 排除向该玩家发送通知
 		 */
-		virtual void notifyAddAvatar(int seat, const std::string& playerId);
+		virtual void notifyAddAvatar(int seat, const std::string& playerId, bool selfExclude = true);
 
 		/**
 		 * 通知删除玩家
 		 * @param seat 玩家座位号
 		 * @param playerId 玩家id
+		 * @param selfExclude 排除向该玩家发送通知
 		 */
-		virtual void notifyRemoveAvatar(int seat, const std::string& playerId);
+		virtual void notifyRemoveAvatar(int seat, const std::string& playerId, bool selfExclude = true);
 
 		/**
 		 * 通知添加观众
 		 * @param playerId 玩家id
+		 * @param selfExclude 排除向该玩家发送通知
 		 */
-		virtual void notifyAddSpectator(const std::string& playerId);
+		virtual void notifyAddSpectator(const std::string& playerId, bool selfExclude = true);
 
 		/**
 		 * 通知删除观众
 		 * @param playerId 玩家id
+		 * @param selfExclude 排除向该玩家发送通知
 		 */
-		virtual void notifyRemoveSpectator(const std::string& playerId);
+		virtual void notifyRemoveSpectator(const std::string& playerId, bool selfExclude = true);
 
 		/**
 		 * 获取玩家额外信息
@@ -269,6 +318,18 @@ namespace NiuMa {
 		 * @param base64 额外信息json打包成base64
 		 */
 		virtual void getSpectatorExtraInfo(const std::string& playerId, std::string& base64) const;
+
+		/**
+		 * 新观众进入房间后的上层逻辑处理
+		 * @param playerId 玩家id
+		 */
+		virtual void onSpectatorJoined(const std::string& playerId);
+
+		/**
+		 * 观众离开房间后的上层逻辑处理
+		 * @param playerId 玩家id
+		 */
+		virtual void onSpectatorLeaved(const std::string& playerId);
 
 		/**
 		 * 新玩家加入后的上层逻辑处理
@@ -329,15 +390,29 @@ namespace NiuMa {
 		 */
 		void sendMessageToAll(const MsgBase& msg, const std::string& playerExcepted = std::string(), bool spectator = false) const;
 
+		/**
+		 * 发送提示文本消息
+		 * @param tip 提示文本
+		 * @param playerId 接收消息的玩家id，为空则向全体玩家发送
+		 */
+		void sendTipText(const std::string& tip, const std::string& playerId);
+
+		/**
+		 * 将离线超过指定时间的玩家踢出
+		 * @param period 指定时间
+		 */
+		void checkOffline(int period);
+
 	private:
 		/**
 		 * 加入游戏(创建GameAvatar)
 		 * @param seat 座位号
 		 * @param playerId 玩家id
 		 * @param errMsg 返回错误消息
+		 * @param robot 是否为机器人
 		 * @return 是否加入成功
 		 */
-		bool joinGame(int seat, const std::string& playerId, std::string& errMsg);
+		bool joinGame(int seat, const std::string& playerId, std::string& errMsg, bool robot = false);
 
 		/**
 		 * 添加玩家替身
@@ -348,13 +423,25 @@ namespace NiuMa {
 		 * 删除玩家替身
 		 * @param playerId 玩家id
 		 */
-		void removeAvatar(const std::string& playerId);
+		bool removeAvatar(const std::string& playerId);
 
 		/**
 		 * 删除观众
 		 * @param playerId 玩家id
 		 */
-		void removeSpectator(const std::string& playerId);
+		bool removeSpectator(const std::string& playerId);
+
+		/**
+		 * 响应加入游戏消息
+		 * @param netMsg 网络消息
+		 */
+		void onJoinGame(const NetMessage::Ptr& netMsg);
+
+		/**
+		 * 响应退出游戏变为观众消息
+		 * @param netMsg 网络消息
+		 */
+		void onBecomeSpectator(const NetMessage::Ptr& netMsg);
 
 		/**
 		 * 响应获取全部玩家数据消息

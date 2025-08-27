@@ -7,17 +7,31 @@
 #define _NIU_MA_LACKEY_AVATAR_H_
 
 #include "PokerGenre.h"
-#include "DouDiZhuAvatar.h"
+#include "PokerAvatar.h"
 
 namespace NiuMa
 {
 	class LackeyRule;
 	// 逮狗腿玩家替身
-	class LackeyAvatar : public DouDiZhuAvatar
+	class LackeyAvatar : public PokerAvatar
 	{
 	public:
 		LackeyAvatar(const std::shared_ptr<LackeyRule>& rule, const std::string& playerId, int seat, bool robot);
 		virtual ~LackeyAvatar();
+
+	public:
+		// 清理
+		virtual void clear() override;
+
+	protected:
+		// 检索所有牌型的全部组合
+		virtual void combineAllGenres() override;
+
+		// 更新候选组合列表
+		virtual void candidateCombinationsImpl(int situation = 0) override;
+
+		// 更新候选组合列表
+		virtual void candidateCombinationsImpl(const PokerGenre& pg, int situation = 0) override;
 
 	public:
 		// 设置地主1打4时的狗腿牌ID
@@ -26,15 +40,14 @@ namespace NiuMa
 		// 返回狗腿炸ID
 		int getLackeyCard() const;
 
-	protected:
-		// 检索所有牌型的全部组合
-		virtual void combineAllGenres();
+		// 增加喜钱
+		void addXiQian(int q);
 
-		// 更新候选组合列表
-		virtual void candidateCombinationsImpl();
+		// 返回喜钱
+		int getXiQian() const;
 
-		// 更新候选组合列表
-		virtual void candidateCombinationsImpl(const PokerGenre& pg);
+		// 计算剩余手牌的喜钱
+		void calcLeftXiQian();
 
 	protected:
 		// 检索指定牌型的全部组合
@@ -78,19 +91,6 @@ namespace NiuMa
 
 		// 添加候选炸弹组合
 		void addCandidateBomb(int order);
-
-	public:
-		// 清理
-		virtual void clear();
-
-		// 增加喜钱
-		void addXiQian(int q);
-
-		// 返回喜钱
-		int getXiQian() const;
-
-		// 计算剩余手牌的喜钱
-		void calcLeftXiQian();
 
 	protected:
 		// 地主1打4时的狗腿牌ID否则为-1(即便是狗腿玩家也不设置该值)

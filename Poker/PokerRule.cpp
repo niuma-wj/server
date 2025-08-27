@@ -33,42 +33,57 @@ namespace NiuMa
 	CardOrderTable::~CardOrderTable()
 	{}
 
+	void CardOrderTable::setPointOrder(int point, int order) {
+		if (order < 0 || order > 13)
+			return;
+		if (point < static_cast<int>(PokerPoint::Ace) ||
+			point > static_cast<int>(PokerPoint::Joker))
+			return;
+		_pointOrders[order] = point;
+	}
+
 	// 返回传入的牌值在牌值大小顺序表中的位置
-	int CardOrderTable::getPointOrder(int p) const {
-		if (p == static_cast<int>(PokerPoint::Invalid))
+	int CardOrderTable::getPointOrder(int point) const {
+		if (point == static_cast<int>(PokerPoint::Invalid))
 			return -1;
 		for (int i = 0; i < 14; i++) {
-			if (p == _pointOrders[i])
+			if (point == _pointOrders[i])
 				return i;
 		}
 		return -1;
 	}
 
-	// 返回传入的花色在花色大小顺序表中的位置
-	int CardOrderTable::getSuitOrder(int s) const {
-		if (s == static_cast<int>(PokerSuit::Invalid))
+	void CardOrderTable::setSuitOrder(int suit, int order) {
+		if (order < 0 || order > 5)
+			return;
+		if (suit < static_cast<int>(PokerSuit::Diamond) ||
+			suit > static_cast<int>(PokerSuit::Big))
+			return;
+		_suitOrders[order] = suit;
+	}
+
+	int CardOrderTable::getSuitOrder(int suit) const {
+		if (suit == static_cast<int>(PokerSuit::Invalid))
 			return -1;
 		for (int i = 0; i < 6; i++) {
-			if (s == _suitOrders[i])
+			if (suit == _suitOrders[i])
 				return i;
 		}
 		return -1;
 	}
 
-	// 返回指定位置的牌值
-	int CardOrderTable::getPoint(int pos) const {
-		if (pos < 0 || pos > 13)
+	int CardOrderTable::getPointByOrder(int order) const {
+		if (order < 0 || order > 13)
 			return static_cast<int>(PokerPoint::Invalid);
 
-		return _pointOrders[pos];
+		return _pointOrders[order];
 	}
 
-	// 返回指定位置的花色
-	int CardOrderTable::getSuit(int pos) const {
-		if (pos < 0 || pos > 5)
+	int CardOrderTable::getSuitByOrder(int order) const {
+		if (order < 0 || order > 5)
 			return static_cast<int>(PokerSuit::Invalid);
 
-		return _suitOrders[pos];
+		return _suitOrders[order];
 	}
 
 	PokerRule::PokerRule()
@@ -93,6 +108,10 @@ namespace NiuMa
 		return 14;
 	}
 
+	void PokerRule::sortPointOrder() {}
+
+	void PokerRule::sortSuitOrder() {}
+
 	bool PokerRule::isDisapprovedCard(const PokerCard& c) const {
 		return false;
 	}
@@ -103,6 +122,14 @@ namespace NiuMa
 
 	bool PokerRule::hasDisapprovedGenre(const CardArray& cards) const {
 		return false;
+	}
+
+	int PokerRule::predicateCardGenre(PokerGenre& pcg) const {
+		return 0;
+	}
+
+	int PokerRule::getGenreCardNums(int genre) const {
+		return 0;
 	}
 
 	bool PokerRule::isValidGenre(int genre) const {
@@ -145,23 +172,10 @@ namespace NiuMa
 	}
 
 	int PokerRule::compareCard(const PokerCard& c1, const PokerCard& c2) const {
-		int order1 = getPointOrder(c1.getPoint());
-		int order2 = getPointOrder(c2.getPoint());
-		if (order1 == -1 || order2 == -1)
-			return 0;
-		if (order1 > order2)
-			return 1;
-		else if (order2 > order1)
-			return 2;
-		order1 = getSuitOrder(c1.getSuit());
-		order2 = getSuitOrder(c2.getSuit());
-		if (order1 == -1 || order2 == -1)
-			return 0;
-		if (order1 > order2)
-			return 1;
-		else if (order2 > order1)
-			return 2;
-		return 0;
+		int ret = comparePoint(c1.getPoint(), c2.getPoint());
+		if (ret != 0)
+			return ret;
+		return compareSuit(c1.getSuit(), c2.getSuit());
 	}
 
 	bool PokerRule::straightExcluded(const PokerCard& c) const {
@@ -180,10 +194,6 @@ namespace NiuMa
 		return false;
 	}
 
-	bool PokerRule::isBomb(const PokerGenre& pcg) const {
-		return false;
-	}
-
 	int PokerRule::getPointOrder(int point) const {
 		if (_orderTable != NULL)
 			return _orderTable->getPointOrder(point);
@@ -198,16 +208,16 @@ namespace NiuMa
 		return -1;
 	}
 
-	int PokerRule::getPointByOrder(int pos) const {
+	int PokerRule::getPointByOrder(int order) const {
 		if (_orderTable != NULL)
-			return _orderTable->getPoint(pos);
+			return _orderTable->getPointByOrder(order);
 
 		return static_cast<int>(PokerPoint::Invalid);
 	}
 
-	int PokerRule::getSuitByOrder(int pos) const {
+	int PokerRule::getSuitByOrder(int order) const {
 		if (_orderTable != NULL)
-			return _orderTable->getSuit(pos);
+			return _orderTable->getSuitByOrder(order);
 
 		return static_cast<int>(PokerSuit::Invalid);
 	}
@@ -217,7 +227,7 @@ namespace NiuMa
 			return false;
 
 		int pt = cards.at(0).getPoint();
-		// 顺子里面不能含有2及王
+		// 排除顺子里面不能包含的牌
 		if (straightExcluded(cards.at(0)))
 			return false;
 		int order0 = getPointOrder(pt);
@@ -367,6 +377,22 @@ namespace NiuMa
 			}
 		}
 		return true;
+	}
+
+	PointOrderComparator::PointOrderComparator(const PokerRule* rule)
+		: _rule(rule)
+	{}
+
+	bool PointOrderComparator::compareImpl(int a, int b) const {
+		int order1 = _rule->getPointOrder(a);
+		int order2 = _rule->getPointOrder(b);
+		if (order1 == -1 || order2 == -1)
+			return false;
+		if (order1 > order2)
+			return false;
+		else if (order2 > order1)
+			return true;
+		return false;
 	}
 
 	CardComparator::CardComparator(const PokerRule::Ptr& rule)

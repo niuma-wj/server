@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #include "msgpack/msgpack.hpp"
 
@@ -122,6 +123,29 @@ namespace NiuMa
 	typedef std::vector<PokerCard> CardArray;
 
 	void getCardIds(const CardArray& cards, std::vector<int>& ids);
+
+	// 牌值较器基类
+	class PointComparator
+	{
+	public:
+		PointComparator() {}
+		virtual ~PointComparator() {}
+
+		typedef std::shared_ptr<PointComparator> Ptr;
+
+	public:
+		/**
+		 * 比较牌值a与牌值b的大小
+		 * @param a 牌值a
+		 * @param b 牌值b
+		 * @return 当b > a返回true，否则返回false
+		 */
+		bool operator()(int a, int b) const;
+
+	protected:
+		// 牌值比较实现
+		virtual bool compareImpl(int a, int b) const = 0;
+	};
 }
 
 #endif

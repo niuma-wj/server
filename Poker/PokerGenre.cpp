@@ -44,6 +44,18 @@ namespace NiuMa
 		return cards;
 	}
 
+	bool PokerGenre::hasPoint(int point) const {
+		return PokerUtilities::hasPoint(cards, point);
+	}
+
+	bool PokerGenre::hasSuit(int suit) const {
+		return PokerUtilities::hasSuit(cards, suit);
+	}
+
+	bool PokerGenre::hasCard(int point, int suit) const {
+		return PokerUtilities::hasCard(cards, point, suit);
+	}
+
 	const PokerCard& PokerGenre::getOfficer() const {
 		return officer;
 	}
@@ -60,13 +72,14 @@ namespace NiuMa
 		mate = c;
 	}
 
-	void PokerGenre::setCards(const CardArray& cards_, const std::shared_ptr<PokerRule>& rule) {
+	void PokerGenre::setCards(const CardArray& cards_, const std::shared_ptr<PokerRule>& rule, int genreIn) {
 		cards = cards_;
 
 		// 设置后强制排序
 		std::sort(cards.begin(), cards.end(), CardComparator(rule));
-
-		if (rule != NULL)
+		if (genreIn != -1)
+			genre = genreIn;
+		else if (rule)
 			genre = rule->predicateCardGenre(*this);
 	}
 
@@ -125,30 +138,12 @@ namespace NiuMa
 		return card.getSuit();
 	}
 
-	bool PokerGenre::samePoint() const {
-		if (cards.empty())
-			return false;
-
-		const PokerCard& c0 = cards.at(0);
-		unsigned int nums = static_cast<unsigned int>(cards.size());
-		for (unsigned int i = 1; i < nums; i++) {
-			if (c0.getPoint() != cards.at(i).getPoint())
-				return false;
-		}
-		return true;
+	bool PokerGenre::samePoint(int ignorePoint, int ignoreSuit) const {
+		return PokerUtilities::samePoint(cards, ignorePoint, ignoreSuit);
 	}
 
-	bool PokerGenre::sameSuit() const {
-		if (cards.empty())
-			return false;
-
-		const PokerCard& c0 = cards.at(0);
-		unsigned int nums = static_cast<unsigned int>(cards.size());
-		for (unsigned int i = 1; i < nums; i++) {
-			if (c0.getSuit() != cards.at(i).getSuit())
-				return false;
-		}
-		return true;
+	bool PokerGenre::sameSuit(int ignorePoint, int ignoreSuit) const {
+		return PokerUtilities::sameSuit(cards, ignorePoint, ignoreSuit);
 	}
 
 	bool PokerGenre::carryM_N(int M_, int N_) const {

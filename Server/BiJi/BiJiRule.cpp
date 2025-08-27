@@ -120,7 +120,7 @@ namespace NiuMa
 		for (int i = 0; i < 14; i++) {
 			if (arrNums[i] > 1) {
 				PokerCard c;
-				PokerUtilities::getLastCardOfPoint(cards, c, _orderTable->getPoint(i));
+				PokerUtilities::getLastCardOfPoint(cards, c, _orderTable->getPointByOrder(i));
 				pcg.setOfficer(c);
 				return static_cast<int>(BiJiGenre::Pair);	// 对子
 			}

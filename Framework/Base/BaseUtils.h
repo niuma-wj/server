@@ -84,6 +84,12 @@ namespace NiuMa {
 			return ret;
 		}
 
+		// 系统字符编码转UTF8
+		static bool toUtf8(const std::string& text, std::string& utf8);
+
+		// UTF8转系统字符编码
+		static bool fromUtf8(const std::string& utf8, std::string& text);
+
 		// 内存转base64字符串
 		static bool encodeBase64(std::string& base64, const char* input, int len);
 

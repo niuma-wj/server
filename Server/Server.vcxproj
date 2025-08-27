@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6be15e6b-0b72-4bd3-a65e-91f79c37c151}</ProjectGuid>
+    <RootNamespace>Server</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;../Framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\boost_1.74.0\vc142\lib;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Framework.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;../Framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\boost_1.74.0\vc142\lib;$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Framework.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;AMQP_STATIC;STATIC_CONCPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;D:\MySQL\mysql-connector-c++-9.1.0\include;../3rdpart;../3rdpart/zlib-1.2.11/include;../Framework;../Mahjong;../Poker;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\boost_1.74.0\vc142\lib;$(OutDir);$(SolutionDir)3rdpart\Lib\Debug;D:\MySQL\mysql-connector-c++-9.1.0\lib64\debug\vs14;C:\Program Files\OpenSSL\lib;D:\Work\Develop\Cpp\rabbitmq-c\librabbitmq\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Framework.lib;Mahjong.lib;Poker.lib;mysqlcppconn-static.lib;libcrypto.lib;libssl.lib;hiredis.lib;librabbitmq.4.lib;jsoncpp.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;STATIC_CONCPP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\boost_1.74.0\vc142\include\boost-1_74;D:\MySQL\MySQL Connector C++ 8.4\include;../3rdpart;../3rdpart/zlib-1.2.11/include;../Framework;../Mahjong;../Poker;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\boost_1.74.0\vc142\lib;D:\Work\Develop\Cpp\openssl-1.1.1q;$(OutDir);$(SolutionDir)3rdpart\Lib\Debug;D:\MySQL\MySQL Connector C++ 8.4\lib64\vs14;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Framework.lib;Mahjong.lib;Poker.lib;libcrypto.lib;libssl.lib;mysqlcppconn.lib;hiredis.lib;jsoncpp.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BiJi\BiJiAvatar.cpp" />
+    <ClCompile Include="BiJi\BiJiLoader.cpp" />
+    <ClCompile Include="BiJi\BiJiMessages.cpp" />
+    <ClCompile Include="BiJi\BiJiRoom.cpp" />
+    <ClCompile Include="BiJi\BiJiRoomHandler.cpp" />
+    <ClCompile Include="BiJi\BiJiRule.cpp" />
+    <ClCompile Include="Example.cpp" />
+    <ClCompile Include="Lackey\LackeyAvatar.cpp" />
+    <ClCompile Include="Lackey\LackeyAvatarEx.cpp" />
+    <ClCompile Include="Lackey\LackeyLoader.cpp" />
+    <ClCompile Include="Lackey\LackeyMessages.cpp" />
+    <ClCompile Include="Lackey\LackeyRoom.cpp" />
+    <ClCompile Include="Lackey\LackeyRoomHandler.cpp" />
+    <ClCompile Include="Lackey\LackeyRule.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="NiuNiu100\NiuNiu100Avatar.cpp" />
+    <ClCompile Include="NiuNiu100\NiuNiu100Loader.cpp" />
+    <ClCompile Include="NiuNiu100\NiuNiu100Messages.cpp" />
+    <ClCompile Include="NiuNiu100\NiuNiu100Room.cpp" />
+    <ClCompile Include="NiuNiu100\NiuNiu100RoomHandler.cpp" />
+    <ClCompile Include="StandardMahjong\StandardMahjongAvatar.cpp" />
+    <ClCompile Include="StandardMahjong\StandardMahjongLoader.cpp" />
+    <ClCompile Include="StandardMahjong\StandardMahjongMessages.cpp" />
+    <ClCompile Include="StandardMahjong\StandardMahjongPlayback.cpp" />
+    <ClCompile Include="StandardMahjong\StandardMahjongRecordTask.cpp" />
+    <ClCompile Include="StandardMahjong\StandardMahjongRoom.cpp" />
+    <ClCompile Include="StandardMahjong\StandardMahjongRoomHandler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BiJi\BiJiAvatar.h" />
+    <ClInclude Include="BiJi\BiJiLoader.h" />
+    <ClInclude Include="BiJi\BiJiMessages.h" />
+    <ClInclude Include="BiJi\BiJiRoom.h" />
+    <ClInclude Include="BiJi\BiJiRoomHandler.h" />
+    <ClInclude Include="BiJi\BiJiRule.h" />
+    <ClInclude Include="Example.h" />
+    <ClInclude Include="GameDefines.h" />
+    <ClInclude Include="Lackey\LackeyAvatar.h" />
+    <ClInclude Include="Lackey\LackeyAvatarEx.h" />
+    <ClInclude Include="Lackey\LackeyLoader.h" />
+    <ClInclude Include="Lackey\LackeyMessages.h" />
+    <ClInclude Include="Lackey\LackeyRoom.h" />
+    <ClInclude Include="Lackey\LackeyRoomHandler.h" />
+    <ClInclude Include="Lackey\LackeyRule.h" />
+    <ClInclude Include="NiuNiu100\NiuNiu100Avatar.h" />
+    <ClInclude Include="NiuNiu100\NiuNiu100Loader.h" />
+    <ClInclude Include="NiuNiu100\NiuNiu100Messages.h" />
+    <ClInclude Include="NiuNiu100\NiuNiu100Room.h" />
+    <ClInclude Include="NiuNiu100\NiuNiu100RoomHandler.h" />
+    <ClInclude Include="StandardMahjong\StandardMahjongAvatar.h" />
+    <ClInclude Include="StandardMahjong\StandardMahjongLoader.h" />
+    <ClInclude Include="StandardMahjong\StandardMahjongMessages.h" />
+    <ClInclude Include="StandardMahjong\StandardMahjongPlayback.h" />
+    <ClInclude Include="StandardMahjong\StandardMahjongRecordTask.h" />
+    <ClInclude Include="StandardMahjong\StandardMahjongRoom.h" />
+    <ClInclude Include="StandardMahjong\StandardMahjongRoomHandler.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

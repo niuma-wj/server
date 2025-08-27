@@ -38,7 +38,7 @@ namespace NiuMa
 
 	protected:
 		virtual GameAvatar::Ptr createAvatar(const std::string& playerId, int seat, bool robot) const override;
-		virtual bool checkEnter(const std::string& playerId, std::string& errMsg) const override;
+		virtual bool checkEnter(const std::string& playerId, std::string& errMsg, bool robot = false) const override;
 		virtual int checkLeave(const std::string& playerId, std::string& errMsg) const override;
 		virtual void getAvatarExtraInfo(const GameAvatar::Ptr& avatar, std::string& base64) const override;
 		virtual void onAvatarJoined(int seat, const std::string& playerId) override;

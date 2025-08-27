@@ -65,7 +65,7 @@ namespace NiuMa
 		return std::make_shared<NiuNiu100Avatar>(playerId, seat, robot);
 	}
 
-	bool NiuNiu100Room::checkEnter(const std::string& playerId, std::string& errMsg) const {
+	bool NiuNiu100Room::checkEnter(const std::string& playerId, std::string& errMsg, bool robot) const {
 		return true;
 	}
 

@@ -97,6 +97,15 @@ namespace NiuMa
 		static_cast<int>(LackeyGenre::BombLackey)
 	};
 
+	const int LackeyRule::GENRE_CARD_NUMS[49] = { 1,	// 单张(1)
+		2, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24,		// 连对(11)
+		3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36,	// 三顺(12)
+		5, 10, 15, 20, 25, 30, 35,						// 蝴蝶(7)
+		4, 5, 6, 7, 8, 9, 10, 11, 12,					// N炸(9)
+		3, 3, 4, 4, 4, 5, 5, 6,							// 王炸(8)
+		1												// 狗腿炸(1)
+	};
+
 	LackeyRule::LackeyRule()
 		: _defaultLackeyCard(-1)
 	{
@@ -105,20 +114,6 @@ namespace NiuMa
 
 	LackeyRule::~LackeyRule()
 	{}
-
-	int LackeyRule::getBombOrder(int genre) {
-		for (int i = 0; i < 18; i++) {
-			if (BOMB_ORDERS[i] == genre)
-				return i;
-		}
-		return -1;
-	}
-
-	int LackeyRule::getBombByOrder(int order) {
-		if (order < 0 || order > 17)
-			return static_cast<int>(LackeyGenre::Invalid);
-		return BOMB_ORDERS[order];
-	}
 
 	int LackeyRule::calcXiQian(int genre, const CardArray& cards) {
 		int black = 0;
@@ -503,6 +498,13 @@ namespace NiuMa
 		return genre;
 	}
 
+	int LackeyRule::getGenreCardNums(int genre) const {
+		if (genre < static_cast<int>(LackeyGenre::Single) || genre > static_cast<int>(LackeyGenre::BombLackey))
+			return 0;
+		int index = genre - static_cast<int>(LackeyGenre::Single);
+		return GENRE_CARD_NUMS[index];
+	}
+
 	int LackeyRule::compareCard(const PokerCard& c1, const PokerCard& c2) const {
 		int point1 = c1.getPoint();
 		int point2 = c2.getPoint();
@@ -513,28 +515,18 @@ namespace NiuMa
 		return 0;
 	}
 
-	int LackeyRule::compareGenre(const PokerGenre& pcg1, const PokerGenre& pcg2) const {
-		int genre1 = pcg1.getGenre();
-		int genre2 = pcg2.getGenre();
-		int bomb1 = getBombOrder(genre1);
-		int bomb2 = getBombOrder(genre2);
-		if (bomb1 == -1) {
-			if (bomb2 != -1)
-				return 2;
-			// 两个非炸弹必须相同牌型且张数相同才能比较
-			if (genre1 != genre2)
-				return 0;
-			if (pcg1.getCardNums() != pcg2.getCardNums())
-				return 0;
-			return compareCard(pcg1.getOfficer(), pcg2.getOfficer());
+	int LackeyRule::getBombOrder(int genre) const {
+		for (int i = 0; i < 18; i++) {
+			if (BOMB_ORDERS[i] == genre)
+				return i;
 		}
-		else if (bomb2 == -1)
-			return 1;
-		if (bomb1 > bomb2)
-			return 1;
-		else if (bomb1 < bomb2)
-			return 2;
-		return compareCard(pcg1.getOfficer(), pcg2.getOfficer());
+		return -1;
+	}
+
+	int LackeyRule::getBombByOrder(int order) const {
+		if (order < 0 || order > 17)
+			return static_cast<int>(LackeyGenre::Invalid);
+		return BOMB_ORDERS[order];
 	}
 
 	bool LackeyRule::straightPairExcluded(const PokerCard& c) const {

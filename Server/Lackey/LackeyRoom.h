@@ -64,11 +64,10 @@ namespace NiuMa
 		virtual void initialize() override;
 		virtual void onTimer() override;
 		virtual bool onMessage(const NetMessage::Ptr& netMsg) override;
-		virtual void onDisconnect(const std::string& playerId) override;
 
 	protected:
 		virtual GameAvatar::Ptr createAvatar(const std::string& playerId, int seat, bool robot) const override;
-		virtual bool checkEnter(const std::string& playerId, std::string& errMsg) const override;
+		virtual bool checkEnter(const std::string& playerId, std::string& errMsg, bool robot = false) const override;
 		virtual int checkLeave(const std::string& playerId, std::string& errMsg) const override;
 		virtual void getAvatarExtraInfo(const GameAvatar::Ptr& avatar, std::string& base64) const override;
 		virtual void onAvatarJoined(int seat, const std::string& playerId) override;
@@ -81,9 +80,6 @@ namespace NiuMa
 	private:
 		// 返回当前房间所属的区域id
 		int getDistrictId() const;
-
-		// 定时离线玩家并踢出
-		void checkOffline();
 
 		// 返回等待操作已过了多久
 		int getWaitElapsed() const;
@@ -179,7 +175,7 @@ namespace NiuMa
 		 * 通知等待动作
 		 * @param elapsed 已等待多久(毫秒)
 		 * @param duration 等待多久(毫秒)
-		 * @param playerId 接收消息的玩家id，为空则向全体玩家发送
+		 * @param playerId 接收消息的玩家id
 		 */
 		void notifyWaitOption(int elapsed, int duration, const std::string& playerId) const;
 

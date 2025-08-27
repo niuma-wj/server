@@ -13,10 +13,6 @@ namespace NiuMa
 		, _score(0.0f)
 		, _xiQianScore(0)
 		, _winGold(0.0)
-		, _wins(0)
-		, _loses(0)
-		, _draws(0)
-		, _offlineTick(0)
 	{
 		for (int i = 0; i < 5; i++)
 			_loseGolds[i] = 0.0;
@@ -74,35 +70,15 @@ namespace NiuMa
 		_winGold = g;
 		if (flag) {
 			if (g > 0.0)
-				_wins++;
+				incWinNum();
 			else if (g < 0.0)
-				_loses++;
+				incLoseNum();
 			else
-				_draws++;
+				incDrawNum();
 		}
 	}
 
 	double LackeyAvatarEx::getWinGold() const {
 		return _winGold;
-	}
-
-	void LackeyAvatarEx::setWinLose(int win, int lose, int draw) {
-		_wins = win;
-		_loses = lose;
-		_draws = draw;
-	}
-
-	void LackeyAvatarEx::getWinLose(int& win, int& lose, int& draw) {
-		win = _wins;
-		lose = _loses;
-		draw = _draws;
-	}
-
-	void LackeyAvatarEx::setOfflineTick(time_t t) {
-		_offlineTick = t;
-	}
-
-	time_t LackeyAvatarEx::getOfflineTick() const {
-		return _offlineTick;
 	}
 }

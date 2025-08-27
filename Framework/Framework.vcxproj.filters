@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Network">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="MySql">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{87dfbd3b-4ad6-4029-9c2d-f1f8192ec358}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Message">
+      <UniqueIdentifier>{a7ce3e9b-44b0-451d-b422-53ba729a55b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{13cbcd36-3398-45af-9ea7-d3b9d5b1037a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Timer">
+      <UniqueIdentifier>{ea05b301-f029-46e5-90a8-0e484fe585bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Redis">
+      <UniqueIdentifier>{90590b5b-8560-4534-8b3c-d5a8238c4524}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{7dc8067e-c5e9-4057-9fe4-a3f71e997418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rabbitmq">
+      <UniqueIdentifier>{c4b058f3-40ce-4d3b-95ff-cf3d0d38385b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Venue">
+      <UniqueIdentifier>{83bfa806-0b41-4e56-bcf6-2e16c575dfa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{2e95d96e-cd6c-4577-8a2b-9165c4958cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Constant">
+      <UniqueIdentifier>{1fdab75d-56a3-4743-a73c-5092f9d19995}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{c3931c3c-3131-480c-95dd-2572b5a2692e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Network\TcpServer.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\BaseUtils.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Connection.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Session.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\EchoSession.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Message\MsgWrapper.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\MsgSession.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Message\NetMessage.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\Log.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Message\MessageManager.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Message\MessageHandler.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\ThreadPool.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\ThreadWorker.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\ThreadDispatch.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Message\MessageThreadPool.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="MySql\MysqlPool.cpp">
+      <Filter>MySql</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer\TimerManager.cpp">
+      <Filter>Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\ThreadWorkerDumb.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Redis\RedisPool.cpp">
+      <Filter>Redis</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread\ThreadBlocker.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\DatabaseConnection.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\DatabasePool.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbitmq\RabbitmqClient.cpp">
+      <Filter>Rabbitmq</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbitmq\RabbitmqConfig.cpp">
+      <Filter>Rabbitmq</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbitmq\RabbitmqConnection.cpp">
+      <Filter>Rabbitmq</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbitmq\RabbitmqUtils.cpp">
+      <Filter>Rabbitmq</Filter>
+    </ClCompile>
+    <ClCompile Include="Message\MsgDisconnect.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Venue\Venue.cpp">
+      <Filter>Venue</Filter>
+    </ClCompile>
+    <ClCompile Include="Venue\VenueInnerHandler.cpp">
+      <Filter>Venue</Filter>
+    </ClCompile>
+    <ClCompile Include="Venue\VenueManager.cpp">
+      <Filter>Venue</Filter>
+    </ClCompile>
+    <ClCompile Include="Venue\VenueOuterHandler.cpp">
+      <Filter>Venue</Filter>
+    </ClCompile>
+    <ClCompile Include="Venue\VenueLoader.cpp">
+      <Filter>Venue</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerManager.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerSignatureHandler.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Constant\RedisKeys.cpp">
+      <Filter>Constant</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\SecurityManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\IniConfig.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbitmq\RabbitmqMessageHandler.cpp">
+      <Filter>Rabbitmq</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbitmq\RabbitmqConsumer.cpp">
+      <Filter>Rabbitmq</Filter>
+    </ClCompile>
+    <ClCompile Include="Rabbitmq\RabbitmqMessageJsonHandler.cpp">
+      <Filter>Rabbitmq</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameDumb.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameAvatar.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Message\MsgBase.cpp">
+      <Filter>Message</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameRoom.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GetCapitalTask.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GetCashPledgeTask.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameRoomHandler.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\IdentityAllocator.cpp">
+      <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameMessages.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\DebtLiquidation.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MySql\MysqlQueryTask.cpp">
+      <Filter>MySql</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GetAgencyTask.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\PlayerMessages.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Venue\VenueMessages.cpp">
+      <Filter>Venue</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\LoadPlayerTask.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\RobotManager.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ScoreboardTask.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Network\TcpServer.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Singleton.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\BaseUtils.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Connection.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Session.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\EchoSession.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\MsgWrapper.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\MsgSession.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\NetMessage.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Log.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\MessageManager.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\MessageHandler.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\MsgBase.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\ThreadPool.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\ThreadWorker.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\ThreadDispatch.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\MessageThreadPool.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="MySql\MysqlPool.h">
+      <Filter>MySql</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer\TimerManager.h">
+      <Filter>Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\ThreadWorkerDumb.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="MySql\MysqlQueryTask.h">
+      <Filter>MySql</Filter>
+    </ClInclude>
+    <ClInclude Include="Redis\RedisPool.h">
+      <Filter>Redis</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread\ThreadBlocker.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\Optional.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\DatabaseConnection.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\DatabasePool.h">
+      <Filter>Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbitmq\RabbitmqClient.h">
+      <Filter>Rabbitmq</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbitmq\RabbitmqConfig.h">
+      <Filter>Rabbitmq</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbitmq\RabbitmqConnection.h">
+      <Filter>Rabbitmq</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbitmq\RabbitmqUtils.h">
+      <Filter>Rabbitmq</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbitmq\RabbitmqConsumer.h">
+      <Filter>Rabbitmq</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\MsgCreator.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Message\MsgDisconnect.h">
+      <Filter>Message</Filter>
+    </ClInclude>
+    <ClInclude Include="Venue\Venue.h">
+      <Filter>Venue</Filter>
+    </ClInclude>
+    <ClInclude Include="Venue\VenueInnerHandler.h">
+      <Filter>Venue</Filter>
+    </ClInclude>
+    <ClInclude Include="Venue\VenueManager.h">
+      <Filter>Venue</Filter>
+    </ClInclude>
+    <ClInclude Include="Venue\VenueOuterHandler.h">
+      <Filter>Venue</Filter>
+    </ClInclude>
+    <ClInclude Include="Venue\VenueLoader.h">
+      <Filter>Venue</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerManager.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerSignatureHandler.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Constant\RedisKeys.h">
+      <Filter>Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\SecurityManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\IniConfig.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbitmq\RabbitmqMessageHandler.h">
+      <Filter>Rabbitmq</Filter>
+    </ClInclude>
+    <ClInclude Include="Rabbitmq\RabbitmqMessageJsonHandler.h">
+      <Filter>Rabbitmq</Filter>
+    </ClInclude>
+    <ClInclude Include="Constant\ErrorDefines.h">
+      <Filter>Constant</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameDumb.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameAvatar.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameRoom.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GetCapitalTask.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GetCashPledgeTask.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameMessages.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameRoomHandler.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\IdentityAllocator.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\DebtLiquidation.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GetAgencyTask.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\PlayerMessages.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Venue\VenueMessages.h">
+      <Filter>Venue</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\LoadPlayerTask.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\RobotManager.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ScoreboardTask.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

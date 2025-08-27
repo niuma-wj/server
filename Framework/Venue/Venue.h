@@ -135,6 +135,11 @@ namespace NiuMa {
 		void updateStatus2Db();
 
 		/**
+		 * 从数据删除场地
+		 */
+		void deleteVenueFromDb();
+
+		/**
 		 * 废弃场地，废弃30秒后将被销毁
 		 */
 		void setObsolete();
@@ -149,8 +154,9 @@ namespace NiuMa {
 		/**
 		 * 获取全部玩家id
 		 * @param playerIds 玩家id数组
+		 * @param robot 是否包括机器人
 		 */
-		virtual void getPlayerIds(std::vector<std::string>& playerIds) = 0;
+		virtual void getPlayerIds(std::vector<std::string>& playerIds, bool robot = false) = 0;
 
 		/**
 		 * 获取场地内当前玩家数量
@@ -201,8 +207,9 @@ namespace NiuMa {
 
 		/**
 		 * 游戏结束
+		 * @param delDb 是否从数据删除场地
 		 */
-		void gameOver();
+		void gameOver(bool delDb = false);
 
 	private:
 		// 场地id

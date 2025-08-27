@@ -120,13 +120,13 @@ namespace NiuMa {
 		return count;
 	}
 
-	void Venue::gameOver() {
+	void Venue::gameOver(bool delDb) {
 		_status = 2;
 
 		Player::Ptr player;
 		std::string redisKey;
 		std::vector<std::string> playerIds;
-		getPlayerIds(playerIds);
+		getPlayerIds(playerIds, false);
 		for (const std::string& playerId : playerIds) {
 			// 删除玩家当前所在场地
 			player = PlayerManager::getSingleton().getPlayer(playerId);
@@ -139,7 +139,10 @@ namespace NiuMa {
 		RedisPool::getSingleton().del(redisKey);
 
 		updatePlayerCount();
-		updateStatus2Db();
+		if (delDb)
+			deleteVenueFromDb();
+		else
+			updateStatus2Db();
 		setObsolete();
 
 		InfoS << "Game over, venueId: " << _id;
@@ -149,6 +152,12 @@ namespace NiuMa {
 		std::string sql = "update `venue` set `status` = " + std::to_string(_status) + " where `id` = \"" + _id + "\"";
 		MysqlQueryTask::Ptr task = std::make_shared<MysqlCommonTask>(sql, MysqlQueryTask::QueryType::Update);
 		MysqlPool::getSingleton().syncQuery(task);
+	}
+
+	void Venue::deleteVenueFromDb() {
+		std::string sql = "delete from `venue` where `id` = \"" + _id + "\"";
+		MysqlQueryTask::Ptr task = std::make_shared<MysqlCommonTask>(sql, MysqlQueryTask::QueryType::Delete);
+		MysqlPool::getSingleton().asyncQuery(task);
 	}
 
 	void Venue::onHeartbeat(const NetMessage::Ptr& netMsg) {

@@ -53,15 +53,15 @@ namespace NiuMa {
 		if (player)
 			return player;
 		player = std::make_shared<Player>(playerId);
-		if (loadPlayer(player)) {
+		if (loadPlayerImpl(player)) {
 			if (!addPlayer(player))
 				player = getPlayer(playerId);
 			return player;
 		}
-		return nullptr;
+		return Player::Ptr();
 	}
 
-	bool PlayerManager::loadPlayer(const Player::Ptr& player) const {
+	bool PlayerManager::loadPlayerImpl(const Player::Ptr& player) const {
 		if (!player)
 			return false;
 		std::shared_ptr<LoadPlayerTask> task = std::make_shared<LoadPlayerTask>(player->getId());
@@ -74,6 +74,58 @@ namespace NiuMa {
 		player->setSex(task->_sex);
 		player->setAvatar(task->_avatar);
 		return true;
+	}
+
+	bool PlayerManager::loadRobot(int robotId, std::string& playerId) {
+		class GetRobotPlayerIdTask : public MysqlQueryTask {
+		public:
+			GetRobotPlayerIdTask(int robotId)
+				: _robotId(robotId)
+			{}
+
+			virtual ~GetRobotPlayerIdTask() {}
+
+		public:
+			virtual QueryType buildQuery(std::string& sql) override {
+				sql = "select `player_id` from `robot` where `id` = " + std::to_string(_robotId);
+				return QueryType::Select;
+			}
+
+			virtual int fetchResult(sql::ResultSet* res) override {
+				int rows = 0;
+				while (res->next()) {
+					_playerId = res->getString("player_id");
+					rows++;
+				}
+				return rows;
+			}
+
+		public:
+			// 机器人id
+			const int _robotId;
+
+			// 玩家id
+			std::string _playerId;
+		};
+		std::shared_ptr<GetRobotPlayerIdTask> task = std::make_shared<GetRobotPlayerIdTask>(robotId);
+		MysqlPool::getSingleton().syncQuery(task);
+		if (!task->getSucceed())
+			return false;
+		Player::Ptr player = loadPlayer(task->_playerId);
+		if (player) {
+			playerId = player->getId();
+			return true;
+		}
+		return false;
+	}
+
+	int PlayerManager::getRobotCount() {
+		std::string sql("select count(*) from `robot`");
+		std::shared_ptr <MysqlCountTask> task = std::make_shared<MysqlCountTask>(sql);
+		MysqlPool::getSingleton().syncQuery(task);
+		if (task->getSucceed())
+			return task->getCount();
+		return 0;
 	}
 
 	bool PlayerManager::addPlayer(const Player::Ptr& player) {

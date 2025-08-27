@@ -164,4 +164,8 @@ namespace NiuMa
 			++it;
 		}
 	}
+
+	bool PointComparator::operator()(int a, int b) const {
+		return compareImpl(a, b);
+	}
 }

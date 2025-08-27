@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Mahjong">
+      <UniqueIdentifier>{f13c8fd1-eb08-4ce6-b300-d59535cf56ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BiJi">
+      <UniqueIdentifier>{d42973ff-d285-441f-af4f-7e789507f78d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lackey">
+      <UniqueIdentifier>{db674537-534f-4317-8735-04ddbf15a01a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NiuNiu100">
+      <UniqueIdentifier>{65f2f198-1606-4e0b-ac5e-64d46c8e1ba5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Example.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMahjong\StandardMahjongAvatar.cpp">
+      <Filter>Mahjong</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMahjong\StandardMahjongLoader.cpp">
+      <Filter>Mahjong</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMahjong\StandardMahjongMessages.cpp">
+      <Filter>Mahjong</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMahjong\StandardMahjongPlayback.cpp">
+      <Filter>Mahjong</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMahjong\StandardMahjongRecordTask.cpp">
+      <Filter>Mahjong</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMahjong\StandardMahjongRoom.cpp">
+      <Filter>Mahjong</Filter>
+    </ClCompile>
+    <ClCompile Include="StandardMahjong\StandardMahjongRoomHandler.cpp">
+      <Filter>Mahjong</Filter>
+    </ClCompile>
+    <ClCompile Include="BiJi\BiJiAvatar.cpp">
+      <Filter>BiJi</Filter>
+    </ClCompile>
+    <ClCompile Include="BiJi\BiJiRoom.cpp">
+      <Filter>BiJi</Filter>
+    </ClCompile>
+    <ClCompile Include="BiJi\BiJiRule.cpp">
+      <Filter>BiJi</Filter>
+    </ClCompile>
+    <ClCompile Include="BiJi\BiJiMessages.cpp">
+      <Filter>BiJi</Filter>
+    </ClCompile>
+    <ClCompile Include="BiJi\BiJiLoader.cpp">
+      <Filter>BiJi</Filter>
+    </ClCompile>
+    <ClCompile Include="BiJi\BiJiRoomHandler.cpp">
+      <Filter>BiJi</Filter>
+    </ClCompile>
+    <ClCompile Include="Lackey\LackeyAvatar.cpp">
+      <Filter>Lackey</Filter>
+    </ClCompile>
+    <ClCompile Include="Lackey\LackeyRoom.cpp">
+      <Filter>Lackey</Filter>
+    </ClCompile>
+    <ClCompile Include="Lackey\LackeyAvatarEx.cpp">
+      <Filter>Lackey</Filter>
+    </ClCompile>
+    <ClCompile Include="Lackey\LackeyRule.cpp">
+      <Filter>Lackey</Filter>
+    </ClCompile>
+    <ClCompile Include="Lackey\LackeyMessages.cpp">
+      <Filter>Lackey</Filter>
+    </ClCompile>
+    <ClCompile Include="Lackey\LackeyLoader.cpp">
+      <Filter>Lackey</Filter>
+    </ClCompile>
+    <ClCompile Include="Lackey\LackeyRoomHandler.cpp">
+      <Filter>Lackey</Filter>
+    </ClCompile>
+    <ClCompile Include="NiuNiu100\NiuNiu100Avatar.cpp">
+      <Filter>NiuNiu100</Filter>
+    </ClCompile>
+    <ClCompile Include="NiuNiu100\NiuNiu100Room.cpp">
+      <Filter>NiuNiu100</Filter>
+    </ClCompile>
+    <ClCompile Include="NiuNiu100\NiuNiu100Messages.cpp">
+      <Filter>NiuNiu100</Filter>
+    </ClCompile>
+    <ClCompile Include="NiuNiu100\NiuNiu100Loader.cpp">
+      <Filter>NiuNiu100</Filter>
+    </ClCompile>
+    <ClCompile Include="NiuNiu100\NiuNiu100RoomHandler.cpp">
+      <Filter>NiuNiu100</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Example.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDefines.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMahjong\StandardMahjongAvatar.h">
+      <Filter>Mahjong</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMahjong\StandardMahjongLoader.h">
+      <Filter>Mahjong</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMahjong\StandardMahjongMessages.h">
+      <Filter>Mahjong</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMahjong\StandardMahjongPlayback.h">
+      <Filter>Mahjong</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMahjong\StandardMahjongRecordTask.h">
+      <Filter>Mahjong</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMahjong\StandardMahjongRoom.h">
+      <Filter>Mahjong</Filter>
+    </ClInclude>
+    <ClInclude Include="StandardMahjong\StandardMahjongRoomHandler.h">
+      <Filter>Mahjong</Filter>
+    </ClInclude>
+    <ClInclude Include="BiJi\BiJiAvatar.h">
+      <Filter>BiJi</Filter>
+    </ClInclude>
+    <ClInclude Include="BiJi\BiJiRoom.h">
+      <Filter>BiJi</Filter>
+    </ClInclude>
+    <ClInclude Include="BiJi\BiJiRule.h">
+      <Filter>BiJi</Filter>
+    </ClInclude>
+    <ClInclude Include="BiJi\BiJiMessages.h">
+      <Filter>BiJi</Filter>
+    </ClInclude>
+    <ClInclude Include="BiJi\BiJiLoader.h">
+      <Filter>BiJi</Filter>
+    </ClInclude>
+    <ClInclude Include="BiJi\BiJiRoomHandler.h">
+      <Filter>BiJi</Filter>
+    </ClInclude>
+    <ClInclude Include="Lackey\LackeyAvatar.h">
+      <Filter>Lackey</Filter>
+    </ClInclude>
+    <ClInclude Include="Lackey\LackeyRoom.h">
+      <Filter>Lackey</Filter>
+    </ClInclude>
+    <ClInclude Include="Lackey\LackeyAvatarEx.h">
+      <Filter>Lackey</Filter>
+    </ClInclude>
+    <ClInclude Include="Lackey\LackeyRule.h">
+      <Filter>Lackey</Filter>
+    </ClInclude>
+    <ClInclude Include="Lackey\LackeyMessages.h">
+      <Filter>Lackey</Filter>
+    </ClInclude>
+    <ClInclude Include="Lackey\LackeyLoader.h">
+      <Filter>Lackey</Filter>
+    </ClInclude>
+    <ClInclude Include="Lackey\LackeyRoomHandler.h">
+      <Filter>Lackey</Filter>
+    </ClInclude>
+    <ClInclude Include="NiuNiu100\NiuNiu100Avatar.h">
+      <Filter>NiuNiu100</Filter>
+    </ClInclude>
+    <ClInclude Include="NiuNiu100\NiuNiu100Room.h">
+      <Filter>NiuNiu100</Filter>
+    </ClInclude>
+    <ClInclude Include="NiuNiu100\NiuNiu100Messages.h">
+      <Filter>NiuNiu100</Filter>
+    </ClInclude>
+    <ClInclude Include="NiuNiu100\NiuNiu100Loader.h">
+      <Filter>NiuNiu100</Filter>
+    </ClInclude>
+    <ClInclude Include="NiuNiu100\NiuNiu100RoomHandler.h">
+      <Filter>NiuNiu100</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

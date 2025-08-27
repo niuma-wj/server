@@ -27,7 +27,7 @@ namespace NiuMa {
 		return (it != _playerIds.end());
 	}
 
-	void GameDumb::getPlayerIds(std::vector<std::string>& playerIds) {
+	void GameDumb::getPlayerIds(std::vector<std::string>& playerIds, bool robot) {
 		playerIds.clear();
 		for (const std::string& playerId : _playerIds)
 			playerIds.push_back(playerId);

@@ -43,6 +43,20 @@ namespace NiuMa {
 		Player::Ptr loadPlayer(const std::string& playerId);
 
 		/**
+		 * 加载机器人
+		 * @param robotId 机器人id
+		 * @param playerId 返回机器人玩家id
+		 * @return 是否加载成功
+		 */
+		bool loadRobot(int robotId, std::string& playerId);
+
+		/**
+		 * 查询机器人数量
+		 * @return 机器人数量
+		 */
+		int getRobotCount();
+
+		/**
 		 * 验证消息体玩家签名数据
 		 * @param playerId 玩家id
 		 * @param timestamp unix时间戳（单位秒）
@@ -93,7 +107,7 @@ namespace NiuMa {
 		 * @param player 玩家
 		 * @return 是否加载成功
 		 */
-		bool loadPlayer(const Player::Ptr& player) const;
+		bool loadPlayerImpl(const Player::Ptr& player) const;
 
 		/**
 		 * 添加玩家

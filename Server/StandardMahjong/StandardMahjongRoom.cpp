@@ -69,7 +69,7 @@ namespace NiuMa
 			gameOver();
 	}
 
-	bool StandardMahjongRoom::checkEnter(const std::string& playerId, std::string& errMsg) const {
+	bool StandardMahjongRoom::checkEnter(const std::string& playerId, std::string& errMsg, bool robot) const {
 		if (_roundState == StageState::Underway) {
 			errMsg = "游戏正在进行中，不能进入房间";
 			return false;
@@ -99,7 +99,8 @@ namespace NiuMa
 		tmp["diamond"] = static_cast<Json::Int64>(diamod);
 		if (!avatar->isOffline()) {
 			Session::Ptr session = avatar->getSession();
-			tmp["ip"] = session->getRemoteIp();
+			if (session)
+				tmp["ip"] = session->getRemoteIp();
 		}
 		std::string json = tmp.toStyledString();
 		BaseUtils::encodeBase64(base64, json.data(), static_cast<int>(json.size()));

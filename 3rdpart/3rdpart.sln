@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32630.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hiredis", "hiredis\hiredis.vcxproj", "{3D6F9934-0323-3AA3-97D6-D8C3F5F50E92}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "jsoncpp", "jsoncpp\jsoncpp.vcxproj", "{3E525C71-91E7-327F-8806-903319E43A5C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zlib", "zlib-1.2.11\zlib.vcxproj", "{B8B534AD-3148-3017-AA64-E521E614363C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D6F9934-0323-3AA3-97D6-D8C3F5F50E92}.Debug|x64.ActiveCfg = Debug|x64
+		{3D6F9934-0323-3AA3-97D6-D8C3F5F50E92}.Debug|x64.Build.0 = Debug|x64
+		{3D6F9934-0323-3AA3-97D6-D8C3F5F50E92}.Release|x64.ActiveCfg = Release|x64
+		{3D6F9934-0323-3AA3-97D6-D8C3F5F50E92}.Release|x64.Build.0 = Release|x64
+		{3E525C71-91E7-327F-8806-903319E43A5C}.Debug|x64.ActiveCfg = Debug|x64
+		{3E525C71-91E7-327F-8806-903319E43A5C}.Debug|x64.Build.0 = Debug|x64
+		{3E525C71-91E7-327F-8806-903319E43A5C}.Release|x64.ActiveCfg = Release|x64
+		{3E525C71-91E7-327F-8806-903319E43A5C}.Release|x64.Build.0 = Release|x64
+		{B8B534AD-3148-3017-AA64-E521E614363C}.Debug|x64.ActiveCfg = Debug|x64
+		{B8B534AD-3148-3017-AA64-E521E614363C}.Debug|x64.Build.0 = Debug|x64
+		{B8B534AD-3148-3017-AA64-E521E614363C}.Release|x64.ActiveCfg = Release|x64
+		{B8B534AD-3148-3017-AA64-E521E614363C}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {386D5E39-CE34-3176-81F7-68B50E668C20}
+	EndGlobalSection
+EndGlobal

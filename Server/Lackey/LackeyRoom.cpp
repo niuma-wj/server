@@ -94,7 +94,8 @@ namespace NiuMa
 			}
 		}
 		if (_gameState == GameState::Waiting) {
-			checkOffline();
+			if (_level != static_cast<int>(LackeyRoomLevel::Friend))
+				checkOffline(60000);
 			return;
 		}
 		if (_disbanding) {
@@ -171,7 +172,7 @@ namespace NiuMa
 		return std::make_shared<LackeyAvatarEx>(_rule, playerId, seat, robot);
 	}
 
-	bool LackeyRoom::checkEnter(const std::string& playerId, std::string& errMsg) const {
+	bool LackeyRoom::checkEnter(const std::string& playerId, std::string& errMsg, bool robot) const {
 		if (_gameState != GameState::Waiting) {
 			errMsg = "游戏正在进行中，不能进入房间";
 			return false;
@@ -194,6 +195,8 @@ namespace NiuMa
 	}
 
 	void LackeyRoom::onAvatarJoined(int seat, const std::string& playerId) {
+		GameRoom::onAvatarJoined(seat, playerId);
+		initScoreboard(playerId);
 		if (_level == static_cast<int>(LackeyRoomLevel::Friend))
 			return;
 		// 更新区域内场地的玩家数量
@@ -242,19 +245,19 @@ namespace NiuMa
 		tmp["diamond"] = static_cast<Json::Int64>(diamod);
 		if (!avatar->isOffline()) {
 			Session::Ptr session = avatar->getSession();
-			tmp["ip"] = session->getRemoteIp();
+			if (session)
+				tmp["ip"] = session->getRemoteIp();
 		}
 		tmp["authorize"] = avatar->isAuthorize();
+		int winNum = 0;
+		int loseNum = 0;
+		int drawNum = 0;
+		avatar->getScoreboard(winNum, loseNum, drawNum);
+		tmp["winNum"] = winNum;
+		tmp["loseNum"] = loseNum;
+		tmp["drawNum"] = drawNum;
 		std::string json = tmp.toStyledString();
 		BaseUtils::encodeBase64(base64, json.data(), static_cast<int>(json.size()));
-	}
-
-	void LackeyRoom::onDisconnect(const std::string& playerId) {
-		GameRoom::onDisconnect(playerId);
-
-		LackeyAvatarEx* avatar = dynamic_cast<LackeyAvatarEx*>(getAvatar(playerId).get());
-		if (avatar != nullptr)
-			avatar->setOfflineTick(BaseUtils::getCurrentMillisecond());
 	}
 
 	void LackeyRoom::clean() {
@@ -274,7 +277,7 @@ namespace NiuMa
 		for (int i = 0; i < 5; i++)
 			_kicks[i] = false;
 
-		LackeyAvatarEx* avatar = NULL;
+		LackeyAvatarEx* avatar = nullptr;
 		for (int i = 0; i < getMaxPlayerNums(); i++) {
 			avatar = dynamic_cast<LackeyAvatarEx*>(getAvatar(i).get());
 			if (avatar != nullptr)
@@ -294,22 +297,6 @@ namespace NiuMa
 		if (_level == static_cast<int>(LackeyRoomLevel::Master))
 			return 4;
 		return 0;
-	}
-
-	void LackeyRoom::checkOffline() {
-		if (_level == static_cast<int>(LackeyRoomLevel::Friend))
-			return;
-		time_t nowTick = BaseUtils::getCurrentMillisecond();
-		int deltaTicks = 0;
-		LackeyAvatarEx* avatar = nullptr;
-		for (int i = 0; i < getMaxPlayerNums(); i++) {
-			avatar = dynamic_cast<LackeyAvatarEx*>(getAvatar(i).get());
-			if ((avatar == nullptr) || !(avatar->isOffline()))
-				continue;
-			deltaTicks = static_cast<int>(nowTick - avatar->getOfflineTick());
-			if (deltaTicks > 60000)	// 将离线超过一分钟的玩家踢出游戏场
-				kickAvatar(getAvatar(i));
-		}
 	}
 
 	int LackeyRoom::getWaitElapsed() const {
@@ -479,6 +466,7 @@ namespace NiuMa
 				continue;
 			// 非地主发31张牌
 			_dealer.handOutCards(cards, 31, DealFilter::Ptr());
+			// 按升序排序，即排序后cards中的元素是从小到大
 			std::sort(cards.begin(), cards.end(), comp);
 			avatar->setCards(cards);
 			// 当地主没拿到默认狗腿牌时，拿到默认狗腿牌的玩家自动成为狗腿
@@ -767,7 +755,7 @@ namespace NiuMa
 			return;
 		MsgLackeyWinLose msg;
 		msg.seat = seat;
-		avatar->getWinLose(msg.win, msg.lose, msg.draw);
+		avatar->getScoreboard(msg.win, msg.lose, msg.draw);
 		if (playerId.empty())
 			sendMessageToAll(msg);
 		else
@@ -836,7 +824,7 @@ namespace NiuMa
 				}
 			}
 			if (_lackey == -1) {
-				ErrorS << "牌桌(ID: " << getId() << ")地主叫狗腿(牌ID: " << _lackeyCard << ")，但所有其他玩家都没有拿到该牌";
+				ErrorS << "狗腿牌桌(ID: " << getId() << ")地主叫狗腿(牌ID: " << _lackeyCard << ")，但所有其他玩家都没有拿到该牌";
 				return;
 			}
 		}
@@ -1000,14 +988,14 @@ namespace NiuMa
 		if (pass) {
 			if (_current == _lastOut) {
 				notifyPlayCardFailed(static_cast<int>(PlayCardFailed::CanNotPass), avatar);
-				ErrorS << "牌桌(ID: " << getId() << ")新一轮出牌当前玩家(座位: " << _current << ")必须出牌";
+				ErrorS << "狗腿牌桌(ID: " << getId() << ")新一轮出牌当前玩家(座位: " << _current << ")必须出牌";
 				return false;
 			}
 			avatar->setOuttedGenre(PokerGenre());
 		}
 		else if (!avatar->hasCandidate()) {
 			notifyPlayCardFailed(static_cast<int>(PlayCardFailed::CanNotPlay), avatar);
-			ErrorS << "牌桌(ID: " << getId() << ")当前玩家(座位: " << _current << ")要不起";
+			ErrorS << "狗腿牌桌(ID: " << getId() << ")当前玩家(座位: " << _current << ")要不起";
 			return false;
 		}
 		else {
@@ -1016,7 +1004,7 @@ namespace NiuMa
 				notifyPlayCardFailed(static_cast<int>(PlayCardFailed::NotFound), avatar);
 
 				std::ostringstream os;
-				os << "牌桌(ID:" << getId() << ")当前玩家(座位:" << _current << ")出牌失败，找不到指定的牌(ID:";
+				os << "狗腿牌桌(ID:" << getId() << ")当前玩家(座位:" << _current << ")出牌失败，找不到指定的牌(ID:";
 				unsigned int nums = static_cast<unsigned int>(ids.size());
 				for (unsigned int i = 0; i < nums; i++) {
 					if (i > 0)
@@ -1118,7 +1106,7 @@ namespace NiuMa
 			if (_lastOut == _current) {
 				std::string str;
 				PokerUtilities::cardArray2String(avatar->getCards(), str);
-				ErrorS << "牌桌(ID:" << getId() << ")新出牌玩家(座位:" << _current << ")无候选出牌组合,当前手牌: " << str;
+				ErrorS << "狗腿牌桌(ID:" << getId() << ")首位出牌玩家(座位:" << _current << ")无候选出牌组合,当前手牌: " << str;
 				return;
 			}
 			doPlayCard(true, ids);
@@ -1127,7 +1115,7 @@ namespace NiuMa
 		bool ret = false;
 		bool test = false;
 		int genre = 0;
-		DouDiZhuCombination::Ptr comb = avatar->getFirstCandidate();
+		PokerCombination::Ptr comb = avatar->getFirstCandidate();
 		if (comb) {
 			genre = comb->getGenre();
 			comb->getCards(ids);
@@ -1136,7 +1124,7 @@ namespace NiuMa
 			ret = doPlayCard(false, ids);
 		else {
 			int tmp = getRivalry(_current, _lastOut);
-			int order = LackeyRule::getBombOrder(genre);
+			int order = _rule->getBombOrder(genre);
 			if (tmp == 1) {
 				// 敌对阵营
 				if (comb->getDamages() > 0)
@@ -1163,7 +1151,7 @@ namespace NiuMa
 			std::ostringstream os;
 			std::string str;
 			PokerUtilities::cardArray2String(avatar->getCards(), str);
-			os << "牌桌(ID:" << getId() << ")玩家(座位:" << _current << ")自动出牌失败，当前手牌: " << str;
+			os << "狗腿牌桌(ID:" << getId() << ")玩家(座位:" << _current << ")自动出牌失败，当前手牌: " << str;
 			os << "，打出的牌ID:(";
 			test = true;
 			std::vector<int>::const_iterator it = ids.begin();
@@ -1310,7 +1298,7 @@ namespace NiuMa
 		if (!avatar->getCandidateCards(resp.cardIds)) {
 			std::string str;
 			PokerUtilities::cardArray2String(avatar->getCards(), str);
-			ErrorS << "牌桌(ID: " << getId() << ")玩家(ID: " << inst->getPlayerId() << ")获取候选牌失败，手牌: " << str;
+			ErrorS << "狗腿牌桌(ID: " << getId() << ")玩家(ID: " << inst->getPlayerId() << ")获取候选牌失败，手牌: " << str;
 			return;
 		}
 		resp.send(netMsg->getSession());
@@ -1655,6 +1643,10 @@ namespace NiuMa
 	}
 
 	void LackeyRoom::onDisbandRequest(const NetMessage::Ptr& netMsg) {
+		if (_gameState == GameState::Waiting)
+			return;	// 等待状态，可以直接离开
+		if (_level != static_cast<int>(LackeyRoomLevel::Friend))
+			return;	// 非好友房间，不可解散
 		if (_disbanding)
 			return;
 		MsgDisbandRequest* inst = dynamic_cast<MsgDisbandRequest*>(netMsg->getMessage().get());

@@ -52,18 +52,6 @@ namespace NiuMa
 		//
 		double getWinGold() const;
 
-		// 
-		void setWinLose(int win, int lose, int draw);
-
-		// 
-		void getWinLose(int& win, int& lose, int& draw);
-
-		// 
-		void setOfflineTick(time_t t);
-
-		// 
-		time_t getOfflineTick() const;
-
 	private:
 		// 是否明牌
 		bool _showCard;
@@ -77,20 +65,8 @@ namespace NiuMa
 		// 一局输赢金币数量
 		double _winGold;
 
-		// 赢局总数
-		int _wins;
-
-		// 输局总数
-		int _loses;
-
-		// 平局总数
-		int _draws;
-
 		// 本玩家与所有其他玩家的负债关系表
 		double _loseGolds[5];
-
-		// 离线线时间，单位毫秒
-		time_t _offlineTick;
 	};
 }
 

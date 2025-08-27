@@ -24,17 +24,31 @@ namespace NiuMa
 		int _suitOrders[6];
 
 	public:
+		/**
+		 * 设置牌值(点数)的在顺序表中的位置
+		 * @param point 牌值(点数)
+		 * @param order 顺序
+		 */
+		void setPointOrder(int point, int order);
+
 		// 返回传入的牌值在牌值大小顺序表中的位置
-		virtual int getPointOrder(int p) const;
+		int getPointOrder(int point) const;
+
+		/**
+		 * 设置花色的在顺序表中的位置
+		 * @param suit 花色
+		 * @param order 顺序
+		 */
+		void setSuitOrder(int suit, int order);
 
 		// 返回传入的花色在花色大小顺序表中的位置
-		virtual int getSuitOrder(int s) const;
+		int getSuitOrder(int suit) const;
 
-		// 返回指定位置的牌值
-		virtual int getPoint(int pos) const;
+		// 返回指定大小顺序的牌值
+		int getPointByOrder(int order) const;
 
-		// 返回指定位置的花色
-		virtual int getSuit(int pos) const;
+		// 返回指定大小顺序的花色
+		int getSuitByOrder(int order) const;
 	};
 
 	class PokerRule : public std::enable_shared_from_this<PokerRule>
@@ -55,6 +69,12 @@ namespace NiuMa
 		// 返回牌值类型数量
 		virtual int getPointNums() const;
 
+		// 对牌值的大小顺序进行重排序
+		virtual void sortPointOrder();
+
+		// 对花色的大小顺序进行重排序
+		virtual void sortSuitOrder();
+
 		// 是否为不可出现的牌
 		virtual bool isDisapprovedCard(const PokerCard& c) const;
 
@@ -65,7 +85,10 @@ namespace NiuMa
 		virtual bool hasDisapprovedGenre(const CardArray& cards) const;
 
 		// 判定牌型
-		virtual int predicateCardGenre(PokerGenre& pcg) const = 0;
+		virtual int predicateCardGenre(PokerGenre& pcg) const;
+
+		// 获取牌型的牌张数
+		virtual int getGenreCardNums(int genre) const;
 
 		// 是否为合法牌型
 		virtual bool isValidGenre(int genre) const;
@@ -94,49 +117,64 @@ namespace NiuMa
 		// 蝴蝶牌型排除的牌
 		virtual bool butterflyExcluded(const PokerCard& c) const;
 
-		// 判断牌型是否为炸弹牌型
-		virtual bool isBomb(const PokerGenre& pcg) const;
-
-	public:
-		// 返回传入的牌值在牌值大小顺序表中的位置
-		int getPointOrder(int point) const;
-
-		// 返回传入的花色在花色大小顺序表中的位置
-		int getSuitOrder(int suit) const;
-
-		// 返回指定位置的牌值
-		int getPointByOrder(int pos) const;
-
-		// 返回指定位置的花色
-		int getSuitByOrder(int pos) const;
-
-		/** 
+		/**
 		 * 牌数组是否为顺子
 		 * @param cards 牌数组，已按从小到大排序
 		 */
-		bool straight(const CardArray& cards) const;
+		virtual bool straight(const CardArray& cards) const;
 
 		/**
 		 * 牌数组是否为连对
 		 * @param cards 牌数组，已按从小到大排序
 		 */
-		bool straightPair(const CardArray& cards) const;
+		virtual bool straightPair(const CardArray& cards) const;
 
 		/**
 		 * 牌数组是否为三顺
 		 * @param cards 牌数组，已按从小到大排序
 		 */
-		bool straightTriple(const CardArray& cards) const;
+		virtual bool straightTriple(const CardArray& cards) const;
 
 		/**
 		 * 牌数组是否为蝴蝶
 		 * @param cards 牌数组，已按从小到大排序
 		 */
-		bool butterfly(const CardArray& cards) const;
+		virtual bool butterfly(const CardArray& cards) const;
+
+	public:
+		// 返回传入的牌值在牌值大小顺序表中的位置，从0开始
+		int getPointOrder(int point) const;
+
+		// 返回传入的花色在花色大小顺序表中的位置，从0开始
+		int getSuitOrder(int suit) const;
+
+		// 返回指定位置的牌值
+		int getPointByOrder(int order) const;
+
+		// 返回指定位置的花色
+		int getSuitByOrder(int order) const;
 
 	protected:
 		// 牌值及花色大小顺序表
 		CardOrderTable* _orderTable;
+	};
+
+	/**
+	 * 牌值顺序比较器
+	 * 比较两个牌值的大小顺序
+	 */ 
+	class PointOrderComparator : public PointComparator
+	{
+	public:
+		PointOrderComparator(const PokerRule* rule);
+		virtual ~PointOrderComparator() {}
+
+	protected:
+		// 牌值比较实现
+		virtual bool compareImpl(int a, int b) const override;
+
+	protected:
+		const PokerRule* _rule;
 	};
 
 	// 牌比较器
@@ -146,12 +184,18 @@ namespace NiuMa
 		CardComparator(const PokerRule::Ptr& rule);
 		virtual ~CardComparator();
 
+	public:
+		/**
+		 * 比较牌a与牌b的大小
+		 * @param a 牌a
+		 * @param b 牌b
+		 * @return 当b > a返回true，否则返回false
+		 */
+		bool operator()(const PokerCard& a, const PokerCard& b) const;
+
 	protected:
 		PokerRule::Ptr _rule;
-
-	public:
-		bool operator()(const PokerCard& a, const PokerCard& b) const;
 	};
 }
 
-#endif
+#endif // _NIU_MA_POKER_RULE_H_
