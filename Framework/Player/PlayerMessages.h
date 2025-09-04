@@ -105,7 +105,8 @@ namespace NiuMa
 	 * 玩家连接消息，玩家客户端连接到游戏服务器之后（或断线重连之后），首先立即发送该消息
 	 * 通知服务器玩家连入（或重新连入）
 	 */
-	class MsgPlayerConnect : public MsgPlayerSignature {
+	class MsgPlayerConnect : public MsgPlayerSignature
+	{
 	public:
 		MsgPlayerConnect() {}
 		virtual ~MsgPlayerConnect() {}
@@ -119,6 +120,31 @@ namespace NiuMa
 
 	public:
 		MSGPACK_DEFINE_MAP(/*MSGPACK_BASE_MAP(MsgPlayerSignature)*/playerId, timestamp, nonce, signature);
+	};
+
+	/**
+	 * 响应玩家连接消息，客户端收到该消息后确认连接成功，之后开始后续的交互逻辑
+	 */
+	class MsgPlayerConnectResp : public MsgBase
+	{
+	public:
+		MsgPlayerConnectResp() {}
+		virtual ~MsgPlayerConnectResp() {}
+
+		static const std::string TYPE;
+
+	public:
+		virtual const std::string& getType() const override {
+			return TYPE;
+		}
+
+		MSG_PACK_IMPL
+
+	public:
+		// 占位符
+		int placeholder = 0;
+
+		MSGPACK_DEFINE_MAP(placeholder);
 	};
 }
 

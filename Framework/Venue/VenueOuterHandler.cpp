@@ -61,6 +61,8 @@ namespace NiuMa
 		session->getId(sessionId);
 		player->setSession(session);
 		PlayerManager::getSingleton().setSessionPlayerId(sessionId, playerId);
+		MsgPlayerConnectResp resp;
+		resp.send(session);
 		InfoS << "Player(id:" << playerId << ") connected, session id: " << sessionId;
 		std::string venueId;
 		player->getVenueId(venueId);

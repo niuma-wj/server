@@ -6,6 +6,7 @@
 namespace NiuMa
 {
 	const std::string MsgPlayerConnect::TYPE("MsgPlayerConnect");
+	const std::string MsgPlayerConnectResp::TYPE("MsgPlayerConnectResp");
 	const std::string MsgPlayerSignatureError::TYPE("MsgPlayerSignatureError");
 
 	void PlayerMessages::registMessages() {
