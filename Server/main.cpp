@@ -105,6 +105,14 @@ int main(int argc, char* argv[]) {
         NiuMa::IniConfig::getSingleton().getInt("Server", "timer_threads", threadNum);
         NiuMa::TimerManager::getSingleton().start(threadNum);
 
+        // 启动TCP消息服务器
+        int port = 0;
+        NiuMa::SessionCreator::Ptr creator = std::make_shared<NiuMa::MsgSession::Creator>(30);
+        std::shared_ptr<NiuMa::TcpServer> server = std::make_shared<NiuMa::TcpServer>(creator);
+        NiuMa::IniConfig::getSingleton().getInt("Server", "port", port);
+        NiuMa::IniConfig::getSingleton().getInt("Server", "thread_num", threadNum);
+        server->start(port, threadNum);
+
         // 启动数据库连接池
         std::string host;
         std::string username;
@@ -123,7 +131,6 @@ int main(int argc, char* argv[]) {
         //NiuMa::MysqlPool::getSingleton().start("tcp://127.0.0.1:3306", "root", "123456", "temp", 2, 10, 2);
 
         // 启动Redis连接池
-        int port = 0;
         int database = 0;
         NiuMa::IniConfig::getSingleton().getString("Redis", "host", host);
         NiuMa::IniConfig::getSingleton().getInt("Redis", "port", port);
@@ -360,13 +367,6 @@ int main(int argc, char* argv[]) {
         NiuMa::BiJiMessages::registMessages();
         NiuMa::LackeyMessages::registMessages();
         NiuMa::NiuNiu100Messages::registMessages();
-
-        // 启动TCP消息服务器
-        NiuMa::SessionCreator::Ptr creator = std::make_shared<NiuMa::MsgSession::Creator>(30);
-        std::shared_ptr<NiuMa::TcpServer> server = std::make_shared<NiuMa::TcpServer>(creator);
-        NiuMa::IniConfig::getSingleton().getInt("Server", "port", port);
-        NiuMa::IniConfig::getSingleton().getInt("Server", "thread_num", threadNum);
-        server->start(port, threadNum);
 
         // 向Redis注册服务器自身
         NiuMa::RedisPool::getSingleton().sadd(NiuMa::RedisKeys::VENUE_SERVER_SET, serverId);

@@ -383,7 +383,10 @@ namespace NiuMa {
         , _pos(0)
     {}
 
-	TcpServer::~TcpServer() {}
+	TcpServer::~TcpServer() {
+        if (_started)
+            stop();
+    }
 
 	void TcpServer::start(unsigned short port, unsigned int threadNum) {
 		if (_started)
@@ -409,15 +412,25 @@ namespace NiuMa {
         // 据收发，避免网络阻塞
         service = std::make_shared<Service>();
         _services.emplace_back(service);
-        for (unsigned int i = 0; i < threadNum; i++) {
-            thread = std::make_shared<std::thread>([service]() { service->run(); });
-            _threads.emplace_back(thread);
-        }
         boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
         std::shared_ptr<TcpServer> self = shared_from_this();
         _acceptor = std::make_shared<Acceptor>(self, endpoint);
-        std::shared_ptr<Acceptor> acceptor = _acceptor;
-        thread = std::make_shared<std::thread>([acceptor] { acceptor->run(); });
+
+        std::weak_ptr<Service> weakService = service;
+        for (unsigned int i = 0; i < threadNum; i++) {
+            thread = std::make_shared<std::thread>([weakService]() {
+                std::shared_ptr<Service> strongRef = weakService.lock();
+                if (strongRef)
+                    strongRef->run();
+            });
+            _threads.emplace_back(thread);
+        }
+        std::weak_ptr<Acceptor> acceptor = _acceptor;
+        thread = std::make_shared<std::thread>([acceptor] {
+            std::shared_ptr<Acceptor> strongRef = acceptor.lock();
+            if (strongRef)
+                strongRef->run();
+        });
         _threads.emplace_back(thread);
 
         // 添加定时任务
