@@ -1,8 +1,16 @@
 **其他语言版本: [English](README_EN.MD), [中文](README.MD).**
 
+# 概述
+
+NiuMa 游戏平台是一个全平台全工具链支持，包括 H5、原生 Android 及 IOS、Windows、MAC 等平台，且全平台互通的完整棋牌游戏解决方案，平台支持 Unity3D 和 Cocos Creator(3.8.7)两大主流游戏开发引擎。平台包含游戏服务器(C++)、WEB 服务端、Unity3D 环境客户端、Cocos Creator 环境客户端、后台管理前端五个子项目。NiuMa 是一个免费授权开源项目，任何人都可以自由使用和修改。
+
 项目代码组织入口地址：[Project](https://github.com/niuma-wj)\
-掼蛋游戏已更新，欢迎下载客户端测试，[下载地址 1](https://github.com/niuma-wj/client/releases/tag/client)\
-[下载地址 2](http://106.13.15.226:8896/download)
+掼蛋游戏已更新，欢迎下载客户端测试，\
+[下载地址 1](https://github.com/niuma-wj/client/releases/tag/client)\
+[下载地址 2](http://106.13.15.226:8896/download)\
+[WEB 客户端 PC 版](http://106.13.15.226:8896/niuma/web/pc)\
+[WEB 客户端 H5 版](http://106.13.15.226:8896/niuma/web/h5)\
+由于 WEB 客户端所在的服务器带宽较低，所以加载相对较慢。
 
 # NiuMa 游戏平台游戏服务器(C++)
 
@@ -11,14 +19,27 @@
 # 游戏服务器核心设计
 
 游戏服务器的核心模块包括：网络 IO、线程模型、消息分发及处理，这三个核心模块从根本上影响着服务器整体并发性能。本项目网络 IO 使用的是 boost::asio 框架，如下图所示，一个 TCP 会话(Session)代表着一个客户端与服务器的 TCP 网络连接，这里将一个完整的游戏逻辑单元定义为一个游戏场地(Venue)，例如一张棋牌桌就是一个游戏场地，每个游戏场地有全局唯一 ID，初始化时创建一个专门处理场地内部逻辑的线程池，线程池中每个线程包含设定数量的消息处理器(Message Handler)，系统中所有消息处理器都会注册到一个单例的消息处理器列表中，当新建一个游戏场地时，该场地会根据负载情况分配到当前负载最轻的消息处理器，因此一个消息处理器维护了一个场地列表，由此一个场地的所有游戏逻辑和消息处理都在同一个线程内执行，这避免了多线程的数据同步问题，以及复杂容易出错的异步调用问题。当 TCP 会话收到一个消息时，网络接收线程遍历消息处理器列表，一旦列表中有一个消息处理器接收该消息即结束遍历，因为所有场地内的消息都携带了场地 ID 字段，可以用于哈希表匹配，所以遍历是一个非常快速的一个过程。\
-![核心设计](https://gitee.com/friedrich-hegel/data/raw/master/core.png)
+![核心设计](https://github.com/niuma-wj/data/blob/main/core.png?raw=true)
 
 # 系统后端架构设计
 
 系统包含两种不同处理方式的业务逻辑，一种为上述的游戏功能业务逻辑，由 C++游戏服务器进行处理；另一种则是登录及游戏主界面(游戏大厅)的业务逻辑，由 WEB 服务器进行处理，通过 HTTP Restful 接口进行通信，同时 WEB 服务器还负责根据游戏服务实例的负载情况进行游戏场地分配，例如当玩家新建一个斗地主游戏房间时，会把创建请求发送到 WEB 服务器，WEB 根据所有游戏服务实例的负载情况，将新建的房间分配到当前负载最轻的游戏服务实例，并向客户端返回该游戏服务实例的连接信息(IP、端口)，客户端再与该游戏服务实例建立 TCP 连接，从而完成进入该游戏房间，并开始游戏业务逻辑。
 
 系统后端采用分布式架构设计，由 WEB 服务基于全局 Redis 的数据记录进行负载决策，游戏服务实例实时更新它的负载情况到全局 Redis 数据库中，每个 WEB 服务实例都可以独自进行负载决策，因此系统中不需要统一控制的中心和路由服务器实例，并使得游戏服务和 WEB 服务可以根据实际业务量进行灵活节点部署，同时也不需要担心单节点性能瓶颈问题。WEB 服务实例与游戏服务实例之间通过 RabbitMQ 进行交互通信，服务器之间的查询调度可以简单、有序且高效地进行。\
-![架构图](https://gitee.com/friedrich-hegel/data/raw/master/Framework.png)
+![架构图](https://github.com/niuma-wj/data/blob/main/Framework.png?raw=true)
+
+# RabbitMQ 配置
+
+1、创建 niuma 虚拟机
+
+2、创建 game.direct 和 game.fanout 两个交换机，如下图\
+[交换机](https://github.com/niuma-wj/data/blob/main/Exchanges.jpg?raw=true)
+
+3、创建 game.direct.queue.001、game.direct.queue.web001 和 game.fanout.queue.001 三个队列，绑定关系分别如下图\
+[队列](https://github.com/niuma-wj/data/blob/main/Queues.jpg?raw=true)\
+[绑定 1](https://github.com/niuma-wj/data/blob/main/binding1.jpg?raw=true)\
+[绑定 2](https://github.com/niuma-wj/data/blob/main/binding2.jpg?raw=true)\
+[绑定 3](https://github.com/niuma-wj/data/blob/main/binding3.jpg?raw=true)
 
 # 编译(Ubuntu 环境)
 
