@@ -33,13 +33,13 @@ NiuMa 游戏平台是一个全平台全工具链支持，包括 H5、原生 Andr
 1、创建 niuma 虚拟机
 
 2、创建 game.direct 和 game.fanout 两个交换机，如下图\
-[交换机](https://github.com/niuma-wj/data/blob/main/Exchanges.jpg?raw=true)
+![交换机](https://github.com/niuma-wj/data/blob/main/Exchanges.jpg?raw=true)
 
 3、创建 game.direct.queue.001、game.direct.queue.web001 和 game.fanout.queue.001 三个队列，绑定关系分别如下图\
-[队列](https://github.com/niuma-wj/data/blob/main/Queues.jpg?raw=true)\
-[绑定 1](https://github.com/niuma-wj/data/blob/main/binding1.jpg?raw=true)\
-[绑定 2](https://github.com/niuma-wj/data/blob/main/binding2.jpg?raw=true)\
-[绑定 3](https://github.com/niuma-wj/data/blob/main/binding3.jpg?raw=true)
+![队列](https://github.com/niuma-wj/data/blob/main/Queues.jpg?raw=true)\
+![绑定 1](https://github.com/niuma-wj/data/blob/main/binding1.jpg?raw=true)\
+![绑定 2](https://github.com/niuma-wj/data/blob/main/binding2.jpg?raw=true)\
+![绑定 3](https://github.com/niuma-wj/data/blob/main/binding3.jpg?raw=true)
 
 # 编译(Ubuntu 环境)
 
