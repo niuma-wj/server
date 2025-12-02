@@ -7,7 +7,9 @@
 #include "Base/Log.h"
 #include "Base/IniConfig.h"
 #include "Network/TcpServer.h"
+#include "Network/WebsocketServer.h"
 #include "Network/MsgSession.h"
+#include "Network/EchoSession.h"
 #include "Network/SecurityManager.h"
 #include "Message/MessageThreadPool.h"
 #include "Timer/TimerManager.h"
@@ -31,6 +33,10 @@
 #include "NiuNiu100/NiuNiu100RoomHandler.h"
 #include "NiuNiu100/NiuNiu100Loader.h"
 #include "NiuNiu100/NiuNiu100Messages.h"
+#include "GuanDan/GuanDanRoomHandler.h"
+#include "GuanDan/GuanDanLoader.h"
+#include "GuanDan/GuanDanMessages.h"
+#include "GuanDan/GuanDanCandidateOrder.h"
 #include "Game/DebtLiquidation.h"
 
 #include "Example.h"
@@ -112,6 +118,16 @@ int main(int argc, char* argv[]) {
         NiuMa::IniConfig::getSingleton().getInt("Server", "port", port);
         NiuMa::IniConfig::getSingleton().getInt("Server", "thread_num", threadNum);
         server->start(port, threadNum);
+
+        // 启动Websocket消息服务器
+        creator = std::make_shared<NiuMa::MsgSession::Creator>(30);
+        std::shared_ptr<NiuMa::WebsocketServer> ws = std::make_shared<NiuMa::WebsocketServer>(creator);
+        NiuMa::IniConfig::getSingleton().getInt("Websocket", "port", port);
+        NiuMa::IniConfig::getSingleton().getInt("Websocket", "thread_num", threadNum);
+        if (port == 0)
+            port = 9098;
+        if (!ws->start(port, threadNum))
+            throw std::runtime_error("Start websocket server failed.");
 
         // 启动数据库连接池
         std::string host;
@@ -309,6 +325,8 @@ int main(int argc, char* argv[]) {
         NiuMa::VenueManager::getSingleton().registLoader(loader);
         loader = std::make_shared<NiuMa::NiuNiu100Loader>();
         NiuMa::VenueManager::getSingleton().registLoader(loader);
+        loader = std::make_shared<NiuMa::GuanDanLoader>();
+        NiuMa::VenueManager::getSingleton().registLoader(loader);
 
         // 创建场地外消息处理器线程池
         NiuMa::IniConfig::getSingleton().getInt("Server", "outter_threads", threadNum);
@@ -354,6 +372,13 @@ int main(int argc, char* argv[]) {
             handlers.push_back(handler);
             NiuMa::VenueManager::getSingleton().registHandler(handler);
         }
+        // 创建掼蛋游戏房间内部网络消息处理器
+        for (int i = 0; i < threadNum; i++) {
+            handler = std::make_shared<NiuMa::GuanDanRoomHandler>();
+            handler->registSelf();
+            handlers.push_back(handler);
+            NiuMa::VenueManager::getSingleton().registHandler(handler);
+        }
         // 创建场地内消息处理器线程池
         std::shared_ptr<NiuMa::MessageThreadPool> innerPool = std::make_shared<NiuMa::MessageThreadPool>();
         innerPool->start(threadNum, handlers);
@@ -367,6 +392,10 @@ int main(int argc, char* argv[]) {
         NiuMa::BiJiMessages::registMessages();
         NiuMa::LackeyMessages::registMessages();
         NiuMa::NiuNiu100Messages::registMessages();
+        NiuMa::GuanDanMessages::registMessages();
+
+        // 初始化掼蛋游戏出牌组合候选顺序表
+        NiuMa::GuanDanCandidateOrder::getSingleton();
 
         // 向Redis注册服务器自身
         NiuMa::RedisPool::getSingleton().sadd(NiuMa::RedisKeys::VENUE_SERVER_SET, serverId);
@@ -374,13 +403,17 @@ int main(int argc, char* argv[]) {
         std::string accessAddress;
         NiuMa::IniConfig::getSingleton().getString("Server", "access_address", accessAddress);
         NiuMa::RedisPool::getSingleton().set(redisKey, accessAddress);
+        redisKey = NiuMa::RedisKeys::SERVER_WS_ADDRESS + serverId;
+        std::string wsAddress;
+        NiuMa::IniConfig::getSingleton().getString("Server", "ws_address", wsAddress);
+        NiuMa::RedisPool::getSingleton().set(redisKey, wsAddress);
         // 定时更新保活时间
         NiuMa::TimerManager::getSingleton().addAsyncTimer(3000, [serverId]() {
             std::string redisKey = NiuMa::RedisKeys::SERVER_KEEP_ALIVE + serverId;
             time_t nowTime = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
             NiuMa::RedisPool::getSingleton().set(redisKey, nowTime);
             return false;
-            });
+        });
 
         LOG_INFO("Server startup succeed.");
 
@@ -404,6 +437,10 @@ int main(int argc, char* argv[]) {
         // 关闭TCP消息服务器
         server->stop();
         server.reset();
+
+        // 关闭Websocket消息服务器
+        ws->stop();
+        ws.reset();
 
         // 关闭场地内消息处理器线程池
         innerPool->stop();
@@ -435,6 +472,7 @@ int main(int argc, char* argv[]) {
         NiuMa::MysqlPool::deinstantiate();
         NiuMa::TimerManager::deinstantiate();
         NiuMa::LogManager::deinstantiate();
+        NiuMa::GuanDanCandidateOrder::deinstantiate();
 
         LOG_INFO("Server stop.");
     }

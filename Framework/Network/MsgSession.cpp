@@ -169,16 +169,16 @@ namespace NiuMa {
 	}
 
 	void MsgSession::onDisconnect() {
-		Session::onDisconnect();
 		std::string sessionId;
 		getId(sessionId);
 		std::shared_ptr<MsgDisconnect> msg(new MsgDisconnect());
 		msg->setSessionId(sessionId);
 		NetMessage::Ptr netMsg = std::make_shared<NetMessage>(nullptr, msg, MsgDisconnect::TYPE);
 		pushMsg(netMsg);
+		Session::onDisconnect();
 	}
 
-	bool MsgSession::isAlive(const time_t& nowTime) const {
+	bool MsgSession::isAlive(const time_t& nowTime) {
 		if (!Session::isAlive(nowTime))
 			return false;
 		if (_data->isTimeout(nowTime))

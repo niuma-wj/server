@@ -37,7 +37,7 @@ namespace NiuMa {
 	public:
 		virtual void onRecieve(char* buf, std::size_t length) override;
 		virtual void onDisconnect() override;
-		virtual bool isAlive(const time_t& nowTime) const override;
+		virtual bool isAlive(const time_t& nowTime) override;
 		virtual void heartbeat() override;
 
 	private:

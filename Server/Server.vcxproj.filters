@@ -25,6 +25,9 @@
     <Filter Include="NiuNiu100">
       <UniqueIdentifier>{65f2f198-1606-4e0b-ac5e-64d46c8e1ba5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GuanDan">
+      <UniqueIdentifier>{49c4d517-817b-4ee1-ab45-292854de7833}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +111,33 @@
     <ClCompile Include="NiuNiu100\NiuNiu100RoomHandler.cpp">
       <Filter>NiuNiu100</Filter>
     </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanRule.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanAvatar.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanRoom.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanMessages.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanRoomHandler.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanSearch.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanSearchGroup.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanLoader.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
+    <ClCompile Include="GuanDan\GuanDanCandidateOrder.cpp">
+      <Filter>GuanDan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Example.h">
@@ -190,6 +220,33 @@
     </ClInclude>
     <ClInclude Include="NiuNiu100\NiuNiu100RoomHandler.h">
       <Filter>NiuNiu100</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanRule.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanAvatar.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanRoom.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanMessages.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanRoomHandler.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanSearch.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanSearchGroup.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanLoader.h">
+      <Filter>GuanDan</Filter>
+    </ClInclude>
+    <ClInclude Include="GuanDan\GuanDanCandidateOrder.h">
+      <Filter>GuanDan</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

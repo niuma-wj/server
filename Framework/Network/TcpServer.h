@@ -1,4 +1,4 @@
-﻿// Server.h
+﻿// TcpServer.h
 
 #ifndef _NIU_MA_TCP_SERVER_H_
 #define _NIU_MA_TCP_SERVER_H_

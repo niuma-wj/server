@@ -33,7 +33,16 @@ namespace NiuMa {
 	void Session::setInvalid() {
 		std::lock_guard<std::mutex> lck(_mtx);
 
+		_connection = Connection::Ptr();
 		_valid = false;
+	}
+
+	std::shared_ptr<Connection> Session::getConnection() {
+		std::lock_guard<std::mutex> lck(_mtx);
+
+		Connection::Ptr con = _connection.lock();
+
+		return con;
 	}
 
 	void Session::onDisconnect() {
@@ -41,19 +50,19 @@ namespace NiuMa {
 	}
 
 	void Session::send(const char* buf, std::size_t length) {
-		Connection::Ptr con = _connection.lock();
+		Connection::Ptr con = getConnection();
 		if (con)
 			con->send(buf, length);
 	}
 
 	void Session::send(const std::shared_ptr<std::string>& data) {
-		Connection::Ptr con = _connection.lock();
+		Connection::Ptr con = getConnection();
 		if (con)
 			con->send(data);
 	}
 
-	bool Session::isAlive(const time_t& nowTime) const {
-		Connection::Ptr con = _connection.lock();
+	bool Session::isAlive(const time_t& nowTime) {
+		Connection::Ptr con = getConnection();
 		if (con)
 			return !(con->isClosed());
 		return false;

@@ -218,6 +218,9 @@
     <ClCompile Include="Game\ScoreboardTask.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Network\WebsocketServer.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Network\TcpServer.h">
@@ -405,6 +408,9 @@
     </ClInclude>
     <ClInclude Include="Game\ScoreboardTask.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\WebsocketServer.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

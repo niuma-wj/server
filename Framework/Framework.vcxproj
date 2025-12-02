@@ -178,6 +178,7 @@
     <ClCompile Include="Network\SecurityManager.cpp" />
     <ClCompile Include="Network\Session.cpp" />
     <ClCompile Include="Network\TcpServer.cpp" />
+    <ClCompile Include="Network\WebsocketServer.cpp" />
     <ClCompile Include="Player\LoadPlayerTask.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerManager.cpp" />
@@ -242,6 +243,7 @@
     <ClInclude Include="Network\SecurityManager.h" />
     <ClInclude Include="Network\Session.h" />
     <ClInclude Include="Network\TcpServer.h" />
+    <ClInclude Include="Network\WebsocketServer.h" />
     <ClInclude Include="Player\LoadPlayerTask.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerManager.h" />

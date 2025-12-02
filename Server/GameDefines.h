@@ -19,7 +19,8 @@ namespace NiuMa
 		ZhaJinHua = 1026,	// 炸金花
 		LiuAnBiJi = 1027,	// 六安比鸡
 		Lackey = 1028,		// 逮狗腿
-		Tractor = 1029		// 拖拉机
+		Tractor = 1029,		// 拖拉机
+		GuanDan = 1030		// 掼蛋
 	};
 
 

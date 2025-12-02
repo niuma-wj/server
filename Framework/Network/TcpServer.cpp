@@ -71,6 +71,10 @@ namespace NiuMa {
             _remoteIp = ip;
         }
 
+        const Session::Ptr& getSession() const {
+            return _session;
+        }
+
         /**
          * 主动关闭连接
          */
@@ -256,10 +260,6 @@ namespace NiuMa {
             if (_activeClose)
                 return true;
             return false;
-        }
-
-        const Session::Ptr& getSession() const {
-            return _session;
         }
 
     private:

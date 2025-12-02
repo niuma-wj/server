@@ -25,6 +25,8 @@ namespace NiuMa {
 
 	const std::string RedisKeys::SERVER_ACCESS_ADDRESS("server_access_address:");
 
+	const std::string RedisKeys::SERVER_WS_ADDRESS("server_ws_address:");
+
 	const std::string RedisKeys::SERVER_KEEP_ALIVE("server_keep_alive:");
 
 	const std::string RedisKeys::DISTRICT_VENUE_REGISTER("district_venue_register_");

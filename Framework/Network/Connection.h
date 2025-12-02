@@ -55,6 +55,17 @@ namespace NiuMa {
 		 * 连接是否已断开
 		 */
 		virtual bool isClosed() = 0;
+
+	public:
+		// 废弃
+		void abandon();
+
+		// 返回废弃时间
+		time_t getAbandonTime() const;
+
+	private:
+		// 废弃时间，单位秒
+		time_t _abandonTime;
 	};
 }
 

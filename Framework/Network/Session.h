@@ -76,7 +76,7 @@ namespace NiuMa {
 		 * 返回会话是否仍然活跃，用于支持心跳检测
 		 * 默认在连接未断开时返回true
 		 */
-		virtual bool isAlive(const time_t& nowTime) const;
+		virtual bool isAlive(const time_t& nowTime);
 
 		/**
 		 * 心跳
@@ -89,6 +89,11 @@ namespace NiuMa {
 		 * 设置会话无效
 		 */
 		void setInvalid();
+
+		/**
+		 * 获取连接 
+		 */
+		std::shared_ptr<Connection> getConnection();
 
 	private:
 		// 连接
