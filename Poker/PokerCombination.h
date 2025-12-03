@@ -49,6 +49,9 @@ namespace NiuMa
 		// 是否已经加入候选列表
 		bool _candidate;
 
+		// 是否为非优选出牌组合，例如为了进行压牌而不得不进行拆牌产生的组合
+		bool _bad;
+
 		// 全部牌ID
 		std::unordered_set<int> _cards;
 
@@ -72,6 +75,8 @@ namespace NiuMa
 		int getCandidateOrder() const;
 		void setCandidate(bool s = true);
 		bool isCandidate() const;
+		void setBad(bool s = true);
+		bool isBad() const;
 		std::unordered_set<int>& getCards();
 		const std::unordered_set<int>& getCards() const;
 		void getCards(std::vector<int>& ids) const;

@@ -13,6 +13,7 @@ namespace NiuMa
 		, _undamages(0)
 		, _candidateOrder(-1)
 		, _candidate(false)
+		, _bad(false)
 	{}
 
 	PokerCombination::~PokerCombination()
@@ -80,6 +81,14 @@ namespace NiuMa
 
 	bool PokerCombination::isCandidate() const {
 		return _candidate;
+	}
+
+	void PokerCombination::setBad(bool s) {
+		_bad = s;
+	}
+
+	bool PokerCombination::isBad() const {
+		return _bad;
 	}
 
 	std::unordered_set<int>& PokerCombination::getCards() {
@@ -153,6 +162,7 @@ namespace NiuMa
 		_undamages = 0;
 		_candidateOrder = -1;
 		_candidate = false;
+		_bad = false;
 		_cards.clear();
 		_orders.clear();
 	}
