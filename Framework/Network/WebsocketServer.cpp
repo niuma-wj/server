@@ -404,14 +404,32 @@ namespace NiuMa
 	private:
 		void doAccept() {
 			std::shared_ptr<WebsocetAcceptor> thiz = std::dynamic_pointer_cast<WebsocetAcceptor>(shared_from_this());
-			// The new connection gets its own strand
-			_acceptor->async_accept(boost::asio::make_strand(_ioc),
-				boost::beast::bind_front_handler(&WebsocetAcceptor::onAccept, thiz));
+			try {
+				// The new connection gets its own strand
+				_acceptor->async_accept(boost::asio::make_strand(_ioc),
+					boost::beast::bind_front_handler(&WebsocetAcceptor::onAccept, thiz));
+			}
+			catch (std::exception& ex) {
+				ErrorS << "Accept error: " << ex.what();
+			}
+			catch (...) {
+				ErrorS << "Accept error.";
+			}
 		}
 
 		void onAccept(boost::beast::error_code ec, boost::asio::ip::tcp::socket socket) {
 			if (ec) {
 				ErrorS << "Accept error, message: " << ec.message();
+
+				try {
+					socket.close();
+				}
+				catch (std::exception& ex) {
+					ErrorS << "Close socket error: " << ex.what();
+				}
+				catch (...) {
+					ErrorS << "Close socket error.";
+				}
 			}
 			else {
 				// Create the session and run it
@@ -436,6 +454,9 @@ namespace NiuMa
 						}
 						catch (std::exception& ex) {
 							ErrorS << "Close socket error: " << ex.what();
+						}
+						catch (...) {
+							ErrorS << "Close socket error.";
 						}
 						return;
 					}
