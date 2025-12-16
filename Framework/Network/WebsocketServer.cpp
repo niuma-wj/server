@@ -122,7 +122,7 @@ namespace NiuMa
 				ErrorS << "Websocket accept error, message: " << ec.message();
 				onError(ec);
 				// 关闭Websocket
-				try {
+				/*try {
 					_ws.close(boost::beast::websocket::close_reason(std::string("Error close.")));
 				}
 				catch (std::exception& ex) {
@@ -130,7 +130,7 @@ namespace NiuMa
 				}
 				catch (...) {
 					ErrorS << "Close websocket error.";
-				}
+				}*/
 				return;
 			}
 			// Read a message
