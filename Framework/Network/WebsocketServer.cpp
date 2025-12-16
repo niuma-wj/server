@@ -121,6 +121,16 @@ namespace NiuMa
 			if (ec) {
 				ErrorS << "Websocket accept error, message: " << ec.message();
 				onError(ec);
+				// 关闭Websocket
+				try {
+					_ws.close(boost::beast::websocket::close_reason(std::string("Error close.")));
+				}
+				catch (std::exception& ex) {
+					ErrorS << "Close websocket error: " << ex.what();
+				}
+				catch (...) {
+					ErrorS << "Close websocket error.";
+				}
 				return;
 			}
 			// Read a message
@@ -214,18 +224,6 @@ namespace NiuMa
 			}
 			else {
 				ErrorS << "Session(id: " << _uuid << ") error, msg: " << errMsg;
-			}
-			if (!_activeClose) {
-				// 关闭Websocket
-				try {
-					_ws.close(boost::beast::websocket::close_reason(std::string("Error close.")));
-				}
-				catch (std::exception& ex) {
-					ErrorS << "Close websocket error: " << ex.what();
-				}
-				catch (...) {
-					ErrorS << "Close websocket error.";
-				}
 			}
 		}
 
