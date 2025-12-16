@@ -68,6 +68,9 @@ namespace NiuMa
 			catch (std::exception& ex) {
 				ErrorS << "Close websocket error: " << ex.what();
 			}
+			catch (...) {
+				ErrorS << "Close websocket error.";
+			}
 		}
 
 		/**
@@ -101,14 +104,23 @@ namespace NiuMa
 					std::string version = std::string(BOOST_BEAST_VERSION_STRING) + std::string(" websocket-server-async");
 					res.set(boost::beast::http::field::server, version);
 				}));
-			// Accept the websocket handshake
-			std::shared_ptr<WebsocketConnection> self = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
-			_ws.async_accept(boost::beast::bind_front_handler(&WebsocketConnection::onAccept, self));
+			try {
+				// Accept the websocket handshake
+				std::shared_ptr<WebsocketConnection> self = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
+				_ws.async_accept(boost::beast::bind_front_handler(&WebsocketConnection::onAccept, self));
+			}
+			catch (std::exception& ex) {
+				ErrorS << "Async accept error: " << ex.what();
+			}
+			catch (...) {
+				ErrorS << "Async accept error.";
+			}
 		}
 
 		void onAccept(boost::beast::error_code ec) {
 			if (ec) {
-				ErrorS << "Accept error, message: " << ec.message();
+				ErrorS << "Websocket accept error, message: " << ec.message();
+				onError(ec);
 				return;
 			}
 			// Read a message
@@ -116,6 +128,8 @@ namespace NiuMa
 		}
 
 		void doRead() {
+			if (_error)
+				return;
 			try {
 				// Read a message into our buffer
 				std::shared_ptr<WebsocketConnection> self = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
@@ -180,6 +194,8 @@ namespace NiuMa
 		}
 
 		void onError(boost::beast::error_code ec) {
+			if (_error)
+				return;
 			_error = true;
 
 			std::shared_ptr<WebsocketServer> srv = _server.lock();
@@ -198,6 +214,18 @@ namespace NiuMa
 			}
 			else {
 				ErrorS << "Session(id: " << _uuid << ") error, msg: " << errMsg;
+			}
+			if (!_activeClose) {
+				// 关闭Websocket
+				try {
+					_ws.close(boost::beast::websocket::close_reason(std::string("Error close.")));
+				}
+				catch (std::exception& ex) {
+					ErrorS << "Close websocket error: " << ex.what();
+				}
+				catch (...) {
+					ErrorS << "Close websocket error.";
+				}
 			}
 		}
 
