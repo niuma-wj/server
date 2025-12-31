@@ -25,7 +25,14 @@ The back-end of the system adopts a distributed architecture design, and the WEB
 
 First, ensure that cmake 3.30 or above is installed on your system, and follow these steps to compile the game server:
 
-1. Compile and install the boost library (refer to the online tutorial)
+1. Compile and install the boost library (refer to the online tutorial)\
+   Download any version of the code from the boost official website, such as: boost_1_75_0.tar.gz. don't download 1.86 and later versions of boost, because new versions of boost have significant modifications on process module, and that makes link error.
+
+```
+tar -xzvf boost_1_75_0.tar.gz
+./bootstrap.sh --prefix=/usr/local/boost_1_75_0
+./b2 install --toolset=gcc --without-python link=static runtime-link=shared threading=multi variant=release address-model=64 -j4
+```
 
 2. Compile and install rabbitmq-c
 

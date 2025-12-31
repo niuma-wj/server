@@ -45,7 +45,15 @@ NiuMa 游戏平台是一个全平台全工具链支持，包括 H5、原生 Andr
 
 首先确保系统已经安装了 cmake 3.30 版本以上，按照以下步骤编译游戏服务：
 
-1、编译安装 boost 库(具体可参考网上教程)
+1、编译安装 boost 库(具体可参考网上教程)\
+在 boost 官网下载任意版本代码，如：boost_1_75_0.tar.gz，注意不要下载 boost 1.86 及之后的版本因为新版本 boost 的 process 模块有大的改动，编译会产生链接错误
+
+```boost
+apt-get install build-essential libicu-dev libbz2-dev
+tar -xzvf boost_1_75_0.tar.gz
+./bootstrap.sh --prefix=/usr/local/boost_1_75_0
+./b2 install --toolset=gcc --without-python link=static runtime-link=shared threading=multi variant=release address-model=64 -j4
+```
 
 2、安装编译 rabbitmq-c
 

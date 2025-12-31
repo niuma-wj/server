@@ -88,7 +88,7 @@ find_package(Boost REQUIRED COMPONENTS log log_setup filesystem system)
 if(Boost_FOUND)
   message("${Boost_INCLUDE_DIRS}")
   message("${Boost_LIBRARIES}")
-  message("${BOOST_ROOT}/lib")
+  message("${Boost_LIBRARY_DIRS}")
 endif()
 include_directories(${Boost_INCLUDE_DIRS})
 
