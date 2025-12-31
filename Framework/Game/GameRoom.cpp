@@ -240,10 +240,10 @@ namespace NiuMa
 			// 加入游戏
 			if (!joinGame(seat, playerId, errMsg))
 				return false;
-			// 通知玩家加入
-			notifyAddAvatar(seat, playerId);
 			// 执行玩家加入后的上层逻辑
 			onAvatarJoined(seat, playerId);
+			// 通知玩家加入
+			notifyAddAvatar(seat, playerId);
 		}
 		return true;
 	}
@@ -390,10 +390,10 @@ namespace NiuMa
 		// 加入游戏
 		if (!joinGame(seat, playerId, errMsg, true))
 			return false;
-		// 通知玩家加入
-		notifyAddAvatar(seat, playerId);
 		// 执行玩家加入后的上层逻辑
 		onAvatarJoined(seat, playerId);
+		// 通知玩家加入
+		notifyAddAvatar(seat, playerId);
 		return true;
 	}
 
@@ -1012,10 +1012,10 @@ namespace NiuMa
 				// 执行观众离开后的上层逻辑
 				onSpectatorLeaved(inst->getPlayerId());
 			}
-			// 通知玩家加入
-			notifyAddAvatar(inst->seat, inst->getPlayerId(), false);
 			// 执行玩家加入后的上层逻辑
 			onAvatarJoined(inst->seat, inst->getPlayerId());
+			// 通知玩家加入
+			notifyAddAvatar(inst->seat, inst->getPlayerId(), false);
 		}
 	}
 
