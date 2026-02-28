@@ -7,9 +7,9 @@ NiuMa 游戏平台是一个全平台全工具链支持，包括 H5、原生 Andr
 项目代码组织入口地址：[Project](https://github.com/niuma-wj)\
 掼蛋游戏已更新，欢迎下载客户端测试，\
 [下载地址 1](https://github.com/niuma-wj/client/releases/tag/client)\
-[下载地址 2](http://106.13.15.226:8896/download)\
-[WEB 客户端 PC 版](http://106.13.15.226:8896/niuma/web/pc)\
-[WEB 客户端 H5 版](http://106.13.15.226:8896/niuma/web/h5)\
+[下载地址 2](http://106.55.181.89:8896/download)\
+[WEB 客户端 PC 版](http://106.55.181.89:8896/niuma/web/pc)\
+[WEB 客户端 H5 版](http://106.55.181.89:8896/niuma/web/h5)\
 客户端是Unity3D工程项目(即项目名称client)打包生成，已包含麻将、掼蛋、牛牛等游戏，而WEB客户端则由Cocos Creator工程项目(即项目名称client-cocos)打包生成，当前仅实现了掼蛋游戏，两种开发平台下的客户端代码逻辑是完全相同的，其他游戏要集成到WEB版本客户端仅需要将lua代码翻译成Typescript代码即可。此外，由于 WEB 客户端所在的服务器带宽较低，所以加载相对较慢。
 
 # NiuMa 游戏平台游戏服务器(C++)
@@ -40,7 +40,7 @@ NiuMa 游戏平台是一个全平台全工具链支持，包括 H5、原生 Andr
 首先确保系统已经安装了 cmake 3.30 版本以上，按照以下步骤编译游戏服务：
 
 1、编译安装 boost 库(具体可参考网上教程)\
-在 boost 官网下载任意版本代码，如：boost_1_75_0.tar.gz，注意不要下载 boost 1.86 及之后的版本因为新版本 boost 的 process 模块有大的改动，编译会产生链接错误
+在 boost 官网下载任意版本代码，如：boost_1_75_0.tar.gz
 
 ```boost
 apt-get install build-essential libicu-dev libbz2-dev

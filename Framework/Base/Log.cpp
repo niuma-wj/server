@@ -19,7 +19,10 @@
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
 #include <boost/thread/thread.hpp>
+// BOOST 1.86及之后的版本不要包含process头文件，以免链接失败
+#if (BOOST_VERSION < 108600)
 #include <boost/process.hpp>
+#endif
 
 namespace NiuMa {
 	/**
