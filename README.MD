@@ -2,9 +2,9 @@
 
 # 概述
 
-NiuMa 游戏平台是一个全平台全工具链支持，包括 H5、原生 Android 及 IOS、Windows、MAC 等平台，且全平台互通的完整棋牌游戏解决方案，平台支持 Unity3D 和 Cocos Creator(3.8.7)两大主流游戏开发引擎。平台包含游戏服务器(C++)、WEB 服务端(JAVA)、Unity3D 环境客户端、Cocos Creator 环境客户端、后台管理前端五个子项目。NiuMa 是一个免费授权开源项目，任何人都可以在此基础上做扩展和修改。本项目作为技术学习研究使用，切勿用于非法用途，否则由此引发的法律纠纷及连带责任本人概不承担。
+NiuMa 游戏平台是一个全平台全工具链支持，包括 H5、原生 Android 及 IOS、Windows、MAC 等平台，且全平台互通的完整棋牌游戏解决方案，平台支持 Unity3D 和 Cocos Creator(3.8.7)两大主流游戏开发引擎。平台包含游戏服务器(C++)、WEB 服务端(JAVA)、Unity3D 环境客户端、Cocos Creator 环境客户端、后台管理前端（VUE）五个子项目。NiuMa 是一个免费授权开源项目，任何人都可以在此基础上做扩展和修改。本项目作为技术学习研究使用，切勿用于非法用途，否则由此引发的法律纠纷及连带责任本人概不承担。
 
-项目代码组织入口地址：[Project](https://github.com/niuma-wj)\
+平台代码组织入口地址：[Project](https://github.com/niuma-wj)\
 掼蛋游戏已更新，欢迎下载客户端测试，\
 [下载地址 1](https://github.com/niuma-wj/client/releases/tag/client)\
 [下载地址 2](http://106.55.181.89:8896/download)\
@@ -89,4 +89,4 @@ cp Server ../../bin/
 
 # 联系方式
 
-393817707@qq.com
+393817707@qq.com，大佬们麻烦点个Star，万分感谢！
