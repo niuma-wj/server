@@ -246,8 +246,10 @@ namespace NiuMa {
         bool startSending() {
             std::lock_guard<std::mutex> lck(_mtxSend);
 
-            if (_sending)
+            if (_sending) {
+                DebugS << "Sending data now, wait send call back";
                 return false;
+            }
             _sending = true;
             return true;
         }

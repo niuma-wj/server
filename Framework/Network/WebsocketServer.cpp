@@ -164,9 +164,13 @@ namespace NiuMa
 				return;
 			}
 			try {
-				std::shared_ptr<WebsocketConnection> self = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
+				std::weak_ptr<WebsocketConnection> weakSelf = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
 				_ws.async_write(boost::asio::buffer(node->data(), node->size()),
-					boost::beast::bind_front_handler(&WebsocketConnection::onWrite, self));
+					boost::beast::bind_front_handler([weakSelf](boost::beast::error_code ec, std::size_t bytes_transferred) {
+						std::shared_ptr<WebsocketConnection> self = weakSelf.lock();
+						if (self)
+							self->onWrite(ec, bytes_transferred);
+					}));
 			}
 			catch (std::exception& ex) {
 				endSending();
@@ -270,8 +274,10 @@ namespace NiuMa
 		bool startSending() {
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
-			if (_sending)
+			if (_sending) {
+				DebugS << "Sending data now, wait send call back";
 				return false;
+			}
 			_sending = true;
 			return true;
 		}
