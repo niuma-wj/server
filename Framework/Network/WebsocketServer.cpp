@@ -275,7 +275,7 @@ namespace NiuMa
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
 			if (_sending) {
-				DebugS << "Sending data now, wait send call back";
+				//DebugS << "Sending data now, wait send call back";
 				return false;
 			}
 			_sending = true;
