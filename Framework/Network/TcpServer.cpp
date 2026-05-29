@@ -112,27 +112,51 @@ namespace NiuMa {
 
     private:
         void do_read() {
-            std::weak_ptr<ConnectionImpl> weakSelf(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
-            _socket.async_read_some(boost::asio::buffer(_data, 1024),
-                [weakSelf] (boost::system::error_code ec, std::size_t length) {
-                    std::shared_ptr<ConnectionImpl> self = weakSelf.lock();
-                    if (self)
-                        self->onAsyncRead(ec, length);
-                });
+            if (_error)
+                return;
+            try {
+                std::weak_ptr<ConnectionImpl> weakSelf(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
+                _socket.async_read_some(boost::asio::buffer(_data, 1024),
+                    [weakSelf](boost::system::error_code ec, std::size_t length) {
+                        std::shared_ptr<ConnectionImpl> self = weakSelf.lock();
+                        if (self)
+                            self->onAsyncRead(ec, length);
+                    });
+            }
+            catch (std::exception& ex) {
+                ErrorS << "Read data error: " << ex.what();
+            }
+            catch (...) {
+                ErrorS << "Read data error.";
+            }
         }
 
         void do_write() {
+            if (_error)
+                return;
+            if (isSending())
+                return;
             std::shared_ptr<std::string> node = popSendNode();
             if (!node)
                 return;
-
-            std::weak_ptr<ConnectionImpl> weakSelf(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
-            boost::asio::async_write(_socket, boost::asio::buffer(node->data(), node->size()),
-                [weakSelf](boost::system::error_code ec, std::size_t length) {
-                    std::shared_ptr<ConnectionImpl> self = weakSelf.lock();
-                    if (self)
-                        self->onAsyncWrite(ec, length);
-                });
+            try {
+                setSending(true);
+                std::weak_ptr<ConnectionImpl> weakSelf(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
+                boost::asio::async_write(_socket, boost::asio::buffer(node->data(), node->size()),
+                    [weakSelf](boost::system::error_code ec, std::size_t length) {
+                        std::shared_ptr<ConnectionImpl> self = weakSelf.lock();
+                        if (self)
+                            self->onAsyncWrite(ec, length);
+                    });
+            }
+            catch (std::exception& ex) {
+                setSending(false);
+                ErrorS << "Write data error: " << ex.what();
+            }
+            catch (...) {
+                setSending(false);
+                ErrorS << "Write data error.";
+            }
         }
 
         boost::asio::ip::tcp::socket& getSocket() {
@@ -160,6 +184,7 @@ namespace NiuMa {
         }
 
         void onAsyncWrite(boost::system::error_code ec, std::size_t /*length*/) {
+            setSending(false);
             if (!ec) {
                 do_write();
             } else/* if (ec != boost::asio::error::operation_aborted)*/ {
@@ -183,31 +208,25 @@ namespace NiuMa {
             InfoS << "Session(id: " << _uuid << ") error, msg: " << ec.message();
         }
 
-        bool addSendNode(const std::shared_ptr<std::string>& node) {
+        void addSendNode(const std::shared_ptr<std::string>& node) {
             std::lock_guard<std::mutex> lck(_mtxSend);
 
             _sendQueue.push_back(node);
-
-            return _sending;
         }
 
         std::shared_ptr<std::string> popSendNode() {
             std::lock_guard<std::mutex> lck(_mtxSend);
 
             std::shared_ptr<std::string> node;
-            if (_sendQueue.empty())
-                _sending = false;
-            else {
+            if (!_sendQueue.empty()) {
                 node = _sendQueue.front();
                 _sendQueue.pop_front();
-                _sending = true;
             }
             return node;
         }
 
         void splitSend(const char* buf, std::size_t length) {
             // 将发送内容分割成最大16KB分块发送，以免发送缓冲区溢出
-            bool flag = false;
             std::size_t size = 0;
             std::size_t total = 0;
             std::shared_ptr<std::string> node;
@@ -216,11 +235,22 @@ namespace NiuMa {
                 if ((size + total) > length)
                     size = length - total;
                 node = std::make_shared<std::string>((&buf[total]), size);
-                flag = addSendNode(node);
-                if (!flag)
-                    do_write();
+                addSendNode(node);
+                do_write();
                 total += size;
             }
+        }
+
+        bool isSending() {
+            std::lock_guard<std::mutex> lck(_mtxSend);
+
+            return _sending;
+        }
+
+        void setSending(bool setting) {
+            std::lock_guard<std::mutex> lck(_mtxSend);
+
+            _sending = setting;
         }
 
     public:
@@ -246,9 +276,8 @@ namespace NiuMa {
             if (!data || data->empty())
                 return;
             if (data->size() <= BLOCK_SIZE) {
-                bool flag = addSendNode(data);
-                if (!flag)
-                    do_write();
+                addSendNode(data);
+                do_write();
                 return;
             }
             splitSend(data->data(), data->size());

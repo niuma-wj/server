@@ -156,18 +156,23 @@ namespace NiuMa
 		void doWrite() {
 			if (_error)
 				return;
+			if (isSending())
+				return;
 			std::shared_ptr<std::string> node = popSendNode();
 			if (!node)
 				return;
 			try {
+				setSending(true);
 				std::shared_ptr<WebsocketConnection> self = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
 				_ws.async_write(boost::asio::buffer(node->data(), node->size()),
 					boost::beast::bind_front_handler(&WebsocketConnection::onWrite, self));
 			}
 			catch (std::exception& ex) {
+				setSending(false);
 				ErrorS << "Write data error: " << ex.what();
 			}
 			catch (...) {
+				setSending(false);
 				ErrorS << "Write data error.";
 			}
 		}
@@ -197,6 +202,7 @@ namespace NiuMa
 
 		void onWrite(boost::beast::error_code ec, std::size_t bytes_transferred) {
 			boost::ignore_unused(bytes_transferred);
+			setSending(false);
 			if (ec)
 				onError(ec);
 			else
@@ -227,31 +233,25 @@ namespace NiuMa
 			}
 		}
 
-		bool addSendNode(const std::shared_ptr<std::string>& node) {
+		void addSendNode(const std::shared_ptr<std::string>& node) {
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
 			_sendQueue.push_back(node);
-
-			return _sending;
 		}
 
 		std::shared_ptr<std::string> popSendNode() {
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
 			std::shared_ptr<std::string> node;
-			if (_sendQueue.empty())
-				_sending = false;
-			else {
+			if (!_sendQueue.empty()) {
 				node = _sendQueue.front();
 				_sendQueue.pop_front();
-				_sending = true;
 			}
 			return node;
 		}
 
 		void splitSend(const char* buf, std::size_t length) {
 			// 将发送内容分割成最大16KB分块发送，以免发送缓冲区溢出
-			bool flag = false;
 			std::size_t size = 0;
 			std::size_t total = 0;
 			std::shared_ptr<std::string> node;
@@ -260,11 +260,22 @@ namespace NiuMa
 				if ((size + total) > length)
 					size = length - total;
 				node = std::make_shared<std::string>((&buf[total]), size);
-				flag = addSendNode(node);
-				if (!flag)
-					doWrite();
+				addSendNode(node);
+				doWrite();
 				total += size;
 			}
+		}
+
+		bool isSending() {
+			std::lock_guard<std::mutex> lck(_mtxSend);
+
+			return _sending;
+		}
+
+		void setSending(bool setting) {
+			std::lock_guard<std::mutex> lck(_mtxSend);
+
+			_sending = setting;
 		}
 
 	public:
@@ -290,9 +301,8 @@ namespace NiuMa
 			if (!data || data->empty())
 				return;
 			if (data->size() <= BLOCK_SIZE) {
-				bool flag = addSendNode(data);
-				if (!flag)
-					doWrite();
+				addSendNode(data);
+				doWrite();
 				return;
 			}
 			splitSend(data->data(), data->size());
