@@ -156,23 +156,24 @@ namespace NiuMa
 		void doWrite() {
 			if (_error)
 				return;
-			if (isSending())
+			if (!startSending())
 				return;
 			std::shared_ptr<std::string> node = popSendNode();
-			if (!node)
+			if (!node) {
+				endSending();
 				return;
+			}
 			try {
-				setSending(true);
 				std::shared_ptr<WebsocketConnection> self = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
 				_ws.async_write(boost::asio::buffer(node->data(), node->size()),
 					boost::beast::bind_front_handler(&WebsocketConnection::onWrite, self));
 			}
 			catch (std::exception& ex) {
-				setSending(false);
+				endSending();
 				ErrorS << "Write data error: " << ex.what();
 			}
 			catch (...) {
-				setSending(false);
+				endSending();
 				ErrorS << "Write data error.";
 			}
 		}
@@ -202,7 +203,7 @@ namespace NiuMa
 
 		void onWrite(boost::beast::error_code ec, std::size_t bytes_transferred) {
 			boost::ignore_unused(bytes_transferred);
-			setSending(false);
+			endSending();
 			if (ec)
 				onError(ec);
 			else
@@ -261,21 +262,24 @@ namespace NiuMa
 					size = length - total;
 				node = std::make_shared<std::string>((&buf[total]), size);
 				addSendNode(node);
-				doWrite();
 				total += size;
 			}
+			doWrite();
 		}
 
-		bool isSending() {
+		bool startSending() {
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
-			return _sending;
+			if (_sending)
+				return false;
+			_sending = true;
+			return true;
 		}
 
-		void setSending(bool setting) {
+		void endSending() {
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
-			_sending = setting;
+			_sending = false;
 		}
 
 	public:

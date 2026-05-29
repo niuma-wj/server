@@ -134,13 +134,15 @@ namespace NiuMa {
         void do_write() {
             if (_error)
                 return;
-            if (isSending())
+            if (!startSending())
                 return;
             std::shared_ptr<std::string> node = popSendNode();
-            if (!node)
+            if (!node) {
+                endSending();
                 return;
+            }
             try {
-                setSending(true);
+                endSending();
                 std::weak_ptr<ConnectionImpl> weakSelf(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
                 boost::asio::async_write(_socket, boost::asio::buffer(node->data(), node->size()),
                     [weakSelf](boost::system::error_code ec, std::size_t length) {
@@ -150,11 +152,11 @@ namespace NiuMa {
                     });
             }
             catch (std::exception& ex) {
-                setSending(false);
+                endSending();
                 ErrorS << "Write data error: " << ex.what();
             }
             catch (...) {
-                setSending(false);
+                endSending();
                 ErrorS << "Write data error.";
             }
         }
@@ -184,7 +186,7 @@ namespace NiuMa {
         }
 
         void onAsyncWrite(boost::system::error_code ec, std::size_t /*length*/) {
-            setSending(false);
+            endSending();
             if (!ec) {
                 do_write();
             } else/* if (ec != boost::asio::error::operation_aborted)*/ {
@@ -236,21 +238,24 @@ namespace NiuMa {
                     size = length - total;
                 node = std::make_shared<std::string>((&buf[total]), size);
                 addSendNode(node);
-                do_write();
                 total += size;
             }
+            do_write();
         }
 
-        bool isSending() {
+        bool startSending() {
             std::lock_guard<std::mutex> lck(_mtxSend);
 
-            return _sending;
+            if (_sending)
+                return false;
+            _sending = true;
+            return true;
         }
 
-        void setSending(bool setting) {
+        void endSending() {
             std::lock_guard<std::mutex> lck(_mtxSend);
 
-            _sending = setting;
+            _sending = false;
         }
 
     public:
