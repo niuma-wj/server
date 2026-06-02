@@ -153,16 +153,12 @@ namespace NiuMa
 			}
 		}
 
-		void doWrite() {
+		void doWrite(const std::shared_ptr<std::string>& data = nullptr) {
 			if (_error)
 				return;
-			if (!startSending())
+			std::shared_ptr<std::string> node = startSending(data);
+			if (!node)
 				return;
-			std::shared_ptr<std::string> node = popSendNode();
-			if (!node) {
-				endSending();
-				return;
-			}
 			try {
 				std::weak_ptr<WebsocketConnection> weakSelf = std::dynamic_pointer_cast<WebsocketConnection>(shared_from_this());
 				_ws.async_write(boost::asio::buffer(node->data(), node->size()),
@@ -244,7 +240,7 @@ namespace NiuMa
 			_sendQueue.push_back(node);
 		}
 
-		std::shared_ptr<std::string> popSendNode() {
+		/*std::shared_ptr<std::string> popSendNode() {
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
 			std::shared_ptr<std::string> node;
@@ -253,7 +249,7 @@ namespace NiuMa
 				_sendQueue.pop_front();
 			}
 			return node;
-		}
+		}*/
 
 		void splitSend(const char* buf, std::size_t length) {
 			// 将发送内容分割成最大16KB分块发送，以免发送缓冲区溢出
@@ -271,15 +267,30 @@ namespace NiuMa
 			doWrite();
 		}
 
-		bool startSending() {
+		std::shared_ptr<std::string> startSending(const std::shared_ptr<std::string>& data) {
 			std::lock_guard<std::mutex> lck(_mtxSend);
 
 			if (_sending) {
-				//DebugS << "Sending data now, wait send call back";
-				return false;
+				// 当前正在发送，将传入的数据压入队列并返回nullptr
+				if (data)
+					_sendQueue.push_back(data);
+				return nullptr;
 			}
-			_sending = true;
-			return true;
+			std::shared_ptr<std::string> node;
+			if (_sendQueue.empty()) {
+				// 当前队列为空，直接发送传入的数据
+				node = data;
+			}
+			else {
+				// 队列不为空，发送队列头节点，并将传入的数据压入队列
+				node = _sendQueue.front();
+				_sendQueue.pop_front();
+				if (data)
+					_sendQueue.push_back(data);
+			}
+			if (node)
+				_sending = true;
+			return node;
 		}
 
 		void endSending() {
@@ -302,6 +313,10 @@ namespace NiuMa
 				return;
 			if (buf == nullptr || length == 0)
 				return;
+			if (length <= BLOCK_SIZE) {
+				doWrite(std::make_shared<std::string>(buf, length));
+				return;
+			}
 			splitSend(buf, length);
 		}
 
@@ -311,8 +326,7 @@ namespace NiuMa
 			if (!data || data->empty())
 				return;
 			if (data->size() <= BLOCK_SIZE) {
-				addSendNode(data);
-				doWrite();
+				doWrite(data);
 				return;
 			}
 			splitSend(data->data(), data->size());
