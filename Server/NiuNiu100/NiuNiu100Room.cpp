@@ -84,7 +84,7 @@ namespace NiuMa
 		return 0;
 	}
 
-	void NiuNiu100Room::onAvatarLeaved(int seat, const std::string& playerId) {
+	void NiuNiu100Room::onAvatarLeaved(int seat, const std::string& playerId, bool robot) {
 		// 在比牌状态时玩家离开不会改变排行榜座位
 		if (_kickOffline || _gameState == GameState::Compare)
 			return;
@@ -102,6 +102,13 @@ namespace NiuMa
 		}
 	}
 
+	void NiuNiu100Room::initialize() {
+		GameRoom::initialize();
+
+		// 百人牛牛的房间不会因为沉默销毁
+		setSilenceDeadline(0);
+	}
+		 
 	void NiuNiu100Room::onTimer() {
 		GameRoom::onTimer();
 
@@ -189,6 +196,10 @@ namespace NiuMa
 			avatar->clear();
 			++it;
 		}
+	}
+
+	bool NiuNiu100Room::beforeDestroy(bool silence) {
+		return false;
 	}
 
 	void NiuNiu100Room::pushBets() {

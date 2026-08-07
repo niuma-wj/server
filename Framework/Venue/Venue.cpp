@@ -121,6 +121,8 @@ namespace NiuMa {
 	}
 
 	void Venue::gameOver(bool delDb) {
+		if (_status > 1)
+			return;
 		_status = 2;
 
 		Player::Ptr player;

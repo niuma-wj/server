@@ -73,6 +73,7 @@ namespace NiuMa
 
 		// 重写
 	public:
+		virtual void initialize() override;
 		virtual void onTimer() override;
 		virtual bool onMessage(const NetMessage::Ptr& netMsg) override;
 
@@ -84,15 +85,17 @@ namespace NiuMa
 		// 允许观众，玩家在坐到座位之前以观众的身份存在，观众的数量没有限制，
 		// 在座位坐满之后所有观众都必须立即离开房间
 		virtual bool enableSpectator() const override;
-		virtual void onSpectatorLeaved(const std::string& playerId) override;
+		virtual void onSpectatorLeaved(const std::string& playerId, bool robot) override;
 		// 玩家加入后处理
 		virtual void onAvatarJoined(int seat, const std::string& playerId) override;
 		// 玩家离开后处理
-		virtual void onAvatarLeaved(int seat, const std::string& playerId) override;
+		virtual void onAvatarLeaved(int seat, const std::string& playerId, bool robot) override;
 		// 获取玩家额外信息
 		virtual void getAvatarExtraInfo(const GameAvatar::Ptr& avatar, std::string& base64) const override;
 		// 清理
 		virtual void clean() override;
+		// 房间因底层逻辑销毁前处理
+		virtual bool beforeDestroy(bool silence) override;
 
 	private:
 		// 返回当前房间所属的区域id

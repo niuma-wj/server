@@ -64,6 +64,15 @@ namespace NiuMa
 	GuanDanRoom::~GuanDanRoom()
 	{}
 
+	void GuanDanRoom::initialize() {
+		GameRoom::initialize();
+
+		if (_level == static_cast<int>(GuanDanRoomLevel::Practice)) {
+			// 练习房沉默10分钟后销毁
+			setSilenceDeadline(600);
+		}
+	}
+
 	void GuanDanRoom::onTimer() {
 		GameRoom::onTimer();
 
@@ -201,7 +210,7 @@ namespace NiuMa
 		return true;
 	}
 
-	void GuanDanRoom::onSpectatorLeaved(const std::string& playerId) {
+	void GuanDanRoom::onSpectatorLeaved(const std::string& playerId, bool robot) {
 		if (_level != static_cast<int>(GuanDanRoomLevel::Friend))
 			return;
 		int count = getAvatarCount() + getSpectatorCount();
@@ -232,18 +241,20 @@ namespace NiuMa
 				notifyOwnerSeat();
 			}
 		}
-		// 更新区域内场地的玩家数量
-		int districtId = getDistrictId();
-		std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);
-		if (isFull())
-			RedisPool::getSingleton().hdel(redisKey, getId());
 		else {
-			int count = getAvatarCount();
-			RedisPool::getSingleton().hset(redisKey, getId(), count);
+			// 更新区域内场地的玩家数量
+			int districtId = getDistrictId();
+			std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);
+			if (isFull())
+				RedisPool::getSingleton().hdel(redisKey, getId());
+			else {
+				int count = getAvatarCount();
+				RedisPool::getSingleton().hset(redisKey, getId(), count);
+			}
 		}
 	}
 
-	void GuanDanRoom::onAvatarLeaved(int seat, const std::string& playerId) {
+	void GuanDanRoom::onAvatarLeaved(int seat, const std::string& playerId, bool robot) {
 		if (_level == static_cast<int>(GuanDanRoomLevel::Practice)) {
 			if ((seat == 0) && !playerId.empty()) {
 				// 练习房玩家离开，而不是机器人离开
@@ -295,7 +306,6 @@ namespace NiuMa
 		int districtId = getDistrictId();
 		std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);
 		RedisPool::getSingleton().hset(redisKey, getId(), count);
-
 		// 记录玩家的进入场地轨迹
 		redisKey = RedisKeys::DISTRICT_PLAYER_TRACK;
 		std::string::size_type pos = redisKey.find("{0}");
@@ -350,6 +360,20 @@ namespace NiuMa
 			if (avatar != nullptr)
 				avatar->clear();
 		}
+	}
+
+	bool GuanDanRoom::beforeDestroy(bool silence) {
+		if (_level == static_cast<int>(GuanDanRoomLevel::Practice))
+			return true;
+		else if (_level == static_cast<int>(GuanDanRoomLevel::Friend))
+			return (_roundNo == 0);
+		else {
+			// 从区域内删除场地，以免其他玩家再进入该场地
+			int districtId = getDistrictId();
+			std::string redisKey = RedisKeys::DISTRICT_VENUE_REGISTER + std::to_string(districtId);
+			RedisPool::getSingleton().hdel(redisKey, getId());
+		}
+		return false;
 	}
 
 	int GuanDanRoom::getDistrictId() const {

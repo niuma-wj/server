@@ -42,7 +42,8 @@ namespace NiuMa
 		virtual int checkLeave(const std::string& playerId, std::string& errMsg) const override;
 		virtual void getAvatarExtraInfo(const GameAvatar::Ptr& avatar, std::string& base64) const override;
 		virtual void onAvatarJoined(int seat, const std::string& playerId) override;
-		virtual void onAvatarLeaved(int seat, const std::string& playerId) override;
+		virtual void onAvatarLeaved(int seat, const std::string& playerId, bool robot) override;
+		virtual bool beforeDestroy(bool silence) override;
 
 	private:
 		/**

@@ -210,7 +210,7 @@ namespace NiuMa
 		}
 	}
 
-	void LackeyRoom::onAvatarLeaved(int seat, const std::string& playerId) {
+	void LackeyRoom::onAvatarLeaved(int seat, const std::string& playerId, bool robot) {
 		clearDistances(seat, _distances);
 		int count = getAvatarCount();
 		if (count == 0 && (_level == static_cast<int>(LackeyRoomLevel::Friend)))
@@ -220,7 +220,6 @@ namespace NiuMa
 			int districtId = getDistrictId();
 			std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);
 			RedisPool::getSingleton().hset(redisKey, getId(), count);
-
 			// 记录玩家的进入场地轨迹
 			redisKey = RedisKeys::DISTRICT_PLAYER_TRACK;
 			std::string::size_type pos = redisKey.find("{0}");
@@ -747,6 +746,16 @@ namespace NiuMa
 				return i;
 		}
 		return -1;
+	}
+
+	bool LackeyRoom::beforeDestroy(bool silence) {
+		if (_level != static_cast<int>(LackeyRoomLevel::Friend)) {
+			// 从区域内删除场地，以免其他玩家再进入该场地
+			int districtId = getDistrictId();
+			std::string redisKey = RedisKeys::DISTRICT_VENUE_REGISTER + std::to_string(districtId);
+			RedisPool::getSingleton().hdel(redisKey, getId());
+		}
+		return false;
 	}
 
 	void LackeyRoom::sendWinLose(int seat, const std::string& playerId) const {

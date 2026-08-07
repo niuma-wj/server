@@ -174,7 +174,7 @@ namespace NiuMa
 			_commander = seat;
 	}
 
-	void BiJiRoom::onAvatarLeaved(int seat, const std::string& playerId) {
+	void BiJiRoom::onAvatarLeaved(int seat, const std::string& playerId, bool robot) {
 		// 离开成功
 		int nums = getAvatarCount();
 		if (nums > 0) {
@@ -247,6 +247,10 @@ namespace NiuMa
 			tmp["joinRound"] = inst->isJoinRound();
 		std::string json = tmp.toStyledString();
 		BaseUtils::encodeBase64(base64, json.data(), static_cast<int>(json.size()));
+	}
+
+	bool BiJiRoom::beforeDestroy(bool silence) {
+		return false;
 	}
 
 	int BiJiRoom::getStateElapsed() const {

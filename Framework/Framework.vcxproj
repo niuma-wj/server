@@ -163,6 +163,7 @@
     <ClCompile Include="Game\GetCashPledgeTask.cpp" />
     <ClCompile Include="Game\RobotManager.cpp" />
     <ClCompile Include="Game\ScoreboardTask.cpp" />
+    <ClCompile Include="Game\Spectator.cpp" />
     <ClCompile Include="Message\MessageManager.cpp" />
     <ClCompile Include="Message\MessageHandler.cpp" />
     <ClCompile Include="Message\MessageThreadPool.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="Game\GameMessages.h" />
     <ClInclude Include="Game\RobotManager.h" />
     <ClInclude Include="Game\ScoreboardTask.h" />
+    <ClInclude Include="Game\Spectator.h" />
     <ClInclude Include="Message\MessageThreadPool.h" />
     <ClInclude Include="Message\MsgBase.h" />
     <ClInclude Include="Message\MessageManager.h" />

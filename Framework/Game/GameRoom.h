@@ -8,6 +8,7 @@
 
 #include "Venue/Venue.h"
 #include "GameAvatar.h"
+#include "Spectator.h"
 #include "Message/MsgBase.h"
 
 #include <vector>
@@ -42,7 +43,8 @@ namespace NiuMa {
 	/**
 	 * 棋牌类游房间基类
 	 */
-	class GameRoom : public Venue {
+	class GameRoom : public Venue
+	{
 	public:
 		GameRoom(const std::string& id, int gameType, int maxPlayerNums, RoomCategory category = RoomCategory::RoomCategoryA);
 		virtual ~GameRoom();
@@ -54,6 +56,7 @@ namespace NiuMa {
 		int64_t getDiamondNeed() const;
 		GameAvatar::Ptr getAvatar(int seat) const;
 		GameAvatar::Ptr getAvatar(const std::string& playerId) const;
+		Spectator::Ptr getSpectator(const std::string& playerId) const;
 		int getAvatarCount() const;
 		int getSpectatorCount() const;
 		bool hasSpectator(const std::string& playerId) const;
@@ -63,6 +66,12 @@ namespace NiuMa {
 		 * 获取全部玩家替身
 		 */
 		const std::unordered_map<std::string, GameAvatar::Ptr>& getAllAvatars() const;
+
+		/**
+		 * 设置沉默超时时间
+		 * @param silenceDeadline 沉默超时时间，单位秒
+		 */
+		void setSilenceDeadline(time_t silenceDeadline);
 
 		/**
 		 * 设置押金
@@ -207,8 +216,20 @@ namespace NiuMa {
 		 */
 		void incDrawNum(const std::string& playerId);
 
+	private:
+		/**
+		 * 检查房间当前是否已经沉默，即所有玩家和观众都已经离线
+		 */
+		void checkSilence();
+
+		/**
+		 * 检查房间是否沉默超时
+		 */
+		void checkSilenceTimeout();
+
 	public:
 		virtual bool onMessage(const NetMessage::Ptr& netMsg) override;
+		virtual void onTimer() override;
 		virtual void onConnect(const std::string& playerId) override;
 		virtual void onDisconnect(const std::string& playerId) override;
 
@@ -254,6 +275,12 @@ namespace NiuMa {
 		 * @param 玩家替身
 		 */
 		virtual GameAvatar::Ptr createAvatar(const std::string& playerId, int seat, bool robot) const = 0;
+
+		/**
+		 * 创建旁观者
+		 * @param playerId 玩家id
+		 */
+		virtual Spectator::Ptr createSpectator(const std::string& playerId, bool robot = false) const;
 
 		/**
 		 * 是否允许观众存在，默认不允许
@@ -328,8 +355,9 @@ namespace NiuMa {
 		/**
 		 * 观众离开房间后的上层逻辑处理
 		 * @param playerId 玩家id
+		 * @param robot 是否为机器人
 		 */
-		virtual void onSpectatorLeaved(const std::string& playerId);
+		virtual void onSpectatorLeaved(const std::string& playerId, bool robot);
 
 		/**
 		 * 新玩家加入后的上层逻辑处理
@@ -342,8 +370,9 @@ namespace NiuMa {
 		 * 玩家离开后(包括主动离开和被踢开)的上层逻辑处理
 		 * @param seat 座位号
 		 * @param playerId 玩家id
+		 * @param robot 是否为机器人
 		 */
-		virtual void onAvatarLeaved(int seat, const std::string& playerId);
+		virtual void onAvatarLeaved(int seat, const std::string& playerId, bool robot);
 
 		/**
 		 * 清理游戏房间
@@ -368,6 +397,13 @@ namespace NiuMa {
 		 * @param seat2 座位号2
 		 */
 		virtual int getDistanceIndex(int seat1, int seat2) const;
+
+		/**
+		 * 房间因底层逻辑销毁前的上层逻辑处理
+		 * @param silence 是否因沉默超时销毁房间
+		 * @return 是否从数据库删除本Venue，true:删除，false:不删除
+		 */
+		virtual bool beforeDestroy(bool silence) = 0;
 
 	protected:
 		/**
@@ -504,8 +540,17 @@ namespace NiuMa {
 		std::unordered_map<std::string, GameAvatar::Ptr> _allAvatars;
 
 		// A类房上的全部观众玩家id
-		// 注意，游戏房不为旁观者创建玩家替身，只记录旁观者的玩家id
-		std::unordered_set<std::string> _spectators;
+		std::unordered_map<std::string, Spectator::Ptr> _spectators;
+
+		// 房间是否沉默，即房间里面还有玩家或者观众，但是都已经离线
+		bool _silence;
+
+		// 沉默开始时间，Unix时间戳(单位秒)
+		time_t _silenceTick;
+
+		// 沉默超时期限(单位秒)，即房间沉默超过指定期限就会被自动销毁，默认72小时，0表示永不超时
+		// 必须定时清理沉默超时的房间，以免大量沉默房间驻留在内存中浪费资源
+		time_t _silenceDeadline;
 	};
 }
 

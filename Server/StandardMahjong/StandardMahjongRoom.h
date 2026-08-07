@@ -34,11 +34,12 @@ namespace NiuMa
 		virtual bool checkEnter(const std::string& playerId, std::string& errMsg, bool robot = false) const override;
 		virtual int checkLeave(const std::string& playerId, std::string& errMsg) const override;
 		virtual void getAvatarExtraInfo(const GameAvatar::Ptr& avatar, std::string& base64) const override;
-		virtual void onAvatarLeaved(int seat, const std::string& playerId) override;
+		virtual void onAvatarLeaved(int seat, const std::string& playerId, bool robot) override;
 		virtual void clean() override;
 		virtual double* getDistances() override;
 		virtual void getDistances(std::vector<int>& distances) const override;
 		virtual int getDistanceIndex(int seat1, int seat2) const override;
+		virtual bool beforeDestroy(bool silence) override;
 		virtual void calcHuScore() const override;
 		virtual void doJieSuan() override;
 		virtual void afterHu() override;

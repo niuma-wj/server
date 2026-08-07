@@ -63,7 +63,7 @@ namespace NiuMa
 		return std::make_shared<StandardMahjongAvatar>(playerId, seat, robot);
 	}
 
-	void StandardMahjongRoom::onAvatarLeaved(int seat, const std::string& playerId) {
+	void StandardMahjongRoom::onAvatarLeaved(int seat, const std::string& playerId, bool robot) {
 		clearDistances(seat, _distances);
 		if (getAvatarCount() == 0)
 			gameOver();
@@ -337,6 +337,10 @@ namespace NiuMa
 			}
 		}
 		return ret;
+	}
+
+	bool StandardMahjongRoom::beforeDestroy(bool silence) {
+		return false;
 	}
 
 	void StandardMahjongRoom::calcHuScore() const {

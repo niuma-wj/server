@@ -6,7 +6,7 @@
 #ifndef _NIU_MA_GAME_AVATAR_H_
 #define _NIU_MA_GAME_AVATAR_H_
 
-#include "Network/Session.h"
+#include "Spectator.h"
 
 namespace NiuMa
 {
@@ -15,24 +15,14 @@ namespace NiuMa
 	 * 代表一个玩家替身，保存玩家在游戏中的状态数据，该类中的所有数据和方法都是在同一
 	 * 线程内访问的，不需要担心线程同步的问题
 	 */
-	class GameAvatar {
+	class GameAvatar : public Spectator {
 	public:
 		GameAvatar(const std::string& playerId, bool robot = false);
 		virtual ~GameAvatar();
 
-		typedef std::shared_ptr<GameAvatar> Ptr;
+		using Ptr = std::shared_ptr<GameAvatar>;
 
 	public:
-		const std::string& getPlayerId() const;
-		const std::string& getNickname() const;
-		void setNickname(const std::string& s);
-		const std::string& getPhone() const;
-		void setPhone(const std::string& s);
-		int getSex() const;
-		void setSex(int s);
-		const std::string& getHeadUrl() const;
-		void setHeadUrl(const std::string& s);
-		bool isRobot() const;
 		int getSeat() const;
 		void setSeat(int s);
 		int64_t getGold();
@@ -43,9 +33,7 @@ namespace NiuMa
 		void setAuthorize(bool s);
 		bool isReady() const;
 		void setReady(bool s);
-		bool isOffline();
-		void setSession(const Session::Ptr& session);
-		Session::Ptr getSession();
+
 		// 获得经纬度
 		void getGeolocation(double& lat, double& lon, double& alt) const;
 
@@ -67,31 +55,7 @@ namespace NiuMa
 		// 增加平局次数
 		void incDrawNum();
 
-		// 设置离线时间
-		void setOfflineTick(time_t t);
-
-		// 获取离线时间
-		time_t getOfflineTick() const;
-
 	private:
-		// 玩家id
-		const std::string _playerId;
-
-		// 玩家昵称
-		std::string _nickname;
-
-		// 联系电话
-		std::string _phone;
-
-		// 性别
-		int _sex;
-
-		// 头像url
-		std::string _headUrl;
-
-		// 是否为机器人
-		const bool _robot;
-
 		// 玩家在游戏桌上的座位索引，-1表示无座位
 		int _seat;
 
@@ -108,9 +72,6 @@ namespace NiuMa
 
 		// 是否已准备就绪
 		bool _ready;
-
-		// 网络会话
-		std::weak_ptr<Session> _session;
 
 		// 纬度
 		double _latitude;
@@ -129,9 +90,6 @@ namespace NiuMa
 
 		// 平局总数
 		int _drawNum;
-
-		// 离线线时间，单位毫秒
-		time_t _offlineTick;
 	};
 }
 

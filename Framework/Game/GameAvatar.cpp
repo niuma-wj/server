@@ -1,13 +1,10 @@
 ﻿// GameAvatar.cpp
 
 #include "GameAvatar.h"
-#include "Player/PlayerManager.h"
 
 namespace NiuMa {
 	GameAvatar::GameAvatar(const std::string& playerId, bool robot)
-		: _playerId(playerId)
-		, _sex(0)
-		, _robot(robot)
+		: Spectator(playerId, robot)
 		, _seat(-1)
 		, _gold(0LL)
 		, _cashPledge(0LL)
@@ -19,50 +16,9 @@ namespace NiuMa {
 		, _winNum(0)
 		, _loseNum(0)
 		, _drawNum(0)
-		, _offlineTick(0)
 	{}
 
 	GameAvatar::~GameAvatar() {}
-
-	const std::string& GameAvatar::getPlayerId() const {
-		return _playerId;
-	}
-
-	const std::string& GameAvatar::getNickname() const {
-		return _nickname;
-	}
-
-	void GameAvatar::setNickname(const std::string& s) {
-		_nickname = s;
-	}
-
-	const std::string& GameAvatar::getPhone() const {
-		return _phone;
-	}
-
-	void GameAvatar::setPhone(const std::string& s) {
-		_phone = s;
-	}
-
-	int GameAvatar::getSex() const {
-		return _sex;
-	}
-
-	void GameAvatar::setSex(int s) {
-		_sex = s;
-	}
-
-	const std::string& GameAvatar::getHeadUrl() const {
-		return _headUrl;
-	}
-
-	void GameAvatar::setHeadUrl(const std::string& s) {
-		_headUrl = s;
-	}
-
-	bool GameAvatar::isRobot() const {
-		return _robot;
-	}
 
 	int GameAvatar::getSeat() const {
 		return _seat;
@@ -104,32 +60,6 @@ namespace NiuMa {
 		_ready = s;
 	}
 
-	bool GameAvatar::isOffline() {
-		if (_robot)
-			return false;
-		Session::Ptr sess = getSession();
-		if (sess && sess->isValid())
-			return false;
-		return true;
-	}
-
-	void GameAvatar::setSession(const Session::Ptr& session) {
-		if (session)
-			_session = session;
-		else
-			_session.reset();
-	}
-
-	Session::Ptr GameAvatar::getSession() {
-		Session::Ptr sess = _session.lock();
-		if (sess)
-			return sess;
-		Player::Ptr player = PlayerManager::getSingleton().getPlayer(_playerId);
-		if (!player)
-			return sess;
-		return player->getSession();
-	}
-
 	void GameAvatar::getGeolocation(double& lat, double& lon, double& alt) const
 	{
 		lat = _latitude;
@@ -166,13 +96,5 @@ namespace NiuMa {
 
 	void GameAvatar::incDrawNum() {
 		_drawNum++;
-	}
-
-	void GameAvatar::setOfflineTick(time_t t) {
-		_offlineTick = t;
-	}
-
-	time_t GameAvatar::getOfflineTick() const {
-		return _offlineTick;
 	}
 }
