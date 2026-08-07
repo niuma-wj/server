@@ -8,6 +8,7 @@
 #include <boost/core/null_deleter.hpp>
 #include <boost/log/core.hpp>
 #include <boost/log/expressions.hpp>
+#include <boost/log/attributes/function.hpp>
 #include <boost/log/sinks/async_frontend.hpp>
 #include <boost/log/sinks/text_file_backend.hpp>
 #include <boost/log/sinks/text_ostream_backend.hpp>
@@ -22,6 +23,13 @@
 // BOOST 1.86及之后的版本不要包含process头文件，以免链接失败
 #if (BOOST_VERSION < 108600)
 #include <boost/process.hpp>
+#endif
+
+#if defined(_WIN32)
+#include <windows.h>
+#else
+#include <sys/syscall.h>
+#include <unistd.h>
 #endif
 
 namespace NiuMa {
@@ -65,9 +73,14 @@ namespace NiuMa {
 			_sink_file = boost::make_shared<sink_file>(backend_file);
 			_sink_print = boost::make_shared<sink_print>(backend_print);
 
+			boost::log::core::get()->add_global_attribute(
+				"ShortThreadID",
+				boost::log::attributes::function<std::uint32_t>([]() -> std::uint32_t { return Logger::get_current_thread_id(); })
+			);
+
 			// You can manage filtering and formatting through the sink interface
 			boost::log::formatter fmt = expr::stream
-				<< "[" << expr::attr<attr::current_thread_id::value_type>("ThreadID")
+				<< "[" << expr::attr<std::uint32_t>("ShortThreadID")/*expr::attr<attr::current_thread_id::value_type>("ThreadID")*/
 				<< "] " << expr::format_date_time<boost::posix_time::ptime>("TimeStamp", "%m-%dT%H:%M:%S.%f")
 				<< " " << boost::log::trivial::severity
 				//<< " " << expr::attr<attr::current_process_id::value_type>("ProcessID")
@@ -111,6 +124,16 @@ namespace NiuMa {
 
 				_sink_file.reset();
 			}
+		}
+
+	private:
+		inline static std::uint32_t get_current_thread_id()
+		{
+#if defined(_WIN32)
+			return static_cast<std::uint32_t>(GetCurrentThreadId());
+#else
+			return static_cast<std::uint32_t>(syscall(SYS_gettid));
+#endif
 		}
 
 	private:
