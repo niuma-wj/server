@@ -84,6 +84,10 @@ update_cached(POKER_LIBRARY "")
 # add 3rdpart to this project
 add_subdirectory(3rdpart)
 
+set(Boost_USE_STATIC_LIBS ON)   # 强制使用 .a
+set(Boost_USE_SHARED_LIBS OFF)  # 显式禁用 .so（可选，配合上面更明确）
+set(Boost_DEBUG ON)  # 用cmake调试输出，看找到的库路径
+
 find_package(Boost REQUIRED COMPONENTS log log_setup filesystem system)
 if(Boost_FOUND)
   message("${Boost_INCLUDE_DIRS}")
