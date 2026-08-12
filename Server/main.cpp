@@ -263,7 +263,7 @@ int main(int argc, char* argv[]) {
         NiuMa::IniConfig::getSingleton().getString("RabbitMQ", "fanout_consumer_tag", fanoutConsumerTag);
         NiuMa::RabbitmqConfig::Ptr config = std::make_shared<NiuMa::RabbitmqConfig>();
         // 消费广播队列消息
-        config->queueDeclare(fanoutQueue, false, false, true, true);
+        config->queueDeclare(fanoutQueue, true, false, true, true);
         config->queueBind(fanoutQueue, fanoutExchange, std::string(), true);
         config->queueConsume(fanoutQueue, fanoutConsumerTag);
         // 配置定向消费队列
@@ -275,7 +275,7 @@ int main(int argc, char* argv[]) {
         NiuMa::IniConfig::getSingleton().getString("RabbitMQ", "direct_queue", directQueue);
         NiuMa::IniConfig::getSingleton().getString("RabbitMQ", "direct_consumer_tag", directConsumerTag);
         NiuMa::IniConfig::getSingleton().getString("Server", "server_id", serverId);
-        config->queueDeclare(directQueue, false, false, true, true);
+        config->queueDeclare(directQueue, true, false, true, true);
         config->queueBind(directQueue, directExchange, serverId, true); // 使用服务器id作为路由键
         config->queueConsume(directQueue, directConsumerTag);
         /*config->exchangeDeclare("exchange_niuma", "direct", false, false, false, true);
