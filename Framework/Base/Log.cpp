@@ -129,11 +129,16 @@ namespace NiuMa {
 	private:
 		inline static std::uint32_t get_current_thread_id()
 		{
+			// 用thread_local存储线程id，以免每次都调用系统API查询线程id
+			static thread_local std::uint32_t s_thread_id = 0;
+			if (s_thread_id == 0) {
 #if defined(_WIN32)
-			return static_cast<std::uint32_t>(GetCurrentThreadId());
+				s_thread_id = static_cast<std::uint32_t>(GetCurrentThreadId());
 #else
-			return static_cast<std::uint32_t>(syscall(SYS_gettid));
+				s_thread_id = static_cast<std::uint32_t>(syscall(SYS_gettid));
 #endif
+			}
+			return s_thread_id;
 		}
 
 	private:
