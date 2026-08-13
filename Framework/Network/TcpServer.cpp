@@ -53,6 +53,7 @@ namespace NiuMa {
             , _socket(service->getContext())
             , _error(false)
             , _activeClose(false)
+            , _activeCloseTime(0)
             , _sending(false)
         {
             boost::uuids::uuid uuid = boost::uuids::random_generator()();
@@ -203,7 +204,7 @@ namespace NiuMa {
                     _session->onDisconnect();
                 srv->removeConnection(std::dynamic_pointer_cast<ConnectionImpl>(shared_from_this()));
             }
-            InfoS << "Session(id: " << _uuid << ") error, msg: " << ec.message();
+            DebugS << "Session(id: " << _uuid << ") error, msg: " << ec.message();
         }
 
         void addSendNode(const std::shared_ptr<std::string>& node) {
@@ -329,7 +330,7 @@ namespace NiuMa {
         Session::Ptr _session;
 
         // 接收数据的缓存
-        char _data[1024];
+        char _data[1024] = { '\0' };
 
         // 连接是否发生错误
         std::atomic<bool> _error;

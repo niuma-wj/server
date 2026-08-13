@@ -119,7 +119,7 @@ namespace NiuMa
 
 		void onAccept(boost::beast::error_code ec) {
 			if (ec) {
-				ErrorS << "Websocket accept error, message: " << ec.message();
+				DebugS << "Websocket accept error, message: " << ec.message();
 				onError(ec);
 				// 关闭Websocket
 				/*try {
@@ -227,10 +227,10 @@ namespace NiuMa
 			std::string errMsg = ec.message();
 			// This indicates that the session was closed
 			if (ec == boost::beast::websocket::error::closed) {
-				InfoS << "Session(id: " << _uuid << ") close.";
+				DebugS << "Session(id: " << _uuid << ") close.";
 			}
 			else {
-				ErrorS << "Session(id: " << _uuid << ") error, msg: " << errMsg;
+				DebugS << "Session(id: " << _uuid << ") error, msg: " << errMsg;
 			}
 		}
 

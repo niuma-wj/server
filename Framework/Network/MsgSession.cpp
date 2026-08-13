@@ -143,7 +143,7 @@ namespace NiuMa {
 				}
 			}
 			catch (std::exception& ex) {
-				ErrorS << "Unpack message error: " << ex.what();
+				DebugS << "Unpack message error: " << ex.what();
 				if (test) {
 					// 记录一次异常
 					test = false;
