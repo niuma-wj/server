@@ -129,7 +129,7 @@ namespace NiuMa {
 	private:
 		inline static std::uint32_t get_current_thread_id()
 		{
-			// 用thread_local存储线程id，以免每次都调用系统API查询线程id
+			// 用thread_local存储当前线程id，以免每次都调用系统API查询线程id
 			static thread_local std::uint32_t s_thread_id = 0;
 			if (s_thread_id == 0) {
 #if defined(_WIN32)
@@ -155,22 +155,28 @@ namespace NiuMa {
 
 	LogManager::LogManager()
 		: _initialized(false)
+		, _level(static_cast<int>(LogLevel::Debug))
 	{}
 
 	LogManager::~LogManager() {}
 
-	void LogManager::initialize(const std::string& fileName) {
+	void LogManager::initialize(const std::string& fileName, int level) {
 		if (_initialized)
 			return;
-		_initialized = true;
 		if (fileName.empty())
 			throw std::runtime_error("Specified log file name is empty.");
+		_initialized = true;
+		_level = level;
 		std::string tmpName;
 		if (BaseUtils::endWith(fileName, ".log"))
 			tmpName = fileName.substr(0, fileName.length() - 4);
 		else
 			tmpName = fileName;
 		_logger = std::make_shared<Logger>(tmpName);
+	}
+
+	int LogManager::getLevel() const {
+		return _level;
 	}
 
 	void LogManager::stop() {
@@ -182,19 +188,21 @@ namespace NiuMa {
 	}
 
 	void LogManager::logDebug(const std::string& msg, const std::string& file, int line) {
-//#if defined(DEBUG) || defined(_DEBUG)
 		if (!_initialized)
+			return;
+		if (_level > static_cast<int>(LogLevel::Debug))
 			return;
 		std::string text;
 		NiuMa::BaseUtils::fileName(file, text);
 		text = text + ":" + std::to_string(line);
 		text = text + " " + msg;
 		BOOST_LOG_SEV(_logger->logger, boost::log::trivial::debug) << text;
-//#endif
 	}
 
 	void LogManager::logInfo(const std::string& msg, const std::string& file, int line) {
 		if (!_initialized)
+			return;
+		if (_level > static_cast<int>(LogLevel::Info))
 			return;
 		std::string text;
 		NiuMa::BaseUtils::fileName(file, text);
@@ -206,6 +214,8 @@ namespace NiuMa {
 	void LogManager::logWarning(const std::string& msg, const std::string& file, int line) {
 		if (!_initialized)
 			return;
+		if (_level > static_cast<int>(LogLevel::Warning))
+			return;
 		std::string text;
 		NiuMa::BaseUtils::fileName(file, text);
 		text = text + ":" + std::to_string(line);
@@ -215,6 +225,8 @@ namespace NiuMa {
 
 	void LogManager::logError(const std::string& msg, const std::string& file, int line) {
 		if (!_initialized)
+			return;
+		if (_level > static_cast<int>(LogLevel::Error))
 			return;
 		std::string text;
 		NiuMa::BaseUtils::fileName(file, text);

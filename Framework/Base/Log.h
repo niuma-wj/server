@@ -39,7 +39,10 @@ namespace NiuMa {
 
 	public:
 		// 初始化
-		void initialize(const std::string& logFile);
+		void initialize(const std::string& logFile, int level = static_cast<int>(LogLevel::Debug));
+
+		// 获取等级
+		int getLevel() const;
 
 		// 关闭
 		void stop();
@@ -62,6 +65,9 @@ namespace NiuMa {
 
 		// 
 		std::atomic<bool> _initialized;
+
+		// 输出日志等级，有程序配置文件配置，小于该等级的日志直接忽略
+		int _level;
 	};
 
 	class LogStream

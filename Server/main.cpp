@@ -104,7 +104,13 @@ int main(int argc, char* argv[]) {
         NiuMa::IniConfig::getSingleton().loadIni("./server.ini");
 
         // 初始化日志
-        NiuMa::LogManager::getSingleton().initialize("log/server");
+        int logLevel = 0;
+        NiuMa::IniConfig::getSingleton().getInt("Server", "log_level", logLevel);
+        if (logLevel < static_cast<int>(NiuMa::LogLevel::Debug))
+            logLevel = static_cast<int>(NiuMa::LogLevel::Debug);
+        else if (logLevel > static_cast<int>(NiuMa::LogLevel::Error))
+            logLevel = static_cast<int>(NiuMa::LogLevel::Info);
+        NiuMa::LogManager::getSingleton().initialize("log/server", logLevel);
 
         // 启动异步定时器管理器
         int threadNum = 0;
