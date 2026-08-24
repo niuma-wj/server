@@ -752,7 +752,9 @@ namespace NiuMa
 		if (_level != static_cast<int>(LackeyRoomLevel::Friend)) {
 			// 从区域内删除场地，以免其他玩家再进入该场地
 			int districtId = getDistrictId();
-			std::string redisKey = RedisKeys::DISTRICT_VENUE_REGISTER + std::to_string(districtId);
+			std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);
+			RedisPool::getSingleton().hdel(redisKey, getId());
+			redisKey = RedisKeys::DISTRICT_VENUE_REGISTER + std::to_string(districtId);
 			RedisPool::getSingleton().hdel(redisKey, getId());
 		}
 		return false;
