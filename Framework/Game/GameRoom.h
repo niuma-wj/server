@@ -179,6 +179,11 @@ namespace NiuMa {
 		void kickAllSpectators();
 
 		/**
+		 * 房间是否正在销毁
+		 */
+		bool isDestroying() const;
+
+		/**
 		 * 计算指定玩家与所有其他玩家之间的地理距离
 		 * @param seat 玩家座位号
 		 * @param distances 距离数值数组
@@ -544,6 +549,9 @@ namespace NiuMa {
 
 		// 房间是否沉默，即房间里面还有玩家或者观众，但是都已经离线
 		bool _silence;
+
+		// 房间是否正在被销毁
+		bool _destroying;
 
 		// 沉默开始时间，Unix时间戳(单位秒)
 		time_t _silenceTick;

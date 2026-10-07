@@ -302,17 +302,19 @@ namespace NiuMa
 			// 场地房间所有玩家都离开后，重新从第一局打起
 			_roundNo = 0;
 		}
-		// 更新区域内场地的玩家数量
-		int districtId = getDistrictId();
-		std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);
-		RedisPool::getSingleton().hset(redisKey, getId(), count);
-		// 记录玩家的进入场地轨迹
-		redisKey = RedisKeys::DISTRICT_PLAYER_TRACK;
-		std::string::size_type pos = redisKey.find("{0}");
-		redisKey.replace(pos, 3, std::to_string(districtId));
-		pos = redisKey.find("{1}");
-		redisKey.replace(pos, 3, playerId);
-		RedisPool::getSingleton().hset(redisKey, getId(), BaseUtils::getCurrentMillisecond());
+		if (!isDestroying()) {
+			// 更新区域内场地的玩家数量
+			int districtId = getDistrictId();
+			std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);
+			RedisPool::getSingleton().hset(redisKey, getId(), count);
+			// 记录玩家的进入场地轨迹
+			redisKey = RedisKeys::DISTRICT_PLAYER_TRACK;
+			std::string::size_type pos = redisKey.find("{0}");
+			redisKey.replace(pos, 3, std::to_string(districtId));
+			pos = redisKey.find("{1}");
+			redisKey.replace(pos, 3, playerId);
+			RedisPool::getSingleton().hset(redisKey, getId(), BaseUtils::getCurrentMillisecond());
+		}
 	}
 
 	void GuanDanRoom::getAvatarExtraInfo(const GameAvatar::Ptr& avatar, std::string& base64) const {

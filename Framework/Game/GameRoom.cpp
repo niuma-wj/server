@@ -25,6 +25,7 @@ namespace NiuMa
 		, _diamondNeed(0)
 	{
 		_silence = true;
+		_destroying = false;
 		_silenceTick = BaseUtils::getCurrentSecond();
 		_silenceDeadline = 259200;
 	}
@@ -305,11 +306,17 @@ namespace NiuMa
 		if (delta < _silenceDeadline)
 			return;
 		InfoS << "Game over due to silence exceeded the time limit, game type: " << getGameType() << ", venueId: " << getId();
+		_destroying = true;
 		bool delDb = beforeDestroy(true);
 		kickAllAvatars();
 		kickAllSpectators();
 		// 在踢出所有玩家和观众后，上层逻辑可能已经调用过gameOver方法了，但这里再次调用是没有影响的
 		gameOver(delDb);
+		_destroying = false;
+	}
+
+	bool GameRoom::isDestroying() const {
+		return _destroying;
 	}
 
 	bool GameRoom::enterImpl(const std::string& playerId, const std::string& base64, std::string& errMsg) {

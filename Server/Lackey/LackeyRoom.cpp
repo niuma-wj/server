@@ -215,7 +215,7 @@ namespace NiuMa
 		int count = getAvatarCount();
 		if (count == 0 && (_level == static_cast<int>(LackeyRoomLevel::Friend)))
 			gameOver();
-		if (_level != static_cast<int>(LackeyRoomLevel::Friend)) {
+		if (!((_level == static_cast<int>(LackeyRoomLevel::Friend)) || isDestroying())) {
 			// 更新区域内场地的玩家数量
 			int districtId = getDistrictId();
 			std::string redisKey = RedisKeys::DISTRICT_NOT_FULL_VENUES + std::to_string(districtId);

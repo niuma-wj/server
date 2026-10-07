@@ -17,15 +17,15 @@ namespace NiuMa
 	GuanDanLoader::~GuanDanLoader() {}
 
 	Venue::Ptr GuanDanLoader::load(const std::string& id) {
-		class LackeyTask : public MysqlQueryTask
+		class GuanDanTask : public MysqlQueryTask
 		{
 		public:
-			LackeyTask(const std::string& id)
+			GuanDanTask(const std::string& id)
 				: _venueId(id)
 				, _level(0)
 			{}
 
-			virtual ~LackeyTask() {}
+			virtual ~GuanDanTask() {}
 
 		public:
 			virtual QueryType buildQuery(std::string& sql) override {
@@ -52,7 +52,7 @@ namespace NiuMa
 			//
 			int _level;
 		};
-		std::shared_ptr<LackeyTask> task = std::make_shared<LackeyTask>(id);
+		std::shared_ptr<GuanDanTask> task = std::make_shared<GuanDanTask>(id);
 		MysqlPool::getSingleton().syncQuery(task);
 		if (!task->getSucceed()) {
 			ErrorS << "加载掼蛋游戏(Id: " << id << ")失败";
