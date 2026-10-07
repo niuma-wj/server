@@ -87,15 +87,18 @@ namespace NiuMa {
 				flag = true;
 				ErrorS << "Get (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				flag = true;
-				ErrorS << "Get (key: " << key << ") error: " << reply->str;
-			}
-			else if (getValue(reply, value)) {
-				ret = true;
-			}
 			else {
-				ErrorS << "Get (key: " << key << ") error: value type is not supported.";
+				if (REDIS_REPLY_ERROR == reply->type) {
+					flag = true;
+					ErrorS << "Get (key: " << key << ") error: " << reply->str;
+				}
+				else if (getValue(reply, value)) {
+					ret = true;
+				}
+				else {
+					ErrorS << "Get (key: " << key << ") error: value type is not supported.";
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -119,12 +122,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "Set (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "Set (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "Set (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -146,15 +152,18 @@ namespace NiuMa {
 				flag = true;
 				ErrorS << "HGet (key: " << key << ", field: " << field << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				flag = true;
-				ErrorS << "HGet (key: " << key << ", field: " << field << ") error: " << reply->str;
-			}
-			else if (getValue(reply, value)) {
-				ret = true;
-			}
 			else {
-				ErrorS << "HGet (key: " << key << ", field: " << field << ") error: value type is not supported.";
+				if (REDIS_REPLY_ERROR == reply->type) {
+					flag = true;
+					ErrorS << "HGet (key: " << key << ", field: " << field << ") error: " << reply->str;
+				}
+				else if (getValue(reply, value)) {
+					ret = true;
+				}
+				else {
+					ErrorS << "HGet (key: " << key << ", field: " << field << ") error: value type is not supported.";
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -178,12 +187,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "HSet (key: " << key << ", field: " << field << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "HSet (key: " << key << ", field: " << field << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "HSet (key: " << key << ", field: " << field << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -206,19 +218,22 @@ namespace NiuMa {
 				flag = true;
 				ErrorS << "HEXISTS (key: " << key << ", field: " << field << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				flag = true;
-				ErrorS << "HEXISTS (key: " << key << ", field: " << field << ") error: " << reply->str;
-			}
-			else if (getValue(reply, tmp)) {
-				ret = true;
-				if (tmp == "1")
-					result = true;
-				else
-					result = false;
-			}
 			else {
-				ErrorS << "HEXISTS (key: " << key << ", field: " << field << ") error: value type is not supported.";
+				if (REDIS_REPLY_ERROR == reply->type) {
+					flag = true;
+					ErrorS << "HEXISTS (key: " << key << ", field: " << field << ") error: " << reply->str;
+				}
+				else if (getValue(reply, tmp)) {
+					ret = true;
+					if (tmp == "1")
+						result = true;
+					else
+						result = false;
+				}
+				else {
+					ErrorS << "HEXISTS (key: " << key << ", field: " << field << ") error: value type is not supported.";
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -236,27 +251,30 @@ namespace NiuMa {
 				flag = true;
 				ErrorS << "HKEYS (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				flag = true;
-				ErrorS << "HSet (key: " << key << ") error: " << reply->str;
-			}
-			else if ((REDIS_REPLY_ARRAY == reply->type) || (REDIS_REPLY_SET == reply->type)) {
-				ret = true;
-				fields.clear();
-				for (size_t i = 0; i < reply->elements; i++) {
-					if (getValue(reply->element[i], tmp))
-						fields.push_back(tmp);
-					else {
-						DebugS << "Get fields (key: " << key << ") error: value type of element " << i << " is not supported.";
+			else {
+				if (REDIS_REPLY_ERROR == reply->type) {
+					flag = true;
+					ErrorS << "HSet (key: " << key << ") error: " << reply->str;
+				}
+				else if ((REDIS_REPLY_ARRAY == reply->type) || (REDIS_REPLY_SET == reply->type)) {
+					ret = true;
+					fields.clear();
+					for (size_t i = 0; i < reply->elements; i++) {
+						if (getValue(reply->element[i], tmp))
+							fields.push_back(tmp);
+						else {
+							DebugS << "Get fields (key: " << key << ") error: value type of element " << i << " is not supported.";
+						}
 					}
 				}
-			}
-			else if (getValue(reply, tmp)) {
-				ret = true;
-				fields.push_back(tmp);
-			}
-			else {
-				ErrorS << "Get fields (key: " << key << ") error: value type is not hash.";
+				else if (getValue(reply, tmp)) {
+					ret = true;
+					fields.push_back(tmp);
+				}
+				else {
+					ErrorS << "Get fields (key: " << key << ") error: value type is not hash.";
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -272,12 +290,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "DEL (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "DEL (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "DEL (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -293,12 +314,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "HDEL (key: " << key << ", field: " << field << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "HDEL (key: " << key << ", field: " << field << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "HDEL (key: " << key << ", field: " << field << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -319,12 +343,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "SADD (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "SADD (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "SADD (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -345,12 +372,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "SREM (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "SREM (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "SREM (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -368,19 +398,22 @@ namespace NiuMa {
 				flag = true;
 				ErrorS << "SISMEMBER (key: " << key << ", value: " << value << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				flag = true;
-				ErrorS << "SISMEMBER (key: " << key << ", value: " << value << ") error: " << reply->str;
-			}
-			else if (getValue(reply, tmp)) {
-				ret = true;
-				if (tmp == "1")
-					result = true;
-				else
-					result = false;
-			}
 			else {
-				ErrorS << "SISMEMBER (key: " << key << ", value: " << value << ") error: value type is not supported.";
+				if (REDIS_REPLY_ERROR == reply->type) {
+					flag = true;
+					ErrorS << "SISMEMBER (key: " << key << ", value: " << value << ") error: " << reply->str;
+				}
+				else if (getValue(reply, tmp)) {
+					ret = true;
+					if (tmp == "1")
+						result = true;
+					else
+						result = false;
+				}
+				else {
+					ErrorS << "SISMEMBER (key: " << key << ", value: " << value << ") error: value type is not supported.";
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -398,27 +431,30 @@ namespace NiuMa {
 				flag = true;
 				ErrorS << "SMEMBERS (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				flag = true;
-				ErrorS << "SMEMBERS (key: " << key << ") error: " << reply->str;
-			}
-			else if ((REDIS_REPLY_ARRAY == reply->type) || (REDIS_REPLY_SET == reply->type)) {
-				ret = true;
-				values.clear();
-				for (size_t i = 0; i < reply->elements; i++) {
-					if (getValue(reply->element[i], tmp))
-						values.push_back(tmp);
-					else {
-						DebugS << "Get members (key: " << key << ") error: value type of element " << i << " is not supported.";
+			else {
+				if (REDIS_REPLY_ERROR == reply->type) {
+					flag = true;
+					ErrorS << "SMEMBERS (key: " << key << ") error: " << reply->str;
+				}
+				else if ((REDIS_REPLY_ARRAY == reply->type) || (REDIS_REPLY_SET == reply->type)) {
+					ret = true;
+					values.clear();
+					for (size_t i = 0; i < reply->elements; i++) {
+						if (getValue(reply->element[i], tmp))
+							values.push_back(tmp);
+						else {
+							DebugS << "Get members (key: " << key << ") error: value type of element " << i << " is not supported.";
+						}
 					}
 				}
-			}
-			else if (getValue(reply, tmp)) {
-				ret = true;
-				values.push_back(tmp);
-			}
-			else {
-				ErrorS << "Get members (key: " << key << ") error: value type is not hash.";
+				else if (getValue(reply, tmp)) {
+					ret = true;
+					values.push_back(tmp);
+				}
+				else {
+					ErrorS << "Get members (key: " << key << ") error: value type is not hash.";
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -434,12 +470,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "EXPIRE (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "EXPIRE (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "EXPIRE (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -455,12 +494,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "EXPIREAT (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "EXPIREAT (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "EXPIREAT (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -476,12 +518,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "INCRBY (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "INCRBY (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "INCRBY (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -497,12 +542,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "HINCRBY (key: " << key << ", field: " << field << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "HINCRBY (key: " << key << ", field: " << field << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "HINCRBY (key: " << key << ", field: " << field << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -518,12 +566,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "RPUSH (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "RPUSH (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "RPUSH (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -557,12 +608,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "RPUSHV (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "RPUSHV (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "RPUSHV (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			for (size_t i = 0; i < num; i++)
@@ -591,12 +645,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "LPUSH (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "LPUSH (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "LPUSH (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -630,12 +687,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "LPUSHV (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "LPUSHV (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "LPUSHV (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			for (size_t i = 0; i < num; i++)
@@ -666,27 +726,30 @@ namespace NiuMa {
 				flag = true;
 				ErrorS << "Get array (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				flag = true;
-				ErrorS << "Get array (key: " << key << ") error: " << reply->str;
-			}
-			else if (REDIS_REPLY_ARRAY == reply->type) {
-				ret = true;
-				arr.clear();
-				for (size_t i = 0; i < reply->elements; i++) {
-					if (getValue(reply->element[i], tmp))
-						arr.push_back(tmp);
-					else {
-						DebugS << "Get array (key: " << key << ") error: value type of element " << i << " is not supported.";
+			else {
+				if (REDIS_REPLY_ERROR == reply->type) {
+					flag = true;
+					ErrorS << "Get array (key: " << key << ") error: " << reply->str;
+				}
+				else if (REDIS_REPLY_ARRAY == reply->type) {
+					ret = true;
+					arr.clear();
+					for (size_t i = 0; i < reply->elements; i++) {
+						if (getValue(reply->element[i], tmp))
+							arr.push_back(tmp);
+						else {
+							DebugS << "Get array (key: " << key << ") error: value type of element " << i << " is not supported.";
+						}
 					}
 				}
-			}
-			else if (getValue(reply, tmp)) {
-				ret = true;
-				arr.push_back(tmp);
-			}
-			else {
-				ErrorS << "Get array (key: " << key << ") error: value type is not array.";
+				else if (getValue(reply, tmp)) {
+					ret = true;
+					arr.push_back(tmp);
+				}
+				else {
+					ErrorS << "Get array (key: " << key << ") error: value type is not array.";
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -713,12 +776,15 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "PERSIST (key: " << key << ") error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "PERSIST (key: " << key << ") error: " << reply->str;
-			}
 			else {
-				ret = true;
-				flag = false;
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "PERSIST (key: " << key << ") error: " << reply->str;
+				}
+				else {
+					ret = true;
+					flag = false;
+				}
+				freeReplyObject(reply);
 			}
 			checkConnection(con, flag);
 			return ret;
@@ -746,9 +812,12 @@ namespace NiuMa {
 					test = true;
 					LOG_ERROR("Authorization failed, unknown error.");
 				}
-				else if (REDIS_REPLY_ERROR == reply->type) {
-					test = true;
-					ErrorS << "Authorization failed: " << reply->str;
+				else {
+					if (REDIS_REPLY_ERROR == reply->type) {
+						test = true;
+						ErrorS << "Authorization failed: " << reply->str;
+					}
+					freeReplyObject(reply);
 				}
 			}
 			if (!test) {
@@ -757,9 +826,12 @@ namespace NiuMa {
 					test = true;
 					ErrorS << "Select database " << _database << " failed, unknown error.";
 				}
-				else if (REDIS_REPLY_ERROR == reply->type) {
-					test = true;
-					ErrorS << "Select database " << _database << " failed: " << reply->str;
+				else {
+					if (REDIS_REPLY_ERROR == reply->type) {
+						test = true;
+						ErrorS << "Select database " << _database << " failed: " << reply->str;
+					}
+					freeReplyObject(reply);
 				}
 			}
 			if (test)
@@ -778,11 +850,14 @@ namespace NiuMa {
 			if (reply == nullptr) {
 				ErrorS << "PING server error: unknown error.";
 			}
-			else if (REDIS_REPLY_ERROR == reply->type) {
-				ErrorS << "PING server error: " << reply->str;
+			else {
+				if (REDIS_REPLY_ERROR == reply->type) {
+					ErrorS << "PING server error: " << reply->str;
+				}
+				else
+					flag = false;
+				freeReplyObject(reply);
 			}
-			else
-				flag = false;
 			checkConnection(con, flag);
 		}
 

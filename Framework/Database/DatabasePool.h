@@ -96,4 +96,4 @@ namespace NiuMa {
 	};
 }
 
-#endif _NIU_MA_DATA_BASE_POOL_H_
+#endif // !_NIU_MA_DATA_BASE_POOL_H_
